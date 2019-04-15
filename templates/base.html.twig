@@ -1,12 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
+
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>
+            {% block title %}
+                fundlog
+            {% endblock %}
+        </title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="shortcut icon" href="{{ asset('uploads/favicon.png') }}">
+
+        {% block stylesheet %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
     </head>
+
+
+
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+        {% block header %}
+            <header class="container is-fluid">
+                <p><img src="../assets/images/logo.png" alt="Logo"></p>
+            </header>
+        {% endblock %}
+
+        <main>
+            {% block body %}
+            {% endblock %}
+        </main>
+
+        {% block footer %}
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p><i class="fa fa-copyright"></i> fundlog 2019</p>
+                </div>
+            </footer>
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+
     </body>
+
 </html>
