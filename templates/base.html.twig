@@ -12,7 +12,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="shortcut icon" href="{{ asset('uploads/favicon.png') }}">
+        <link rel="shortcut icon" href="{{ asset('build/images/favicon.png') }}">
 
         {% block stylesheet %}
             {{ encore_entry_link_tags('app') }}
@@ -26,7 +26,7 @@
 
         {% block header %}
             <header class="container is-fluid">
-                <p><img src="../assets/images/logo.png" alt="Logo"></p>
+                <p><img src="{{ asset('build/images/logo.png') }}" alt="Le logo fundlog"></p>
             </header>
         {% endblock %}
 
