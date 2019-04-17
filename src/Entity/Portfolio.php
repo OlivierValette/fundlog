@@ -215,12 +215,12 @@ class Portfolio
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): ?UserDB
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?UserDB $user): self
     {
         $this->user = $user;
 

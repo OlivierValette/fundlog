@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'form/bulma_layout.html.twig' %}
+
+{% block title %}fundlog: inscription{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('login') }}
+{% endblock %}
+
+{% block body %}
+
+    <section class="left">
+
+    </section>
+
+    <section class="hero is-success is-fullheight">
+
+        <header class="top-buttons">
+            <button class="button is-active">
+                Se connecter
+            </button>
+            <button class="button">
+                Créer un compte
+            </button>
+        </header>
+
+        <main class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-4 is-offset-4">
+                    {{ form_start(form) }}
+                    {{ form_row(form.firstname) }}
+                    {{ form_row(form.lastname) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.plainPassword.first) }}
+                    {{ form_row(form.plainPassword.second) }}
+
+                    <button class="button is-block is-info is-large is-fullwidth" type="submit">
+                        Créer un compte
+                    </button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </main>
+
+    </section>
+
+    {% block javascripts %}
+        {{ parent() }}
+        {{ encore_entry_script_tags('login') }}
+    {% endblock %}
+
+{% endblock %}
+

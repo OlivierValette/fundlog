@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+{#{% form_theme form 'form/bulma_layout.html.twig' %}#}
+
+{% block title %}fundlog: connexion{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('login') }}
+{% endblock %}
+
+{% block body %}
+
+    <main class="hero is-fullheight is-default is-bold">
+
+        <section class="hero-body is-success is-fullheight">
+            <div class="container has-text-centered">
+                <div class="columns is-vcentered">
+                    <div class="column is-6">
+                        <figure class="image is-4by3">
+                            <img src="https://picsum.photos/800/600/?random" alt="Description">
+                        </figure>
+                    </div>
+                    <div class="column is-6 is-offset-1">
+                        <div class="container has-text-centered">
+                            <div class="column is-4 is-offset-1">
+                                <form method="post" class="box">
+                                    {% if error %}
+                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                    {% endif %}
+
+                                    <h3 class="title has-text-grey">Connexion</h3>
+                                    <p class="subtitle has-text-grey">Merci de vous connecter pour accéder au site.</p>
+
+                                    <div class="field">
+                                        <label for="inputEmail" class="label">Email</label>
+                                        <div class="control has-icons-left">
+                                            <input type="email" value="{{ last_username }}" name="email"
+                                                   id="inputEmail" class="input" placeholder="Email" required autofocus>
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-envelope"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label for="inputPassword" class="label">Mot de passe</label>
+                                        <div class="control has-icons-left">
+                                            <input type="password" name="password" id="inputPassword" class="input"
+                                                   placeholder="Password" required>
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                            <input type="hidden" name="_csrf_token"
+                                                   value="{{ csrf_token('authenticate') }}">
+                                        </div>
+                                    </div>
+
+                                    <button class="button is-block is-info is-fullwidth" type="submit">
+                                        Se connecter
+                                    </button>
+                                </form>
+                                <p class="has-text-grey">
+                                    <a href="../">Créer un compte</a> &nbsp;·&nbsp;
+                                    <a href="../">Mot de passe oublié</a> &nbsp;·&nbsp;
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="hero-foot">
+            <div class="container">
+                <div class="tabs is-centered">
+                    <ul>
+                        <li><a>And this is the bottom</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    {% block javascripts %}
+        {{ parent() }}
+        {{ encore_entry_script_tags('login') }}
+    {% endblock %}
+
+{% endblock %}
+

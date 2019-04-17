@@ -10,7 +10,9 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress"
     },
-    "dependencies": {},
+    "dependencies": {
+        "jquery": "^3.4.0"
+    },
     "devDependencies": {
         "@symfony/webpack-encore": "^0.27.0",
         "bulma": "^0.7.4",
