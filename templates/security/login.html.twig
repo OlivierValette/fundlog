@@ -12,123 +12,119 @@
     <main class="hero is-fullheight is-default is-bold">
 
         <section class="hero-body is-success is-fullheight">
-            <div class="container has-text-centered">
-                <div class="columns is-vcentered">
-                    <div class="column is-6">
-                        <figure class="image">
-                            <img src="{{ asset('/build/images/campaign-creators-1086596-unsplash.jpg') }}"
-                                 alt="Vue d'un tableau de bord sur un ordinateur">
-                            <a class="unsplash"
-                               href="https://unsplash.com/@campaign_creators?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge"
-                               target="_blank" rel="noopener noreferrer"
-                               title="Download free do whatever you want high-resolution photos from Campaign Creators">
-                                <span style="display:inline-block;padding:2px 3px">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32">
-                                        <title>unsplash-logo</title>
-                                        <path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path>
-                                    </svg>
+            <div class="columns">
+                <div class="column is-8">
+                    <figure class="image">
+                        <img src="{{ asset('/build/images/campaign-creators-1086596-unsplash.jpg') }}"
+                             alt="Vue d'un tableau de bord sur un ordinateur">
+                        <a class="unsplash"
+                           href="https://unsplash.com/@campaign_creators?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge"
+                           target="_blank" rel="noopener noreferrer"
+                           title="Download free do whatever you want high-resolution photos from Campaign Creators">
+                            <span style="display:inline-block;padding:2px 3px">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32">
+                                    <title>unsplash-logo</title>
+                                    <path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path>
+                                </svg>
+                            </span>
+                            <span style="display:inline-block;padding:2px 3px">Campaign Creators</span>
+                        </a>
+                    </figure>
+                    <h2 class="title is-3">
+                        fundlog, l’ami des OPCVM
+                    </h2>
+                    <p>fundlog est un outil vous permettant de suivre l’ensemble de vos investissements en OPCVM,
+                    dans vos différents portefeuilles ou contrats d’assurance-vie ou de capitalisation.</p>
+                    <p>Oubliez les ressaisies sur Excel ou autre tableur, vous pouvez accéder à vos portefeuilles
+                    de tous les ordinateurs, chez vous, au bureau ou en déplacement, en toute sécurité.</p>
+                    <h3 class="title is-4">De manière indépendante</h3>
+                    <p>Avec fundlog.fr vous avez un même outil de suivi, quelque soit l’intermédiaire financier,
+                    pour toutes vos banques et toutes les compagnies d’assurance.</p>
+                    <h3 class="title is-4">Une vision synthétique de votre situation</h3>
+                    <p>Avec des tableaux de bord synthétiques, soit d’un portefeuille, soit de la globalité de ceux-ci,
+                    vous pouvez visualiser en un coup d’œil votre situation et les performances de chacun de vos
+                    portefeuilles.</p>
+                    <h3 class="title is-4">Une vision détaillée de vos portefeuilles</h3>
+                    <p>Les données de valorisation sont automatiquement mises à jour pour une appréciation fine de
+                    leur évolution.</p>
+                    <p>Il n’est plus nécessaire ainsi d’attendre les relevés ou de consulter chacun des sites bancaires
+                    pour avoir une vision à jour de votre situation.</p>
+                    <h3 class="title is-4">Vos arbitrages simplifiés</h3>
+                    <p>Vous pouvez préparer les demandes d’arbitrages en ligne et les envoyer simplement à votre
+                    intermédiaire par mail. Il vous suffit de sélectionner les fonds concernés ou d’ajouter de
+                    nouveaux fonds en accédant directement aux informations utiles en vous connectant aux
+                    sites de Morningstar ou de Quantalys.</p>
+                    <h3 class="title is-4">Des alertes utiles</h3>
+                    <p>Un mécanisme d’alertes vous permet d’être prévenu par mail lorsque des indicateurs de
+                    performance dévient de manière significative, vous permettant de réagir en temps et en heure.</p>
+                    <h3 class="title is-4">En toute sécurité...</h3>
+                    <p>fundlog est un service simple, performant et sécurisé.
+                    Respectueux de la RGPD, vos données personnelles sont réduites au strict minimum et ne sont
+                    jamais utilisées à d’autres fins que le bon fonctionnement du service.</p>
+                    <p><strong>Parce que votre patrimoine ne regarde que vous.</strong></p>
+
+                </div>
+                <div class="column is-1">
+                </div>
+                <div class="column is-3">
+                    <header class="container is-fluid">
+                        <p><img src="{{ asset('build/images/logo.png') }}" alt="Le logo fundlog"></p>
+                    </header>
+                    <form method="post" class="box">
+                        <h3 class="title has-text-grey">Connexion</h3>
+                        <p class="subtitle has-text-grey">Merci de vous connecter pour accéder au site.</p>
+
+                        {% if error %}
+                            <article class="message is-warning">
+                                <div class="message-header">
+                                    <p>Erreur de connexion !</p>
+                                    <button class="delete" aria-label="delete"></button>
+                                </div>
+                                <div class="message-body">
+                                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                                </div>
+                            </article>
+                            <div class="alert alert-danger"></div>
+                        {% endif %}
+
+                        <div class="field">
+                            <label for="inputEmail" class="label">Email</label>
+                            <div class="control has-icons-left">
+                                <input type="email" value="{{ last_username }}" name="email"
+                                       id="inputEmail" class="input" placeholder="Email" required autofocus>
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-envelope"></i>
                                 </span>
-                                <span style="display:inline-block;padding:2px 3px">Campaign Creators</span>
-                            </a>
-                        </figure>
-                        <h2>
-                            fundlog, l’ami des OPCVM
-                        </h2>
-                        <p>fundlog est un outil vous permettant de suivre l’ensemble de vos investissements en OPCVM,
-                        dans vos différents portefeuilles ou contrats d’assurance-vie ou de capitalisation.</p>
-                        <p>Oubliez les ressaisies sur Excel ou autre tableur, vous pouvez accéder à vos portefeuilles
-                        de tous les ordinateurs, chez vous, au bureau ou en déplacement, en toute sécurité.</p>
-                        <h3>De manière indépendante</h3>
-                        <p>Avec fundlog.fr vous avez un même outil de suivi, quelque soit l’intermédiaire financier,
-                        pour toutes vos banques et toutes les compagnies d’assurance.</p>
-                        <h3>Une vision synthétique de votre situation</h3>
-                        <p>Avec des tableaux de bord synthétiques, soit d’un portefeuille, soit de la globalité de ceux-ci,
-                        vous pouvez visualiser en un coup d’œil votre situation et les performances de chacun de vos
-                        portefeuilles.</p>
-                        <h3>Une vision détaillée de vos portefeuilles</h3>
-                        <p>Les données de valorisation sont automatiquement mises à jour pour une appréciation fine de
-                        leur évolution.</p>
-                        <p>Il n’est plus nécessaire ainsi d’attendre les relevés ou de consulter chacun des sites bancaires
-                        pour avoir une vision à jour de votre situation.</p>
-                        <h3>Vos arbitrages simplifiés</h3>
-                        <p>Vous pouvez préparer les demandes d’arbitrages en ligne et les envoyer simplement à votre
-                        intermédiaire par mail. Il vous suffit de sélectionner les fonds concernés ou d’ajouter de
-                        nouveaux fonds en accédant directement aux informations utiles en vous connectant aux
-                        sites de Morningstar ou de Quantalys.</p>
-                        <h3>Des alertes utiles</h3>
-                        <p>Un mécanisme d’alertes vous permet d’être prévenu par mail lorsque des indicateurs de
-                        performance dévient de manière significative, vous permettant de réagir en temps et en heure.</p>
-                        <h3>En toute sécurité...</h3>
-                        <p>fundlog est un service simple, performant et sécurisé.
-                        Respectueux de la RGPD, vos données personnelles sont réduites au strict minimum et ne sont
-                        jamais utilisées à d’autres fins que le bon fonctionnement du service.</p>
-                        <p><strong>Parce que votre patrimoine ne regarde que vous.</strong></p>
-
-                    </div>
-                    <div class="column is-6">
-                        <div class="container">
-                            <div class="column is-4 is-offset-1">
-                                <header class="container is-fluid">
-                                    <p><img src="{{ asset('build/images/logo.png') }}" alt="Le logo fundlog"></p>
-                                </header>
-                                <form method="post" class="box">
-                                    <h3 class="title has-text-grey">Connexion</h3>
-                                    <p class="subtitle has-text-grey">Merci de vous connecter pour accéder au site.</p>
-
-                                    {% if error %}
-                                        <article class="message is-warning">
-                                            <div class="message-header">
-                                                <p>Erreur de connexion !</p>
-                                                <button class="delete" aria-label="delete"></button>
-                                            </div>
-                                            <div class="message-body">
-                                                {{ error.messageKey|trans(error.messageData, 'security') }}
-                                            </div>
-                                        </article>
-                                        <div class="alert alert-danger"></div>
-                                    {% endif %}
-
-                                    <div class="field">
-                                        <label for="inputEmail" class="label">Email</label>
-                                        <div class="control has-icons-left">
-                                            <input type="email" value="{{ last_username }}" name="email"
-                                                   id="inputEmail" class="input" placeholder="Email" required autofocus>
-                                            <span class="icon is-small is-left">
-                                                <i class="fa fa-envelope"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="field">
-                                        <label for="inputPassword" class="label">Mot de passe</label>
-                                        <div class="control has-icons-left">
-                                            <input type="password" name="password" id="inputPassword" class="input"
-                                                   placeholder="Password" required>
-                                            <span class="icon is-small is-left">
-                                                <i class="fa fa-lock"></i>
-                                            </span>
-                                            <input type="hidden" name="_csrf_token"
-                                                   value="{{ csrf_token('authenticate') }}">
-                                        </div>
-                                    </div>
-
-                                    <button class="button is-block is-info is-fullwidth" type="submit">
-                                        Se connecter
-                                    </button>
-                                </form>
-
-                                <p class="has-text-grey">
-                                    <a href="{{ path('registration') }}">Mot de passe oublié</a>
-                                </p>
-
-                                <a class="button is-block is-primary is-fullwidth" href="{{ path('registration') }}">
-                                    <i class="fa fa-user-plus"></i>
-                                    Créer un compte
-                                </a>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="field">
+                            <label for="inputPassword" class="label">Mot de passe</label>
+                            <div class="control has-icons-left">
+                                <input type="password" name="password" id="inputPassword" class="input"
+                                       placeholder="Password" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                                <input type="hidden" name="_csrf_token"
+                                       value="{{ csrf_token('authenticate') }}">
+                            </div>
+                        </div>
+
+                        <button class="button is-block is-info is-fullwidth" type="submit">
+                            Se connecter
+                        </button>
+                    </form>
+
+                    <p class="has-text-grey">
+                        <a href="{{ path('registration') }}">Mot de passe oublié</a>
+                    </p>
+
+                    <a class="button is-block is-primary is-fullwidth" href="{{ path('registration') }}">
+                        <i class="fa fa-user-plus"></i>
+                        Créer un compte
+                    </a>
                 </div>
             </div>
         </section>
