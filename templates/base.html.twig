@@ -26,7 +26,67 @@
 
         {% block header %}
             <header class="container is-fluid">
-                <p><img src="{{ asset('build/images/logo.png') }}" alt="Le logo fundlog"></p>
+
+                <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+                    <!-- Brand logo left part of navbar -->
+                    <div class="navbar-brand">
+                        <a class="navbar-item" href="https://fundlog.fr">
+                            <img src="{{ asset('build/images/logo.png') }}" width="75" height="45" alt="Le logo fundlog">
+                        </a>
+
+                        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <!-- Menu right part of navbar -->
+                    <div class="navbar-menu">
+                        <div class="navbar-end">
+                            <div class="navbar-item has-dropdown is-hoverable">
+                                <a class="navbar-link is-arrowless">
+                                    <span class="fa-stack">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-user fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                    {% if app.user %}
+                                        {{ app.user.email }}
+                                    {% else %}
+                                        Mon Compte
+                                    {% endif %}
+                                </a>
+                                <div class="navbar-dropdown is-right">
+                                    {% if app.user %}
+                                        <a class="navbar-item" href="{{ path('app_logout') }}">
+                                            <i class="fa fa-sign-in fa-fw"></i>
+                                            Se déconnecter
+                                        </a>
+                                        {% if is_granted('ROLE_ADMIN') %}
+{#                                            Remplacer app_logout par easyadmin dès qu'intallé#}
+                                            <a class="navbar-item" href="{{ path('app_logout') }}" >
+                                                <i class="fa fa-cubes fa-fw"></i>
+                                                Administration
+                                            </a>
+                                        {% endif %}
+                                    {% else %}
+                                       <a class="navbar-item" href="{{ path('app_login') }}">
+                                            <i class="fa fa-sign-in fa-fw"></i>
+                                            Se connecter
+                                        </a>
+                                        <a class="navbar-item" href="{{ path('app_registration') }}">
+                                            <i class="fa fa-user-plus fa-fw"></i>
+                                            Créer un compte
+                                        </a>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </nav>
+
             </header>
         {% endblock %}
 
