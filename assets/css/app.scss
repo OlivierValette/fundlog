@@ -47,3 +47,17 @@ $input-shadow: none;
 // Import font awesome
 $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
+
+// Unsplash credit
+.unsplash {
+  background-color: $dark;
+  color: $hope;
+  text-decoration: none;
+  padding: 4px 6px;
+  font-family: Nunito, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1.2;
+  display: inline-block;
+  border-radius: 3px;
+}
