@@ -1,0 +1,102 @@
+easy_admin:
+    # general parameters
+    site_name: 'Administation fundlog'
+    design:
+        brand_color: '#037365'
+        menu:
+            - { label: 'Gestion des données'}
+            - { label: 'Alertes', entity: Alert, icon: 'tags' }
+            - { label: 'Assets', entity: AssetClass, icon: 'map-marker' }
+            - { label: 'Catégories', entity: Category, icon: 'tags' }
+            - { label: 'Portfolio', entity: Portfolio, icon: 'search' }
+            - { label: 'Gestion des informations financières'}
+            - { label: 'Sources', entity: Source, icon: 'search' }
+            - { label: 'Mapping', entity: Scraping, icon: 'search' }
+            - { label: 'Gestion des utilisateurs'}
+            - { label: 'Utilisateurs', entity: User, icon: 'user' }
+            - { label: 'Divers'}
+            - { label: 'Retour au site', route: 'portfolios', icon: 'mail-reply' }
+    formats:
+        date:     'd/m/Y'
+        time:     'H:i'
+        datetime: 'd/m/Y H:i:s'
+    list:
+        max_results: 10
+    show:
+        max_results: 10
+    user:
+        # this will look for getFullName(), isFullName(), ..., and 'fullName' property
+        name_property_path: 'fullname'
+        avatar_property_path: 'gravatar'
+
+    # List the entity class name you want to manage
+    entities:
+        # List the entity class name you want to manage
+        Alert:
+            class: App\Entity\Alert
+            label: 'Alertes'
+        AssetClass:
+            class: App\Entity\AssetClass
+            label: 'Types de support'
+        Category:
+            class: App\Entity\Category
+            label: 'Catégories'
+            help: "Gestion des catégories d'objets perdus ou trouvés"
+            list:
+                title: 'Liste des catégories'
+                actions:
+                    - { name: 'new', icon: 'plus', label: 'Nouveau', title: 'Créer' }
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                fields:
+                    - { property: 'label', label: 'Libellé' }
+            form:
+                title: 'Ajouter une catégorie'
+                fields:
+                    - { property: 'label', label: 'Libellé' }
+            new:
+            edit:
+                title: 'Modifier une catégorie'
+        Portfolio:
+            class: App\Entity\Portfolio
+            label: 'Portefeuille'
+        Scraping:
+            class: App\Entity\Scraping
+            label: 'Mapping'
+        Source:
+            class: App\Entity\Source
+            label: 'Source'
+        User:
+            class: App\Entity\User
+            label: 'Utilisateurs'
+            icon: 'user'
+            help: "Gestion des utilisateurs de fundlog"
+            list:
+                title: 'Liste des utilisateurs'
+                actions:
+                    - { name: 'new', icon: 'plus', label: 'Nouveau', title: 'Créer' }
+                    - { name: 'show', icon: 'eye', label: false, title: 'Voir' }
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                fields:
+                    - { property: 'lastname', label: 'Nom' }
+                    - { property: 'firstname', label: 'Prénom' }
+                    - { property: 'email', label: 'Email' }
+                    - { property: 'createdAt', label: 'Date création' }
+            show:
+                title: 'Utilisateur (#%%entity_id%%)'
+                fields:
+                    - { property: 'lastname', label: 'Nom' }
+                    - { property: 'firstname', label: 'Prénom' }
+                    - { property: 'email', label: 'Email' }
+                    - { property: 'createdAt', label: 'Date création' }
+            form:
+                title: 'Ajouter un utilisateur'
+                fields:
+                    - { property: 'lastname', label: 'Nom' }
+                    - { property: 'firstname', label: 'Prénom' }
+                    - { property: 'email', label: 'Email' }
+                    - { property: 'createdAt', label: 'Date création' }
+            new:
+            edit:
+                title: 'Modifier un utilisateur'

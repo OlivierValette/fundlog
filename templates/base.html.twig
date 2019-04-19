@@ -48,9 +48,10 @@
                                     <span class="fa-stack">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-user fa-stack-1x fa-inverse"></i>
-                                    </span>
+                                        &nbsp;
+                                    </span>&nbsp;
                                     {% if app.user %}
-                                        {{ app.user.email }}
+                                        {{ app.user.fullname }}
                                     {% else %}
                                         Mon Compte
                                     {% endif %}
@@ -58,23 +59,23 @@
                                 <div class="navbar-dropdown is-right">
                                     {% if app.user %}
                                         <a class="navbar-item" href="{{ path('app_logout') }}">
-                                            <i class="fa fa-sign-in fa-fw"></i>
+                                            <i class="fa fa-sign-in fa-fw"></i>&nbsp;
                                             Se déconnecter
                                         </a>
                                         {% if is_granted('ROLE_ADMIN') %}
 {#                                            Remplacer app_logout par easyadmin dès qu'intallé#}
-                                            <a class="navbar-item" href="{{ path('app_logout') }}" >
-                                                <i class="fa fa-cubes fa-fw"></i>
+                                            <a class="navbar-item" href="{{ path('easyadmin') }}" >
+                                                <i class="fa fa-cubes fa-fw"></i>&nbsp;
                                                 Administration
                                             </a>
                                         {% endif %}
                                     {% else %}
                                        <a class="navbar-item" href="{{ path('app_login') }}">
-                                            <i class="fa fa-sign-in fa-fw"></i>
+                                            <i class="fa fa-sign-in fa-fw"></i>&nbsp;
                                             Se connecter
                                         </a>
                                         <a class="navbar-item" href="{{ path('app_registration') }}">
-                                            <i class="fa fa-user-plus fa-fw"></i>
+                                            <i class="fa fa-user-plus fa-fw"></i>&nbsp;
                                             Créer un compte
                                         </a>
                                     {% endif %}

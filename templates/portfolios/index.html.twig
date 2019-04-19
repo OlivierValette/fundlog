@@ -5,12 +5,14 @@
 {% block body %}
     <section class="container">
 
-        <h1>Portefeuilles</h1>
-
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <p>Email: {{ app.user.email }}</p>
+            <h1>Liste des portefeuilles enregistrés par {{ app.user.firstname }} {{ app.user.lastname }}</h1>
+            <p>Email: {{ app.user.fullname }}</p>
+
+
+
+        {% else %}
+            <p>Accès impossible</p>
         {% endif %}
-
-
     </section>
 {% endblock %}

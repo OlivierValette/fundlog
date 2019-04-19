@@ -50,7 +50,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $lastname;
-
+    
     /**
      * @ORM\Column(type="datetime")
      */
@@ -175,7 +175,12 @@ class User implements UserInterface
 
         return $this;
     }
-
+    
+    public function getFullname(): ?string
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+    
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
