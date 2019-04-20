@@ -28,16 +28,16 @@
                         Merci de saisir toutes les informations pour créer un compte et accéder au site.
                     </p>
                     {{ form_start(form) }}
-                    {{ form_row(form.firstname) }}
-                    {{ form_row(form.lastname) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.plainPassword.first) }}
-                    {{ form_row(form.plainPassword.second) }}
-                    {{ form_rest(form) }}
-                    <button class="button is-block is-info is-fullwidth" type="submit">
-                        <i class="fa fa-user-plus"></i> &nbsp;
-                        Créer un compte
-                    </button>
+                        {{ form_row(form.firstname) }}
+                        {{ form_row(form.lastname) }}
+                        {{ form_row(form.email) }}
+                        {{ form_row(form.plainPassword.first) }}
+                        {{ form_row(form.plainPassword.second) }}
+                        {{ form_rest(form) }}
+                        <button class="button is-block is-info is-fullwidth" type="submit">
+                            <i class="fa fa-user-plus"></i> &nbsp;
+                            Créer un compte
+                        </button>
                     {{ form_end(form) }}
                 </div>
                 <div class="tile is-child box has-background-grey-light">
