@@ -8,7 +8,7 @@
 {% block body %}
     <main class="container is-fluid">
         <div class="tile is-ancestor">
-            <section class="tile is-8 is-vertical is-parent">
+            <section class="tile is-7 is-vertical is-parent">
                 <article class="tile is-child has-background-grey-light is-centered">
                     <p><img src="{{ asset('build/images/logo.png') }}" alt="Le logo fundlog"></p>
                 </article>
@@ -53,5 +53,15 @@
             </section>
         </div>
     </main>
+
+    <footer class="container">
+        <div class="tabs is-centered">
+            <ul>
+                <li><a href="{{ path('information') }}#legal">Informations légales</a></li>
+                <li><a href="{{ path('information') }}#cgu">Conditions générales d'utilisation</a></li>
+                <li><a href="{{ path('information') }}#conf">Politique de confidentialité</a></li>
+            </ul>
+        </div>
+    </footer>
 
 {% endblock %}
