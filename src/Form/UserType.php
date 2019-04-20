@@ -23,13 +23,14 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, ['label' => 'Email'])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options'  => array('label' => 'Mot de passe'),
-                'second_options' => array('label' => 'Confirmer le mot de passe'),
+                'first_options'  => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmer le mot de passe'],
                 ])
-            ->add('termsAccepted', CheckboxType::class, array(
+            ->add('termsAccepted', CheckboxType::class,[
+                'label' => "Je valide les Conditions Générales d'utilisation du site et la Politique de confidentialité",
                 'mapped' => false,
                 'constraints' => new IsTrue(),
-            ));
+                ]);
     }
     
     public function configureOptions(OptionsResolver $resolver)

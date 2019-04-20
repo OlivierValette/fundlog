@@ -2,6 +2,7 @@
 
 // Import a Google Font
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700');
 @import url('https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i');
 @import url('https://fonts.googleapis.com/css?family=Barlow:400,700');
 
@@ -38,7 +39,7 @@ $red:          hsl(348, 100%, 61%) !default
 
 // Primary colors
 $primary: $billiard;
-$info: $hope !default
+$info: $hope;
 $success: $green !default
 $warning: $tan;
 $danger: $red !default
@@ -62,9 +63,10 @@ $input-border-color: transparent;
 $input-shadow: none;
 
 // Typography
-$family-sans-serif: 'Open Sans', sans-serif;
-$family-secondary: 'Barlow Condensed', sans-serif;
+$family-sans-serif: 'Open Sans Condensed', sans-serif;
 $family-serif: 'Lora', serif;
+$family-primary: 'Barlow Condensed', sans-serif;
+$family-secondary: $family-serif;
 
 // Import all Bulma
 @import "~bulma/bulma";
@@ -88,7 +90,7 @@ $fa-font-path: "~font-awesome/fonts";
 
 // Unsplash credit
 .unsplash {
-  background-color: $dark;
+  background-color: $billiard;
   color: $hope;
   text-decoration: none;
   padding: 4px 6px;
@@ -97,4 +99,13 @@ $fa-font-path: "~font-awesome/fonts";
   line-height: 1.2;
   display: inline-block;
   border-radius: 3px;
+}
+
+// Typography
+.title {
+  color: $billiard;
+  font-family: $family-secondary;
+  font-style: italic;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
 }

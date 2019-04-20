@@ -5,6 +5,8 @@ namespace App\Controller;
 
 use App\Form\UserType;
 use App\Entity\User;
+use DateTime;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +21,7 @@ class RegistrationController extends AbstractController
      * @param Request                      $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return RedirectResponse|Response
+     * @throws Exception
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -36,6 +39,9 @@ class RegistrationController extends AbstractController
             
             // 3bis) Define the default role
             $user->setRoles(['ROLE_USER']);
+            
+            // 3ter) Add createdAt info
+            $user->setCreatedAt(new DateTime());
             
             // 4) save the User!
             $entityManager = $this->getDoctrine()->getManager();

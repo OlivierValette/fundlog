@@ -2,10 +2,6 @@
 {#{% form_theme form 'form/bulma_layout.html.twig' %}#}
 
 {% block title %}fundlog: connexion{% endblock %}
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('login') }}
-{% endblock %}
 
 {% block body %}
 
@@ -13,7 +9,7 @@
     <main class="container is-fluid">
         <div class="columns">
 
-            <section class="column is-8">
+            <section class="column is-7">
                 <figure class="image">
                     <img src="{{ asset('/build/images/campaign-creators-1086596-unsplash.jpg') }}"
                          alt="Vue d'un tableau de bord sur un ordinateur">
@@ -31,41 +27,16 @@
                         <span style="display:inline-block;padding:2px 3px">Campaign Creators</span>
                     </a>
                 </figure>
-                <h2 class="title is-3">
-                    fundlog, l’ami des OPCVM
-                </h2>
-                <p>fundlog est un outil vous permettant de suivre l’ensemble de vos investissements en OPCVM,
-                dans vos différents portefeuilles ou contrats d’assurance-vie ou de capitalisation.</p>
-                <p>Oubliez les ressaisies sur Excel ou autre tableur, vous pouvez accéder à vos portefeuilles
-                de tous les ordinateurs, chez vous, au bureau ou en déplacement, en toute sécurité.</p>
-                <h3 class="title is-4">De manière indépendante</h3>
-                <p>Avec fundlog.fr vous avez un même outil de suivi, quelque soit l’intermédiaire financier,
-                pour toutes vos banques et toutes les compagnies d’assurance.</p>
-                <h3 class="title is-4">Une vision synthétique de votre situation</h3>
-                <p>Avec des tableaux de bord synthétiques, soit d’un portefeuille, soit de la globalité de ceux-ci,
-                vous pouvez visualiser en un coup d’œil votre situation et les performances de chacun de vos
-                portefeuilles.</p>
-                <h3 class="title is-4">Une vision détaillée de vos portefeuilles</h3>
-                <p>Les données de valorisation sont automatiquement mises à jour pour une appréciation fine de
-                leur évolution.</p>
-                <p>Il n’est plus nécessaire ainsi d’attendre les relevés ou de consulter chacun des sites bancaires
-                pour avoir une vision à jour de votre situation.</p>
-                <h3 class="title is-4">Vos arbitrages simplifiés</h3>
-                <p>Vous pouvez préparer les demandes d’arbitrages en ligne et les envoyer simplement à votre
-                intermédiaire par mail. Il vous suffit de sélectionner les fonds concernés ou d’ajouter de
-                nouveaux fonds en accédant directement aux informations utiles en vous connectant aux
-                sites de Morningstar ou de Quantalys.</p>
-                <h3 class="title is-4">Des alertes utiles</h3>
-                <p>Un mécanisme d’alertes vous permet d’être prévenu par mail lorsque des indicateurs de
-                performance dévient de manière significative, vous permettant de réagir en temps et en heure.</p>
-                <h3 class="title is-4">En toute sécurité...</h3>
-                <p>fundlog est un service simple, performant et sécurisé.
-                Respectueux de la RGPD, vos données personnelles sont réduites au strict minimum et ne sont
-                jamais utilisées à d’autres fins que le bon fonctionnement du service.</p>
-                <p><strong>Parce que votre patrimoine ne regarde que vous.</strong></p>
+                <br>
+                {% include 'security/intro.html.twig' %}
+                <p>
+                    <strong>
+                        <a href="{{ path('presentation') }}">En savoir plus...</a>
+                    </strong>
+                </p>
             </section>
 
-            <section class="column is-3 is-offset-1">
+            <section class="column is-4 is-offset-1">
                 <header class="container is-fluid">
                     <p><img src="{{ asset('build/images/logo.png') }}" alt="Le logo fundlog"></p>
                 </header>
@@ -121,8 +92,9 @@
                     Créer un compte
                 </a>
 
-                <p class="has-text-grey">
-{#                        TODO: Manage forgotten password#}
+                {#TODO: Manage forgotten password#}
+                <br>
+                <p class="has-text-grey has-text-centered">
                     <a href="{{ path('app_registration') }}">Mot de passe oublié</a>
                 </p>
             </section>
@@ -137,11 +109,6 @@
         </footer>
 
     </main>
-
-    {% block javascripts %}
-        {{ parent() }}
-        {{ encore_entry_script_tags('login') }}
-    {% endblock %}
 
 {% endblock %}
 
