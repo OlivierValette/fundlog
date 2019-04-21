@@ -9,10 +9,26 @@
     <main class="container is-fluid">
         <div class="tile is-ancestor">
             <section class="tile is-7 is-vertical is-parent">
-                <article class="tile is-child has-background-grey-light is-centered">
+                <article class="tile is-child has-background-grey-lighter is-centered">
                     <p><img src="{{ asset('build/images/logo.png') }}" alt="Le logo fundlog"></p>
+                    <figure class="image">
+                        <img src="{{ asset('build/images/campaign-creators-1086596-unsplash.jpg') }}"
+                             alt="Vue d'un tableau de bord sur un ordinateur">
+                        <a class="unsplash"
+                           href="https://unsplash.com/@campaign_creators?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge"
+                           target="_blank" rel="noopener noreferrer"
+                           title="Download free do whatever you want high-resolution photos from Campaign Creators">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white"
+                                 viewBox="0 0 32 32">
+                                <title>unsplash-logo</title>
+                                <path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path>
+                            </svg>
+                            Campaign Creators
+                        </a>
+                    </figure>
                 </article>
-                <article class="tile is-child box has-background-grey-light">
+                <article class="tile is-child box has-background-grey-lighter">
                     {% include 'security/intro.html.twig' %}
                     <p>
                         <strong>
@@ -22,9 +38,9 @@
                 </article>
             </section>
             <section class="tile is-parent is-vertical">
-                <div class="tile is-child box">
-                    <h3 class="title has-text-grey">Créer un compte</h3>
-                    <p class="subtitle has-text-grey">
+                <div class="tile is-child box has-background-grey-lighter">
+                    <h3 class="title is-3">Créer un compte</h3>
+                    <p class="subtitle is-5">
                         Merci de saisir toutes les informations pour créer un compte et accéder au site.
                     </p>
                     {{ form_start(form) }}
@@ -40,9 +56,9 @@
                         </button>
                     {{ form_end(form) }}
                 </div>
-                <div class="tile is-child box has-background-grey-light">
-                    <h3 class="title has-text-grey">Vous avez déjà un compte</h3>
-                    <p class="subtitle has-text-grey">
+                <div class="tile is-child box has-background-grey-lighter">
+                    <h3 class="title is-3">Vous avez déjà un compte</h3>
+                    <p class="subtitle is-5">
                         Vous pouvez accéder au site en vous connectant.
                     </p>
                     <a class="button is-block is-primary is-fullwidth" href="{{ path('app_login') }}">
