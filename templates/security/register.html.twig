@@ -46,8 +46,30 @@
                     {{ form_start(form) }}
                         {{ form_row(form.firstname) }}
                         {{ form_row(form.lastname) }}
-                        {{ form_row(form.email) }}
-                        {{ form_row(form.plainPassword.first) }}
+                        {{ form_row(form.email, {
+                            'attr': {
+                                'class': 'is-large',
+                                'help_text': 'Votre email vous servira à vous connecter',
+                            },
+                            'label': 'Email de contact',
+                            'bulma_icon': {
+                                'icon': 'envelope',
+                                'position': 'left'
+                            }
+                            })
+                        }}
+                        {{ form_row(form.plainPassword.first, {
+                            'attr': {
+                                'class': 'is-large',
+                                'help_text': 'Minimum 8 caractères, majuscules, minuscules, chiffres et caractères spéciaux',
+                            },
+                            'label': 'Choisir un mot de passe',
+                            'bulma_icon': {
+                                'icon': 'lock',
+                                'position': 'left'
+                            }
+                            })
+                        }}
                         {{ form_row(form.plainPassword.second) }}
                         {{ form_rest(form) }}
                         <button class="button is-block is-info is-fullwidth" type="submit">
