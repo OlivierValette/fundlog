@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
+{% form_theme form 'form/bulma_layout.html.twig' %}
 
 {% block title %}Nouveau portfolio{% endblock %}
 
 {% block body %}
-    <h1 class="title is-3">Créer un nouveau portefeuille</h1>
+    <div class="box has-background-grey-lighter">
 
-    {{ include('portfolio/_form.html.twig') }}
+        <h1 class="title is-3">Créer un nouveau portefeuille</h1>
 
-    <a href="{{ path('portfolio_index') }}">Retour à la liste</a>
+        {{ include('portfolio/_form.html.twig') }}
+
+    </div>
 
 {% endblock %}

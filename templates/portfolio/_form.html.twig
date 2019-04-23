@@ -2,8 +2,16 @@
 
     {{ form_widget(form) }}
 
-    <button class="button is-block is-primary">
-        {{ button_label|default('Enregistrer') }}
-    </button>
+    <div class="buttons">
+
+        <button class="button is-block is-primary">
+            {{ button_label|default('Enregistrer') }}
+        </button>
+
+        <a class="button is-block is-warning" href="{{ path('portfolio_index') }}">
+            Abandonner
+        </a>
+
+    </div>
 
 {{ form_end(form) }}

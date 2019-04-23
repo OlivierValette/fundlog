@@ -1,8 +1,93 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Portfolio{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <section class="dashboard section">
+            <div class="tile is-ancestor">
+                <div class="tile is-parent is-3">
+                    <div class="tile is-child box">
+                        <p class="title is-3">{{ portfolio.name }}</p>
+                        <p class="subtitle is-5">{{ portfolio.account }}</p>
+                        <p>Ici les chiffres clés du portefeuille</p>
+                    </div>
+                </div>
+                <div class="tile is-parent is-6">
+                    <div class="tile is-child box">
+                        <p>Ici, un graphique d'évolution</p>
+                    </div>
+                </div>
+                <div class="tile is-parent">
+                    <div class="tile is-child box">
+                        <p>Ici le camembert</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="action section">
+            <nav class="level">
+                <!-- Left side -->
+                <div class="level-left">
+
+                </div>
+
+                <!-- Right side -->
+                <div class="level-right">
+                    <p class="level-item">
+                        <a class="button is-success" href="{{ path('portfolio_new') }}">
+                            <i class="fa fa-plus-square"></i> &nbsp;
+                            Nouveau
+                        </a>
+                    </p>
+                </div>
+            </nav>
+        </section>
+
+        <section class="data section">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Numéro</th>
+                    <th>Céé le</th>
+                    <th>Etablissement</th>
+                    <th>Assur.</th>
+                    <th>Valeur</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for portfolio_line in portfolio_lines %}
+                    <tr>
+                        <td>{{ portfolio.name }}</td>
+                        <td>{{ portfolio.account }}</td>
+                        <td>{{ portfolio.createDate ? portfolio.createDate|date('d/m/Y (H:i)') : '' }}</td>
+                        <td>{{ portfolio.middleman }}</td>
+                        <td>{{ portfolio.lifeinsurance }}</td>
+                        <td>{{ portfolio.lastTotalAmount }}</td>
+                        <td>
+                            <a href="{{ path('portfolio_show', {'id': portfolio.id}) }}">
+                                <i class="fa fa-search"></i> &nbsp;
+                                Détail
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">Aucun portefeuille enregistré</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    {% else %}
+        <p>Accès interdit</p>
+    {% endif %}
+
+
     <h1>Portfolio</h1>
 
     <table class="table">
@@ -10,10 +95,6 @@
             <tr>
                 <th>Id</th>
                 <td>{{ portfolio.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ portfolio.name }}</td>
             </tr>
             <tr>
                 <th>CreateDate</th>
@@ -42,9 +123,11 @@
         </tbody>
     </table>
 
-    <a href="{{ path('portfolio_index') }}">back to list</a>
 
-    <a href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">edit</a>
+    <a class="button" href="{{ path('portfolio_index') }}">Retour à la liste</a>
+
+    <a class="button" href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">Modifier</a>
 
     {{ include('portfolio/_delete_form.html.twig') }}
+
 {% endblock %}

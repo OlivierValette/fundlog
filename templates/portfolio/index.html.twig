@@ -64,9 +64,9 @@
                     <tr>
                         <td>{{ portfolio.name }}</td>
                         <td>{{ portfolio.account }}</td>
-                        <td>{{ portfolio.createDate ? portfolio.createDate|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ portfolio.createDate ? portfolio.createDate|date('d/m/Y (H:i)') : '' }}</td>
                         <td>{{ portfolio.middleman }}</td>
-                        <td>{{ portfolio.lifeinsurance ? 'Yes' : 'No' }}</td>
+                        <td>{{ portfolio.lifeinsurance }}</td>
                         <td>{{ portfolio.lastTotalAmount }}</td>
                         <td>
                             <a href="{{ path('portfolio_show', {'id': portfolio.id}) }}">

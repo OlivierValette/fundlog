@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Lifeinsurance;
-use App\Entity\Middleman;
 use App\Entity\Portfolio;
+use App\Entity\PortfolioLine;
 use App\Form\PortfolioType;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,6 +54,9 @@ class PortfolioController extends BaseController
             return $this->redirectToRoute('app_login');
         }
         
+        // Initialize with current date-time
+        $portfolio->setCreateDate(new DateTime());
+        
         // Set default values
         $portfolio->setInputs(0);
         $portfolio->setOutputs(0);
@@ -72,19 +74,9 @@ class PortfolioController extends BaseController
 
             return $this->redirectToRoute('portfolio_index');
         }
-        
-        // Get middleman and lifeinsurance lists
-        $middleman = $this->getDoctrine()
-            ->getRepository(Middleman::class)
-            ->findAll();
-        $lifeinsurance = $this->getDoctrine()
-            ->getRepository(Lifeinsurance::class)
-            ->findAll();
 
         return $this->render('portfolio/new.html.twig', [
             'portfolio' => $portfolio,
-            'middleman' => $middleman,
-            'lifeinsurance' => $lifeinsurance,
             'form' => $form->createView(),
         ]);
     }
@@ -96,10 +88,16 @@ class PortfolioController extends BaseController
     {
         // Checking to see if the user is logged in
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
+    
+        $portfolio_lines = $this->getDoctrine()
+            ->getRepository(PortfolioLine::class)
+            ->findBy(['portfolio' => $portfolio]);
+        
         
         return $this->render('portfolio/show.html.twig', [
             'portfolio' => $portfolio,
+            'portfolio_lines' => $portfolio_lines,
+            'title' => 'fundlog: Portfolio ' . $portfolio->getName(),
         ]);
     }
 
