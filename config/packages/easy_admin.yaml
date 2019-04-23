@@ -5,13 +5,15 @@ easy_admin:
         brand_color: '#037365'
         menu:
             - { label: 'Gestion des données'}
-            - { label: 'Alertes', entity: Alert, icon: 'tags' }
+            - { label: 'Alertes', entity: Alert, icon: 'bell-o' }
             - { label: 'Assets', entity: AssetClass, icon: 'map-marker' }
             - { label: 'Catégories', entity: Category, icon: 'tags' }
-            - { label: 'Portfolio', entity: Portfolio, icon: 'search' }
+            - { label: 'Compagnies', entity: Lifeinsurance, icon: 'building' }
+            - { label: 'Intermédiaires', entity: Middleman, icon: 'male' }
+            - { label: 'Portefeuilles', entity: Portfolio, icon: 'th-list' }
             - { label: 'Gestion des informations financières'}
             - { label: 'Sources', entity: Source, icon: 'search' }
-            - { label: 'Mapping', entity: Scraping, icon: 'search' }
+            - { label: 'Mapping', entity: Scraping, icon: 'hand-rock-o' }
             - { label: 'Gestion des utilisateurs'}
             - { label: 'Utilisateurs', entity: User, icon: 'user' }
             - { label: 'Divers'}
@@ -35,13 +37,15 @@ easy_admin:
         Alert:
             class: App\Entity\Alert
             label: 'Alertes'
+            help: "Gestion des alertes mail"
         AssetClass:
             class: App\Entity\AssetClass
             label: 'Types de support'
+            help: "Gestion des catégories d'actifs"
         Category:
             class: App\Entity\Category
             label: 'Catégories'
-            help: "Gestion des catégories d'objets perdus ou trouvés"
+            help: "Gestion des catégories d'OPCVM"
             list:
                 title: 'Liste des catégories'
                 actions:
@@ -57,6 +61,14 @@ easy_admin:
             new:
             edit:
                 title: 'Modifier une catégorie'
+        Lifeinsurance:
+            class: App\Entity\Lifeinsurance
+            label: 'Compagnie'
+            help: "Gestion des compagnies d'assurance."
+        Middleman:
+            class: App\Entity\Middleman
+            label: 'Intermédiaire'
+            help: "Gestion des intermédiaires. Etablissements gérant les portefeuilles."
         Portfolio:
             class: App\Entity\Portfolio
             label: 'Portefeuille'

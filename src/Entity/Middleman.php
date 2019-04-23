@@ -139,6 +139,10 @@ class Middleman
 
         return $this;
     }
-
-
+    
+        public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->getCompany() . ' (' . $this->getFirstname() . ' ' . $this->getLastname() . ')';
+    }
 }
