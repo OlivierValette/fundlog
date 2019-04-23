@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Portfolio{% endblock %}
+
+{% block body %}
+    <h1>Portfolio</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ portfolio.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ portfolio.name }}</td>
+            </tr>
+            <tr>
+                <th>CreateDate</th>
+                <td>{{ portfolio.createDate ? portfolio.createDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Inputs</th>
+                <td>{{ portfolio.inputs }}</td>
+            </tr>
+            <tr>
+                <th>Outputs</th>
+                <td>{{ portfolio.outputs }}</td>
+            </tr>
+            <tr>
+                <th>LastTotalAmount</th>
+                <td>{{ portfolio.lastTotalAmount }}</td>
+            </tr>
+            <tr>
+                <th>LastPerf</th>
+                <td>{{ portfolio.lastPerf }}</td>
+            </tr>
+            <tr>
+                <th>Archived</th>
+                <td>{{ portfolio.archived ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('portfolio_index') }}">back to list</a>
+
+    <a href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">edit</a>
+
+    {{ include('portfolio/_delete_form.html.twig') }}
+{% endblock %}

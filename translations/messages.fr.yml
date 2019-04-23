@@ -1,0 +1,11 @@
+# translations/messages.fr.yml
+list.row_actions: Actions
+toggle_navigation:
+action.cancel: Annuler
+action.delete: Supprimer
+action.list: Retour à la liste
+action.new: Nouveau
+action.search: Rechercher
+Email could not be found.: Cet email ne correspond à aucun compte.
+Are you sure you want to delete this item?: Confirmer la suppression ?
+Delete: Supprimer

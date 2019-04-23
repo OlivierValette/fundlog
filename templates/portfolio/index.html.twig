@@ -5,7 +5,6 @@
 {% block body %}
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-
         <section class="dashboard section">
             <div class="tile is-ancestor">
                 <div class="tile is-parent is-3">
@@ -38,8 +37,8 @@
                 <!-- Right side -->
                 <div class="level-right">
                     <p class="level-item">
-                        <a class="button is-success" href="{{ path('app_logout') }}">
-                            <i class="fa fa-plus-square"></i>
+                        <a class="button is-success" href="{{ path('portfolio_new') }}">
+                            <i class="fa fa-plus-square"></i> &nbsp;
                             Nouveau
                         </a>
                     </p>
@@ -48,25 +47,45 @@
         </section>
 
         <section class="data section">
-            <table class="table">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                 <thead>
-                    <tr>
-                        colonne1
-                    </tr>
+                <tr>
+                    <th>Nom</th>
+                    <th>Numéro</th>
+                    <th>Céé le</th>
+                    <th>Etablissement</th>
+                    <th>Assur.</th>
+                    <th>Valeur</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody>
+                {% for portfolio in portfolios %}
                     <tr>
-                        {% for portfolio in portfolios %}
-                            <td>{{ portfolio }}</td>
-                        {% endfor %}
+                        <td>{{ portfolio.name }}</td>
+                        <td>{{ portfolio.account }}</td>
+                        <td>{{ portfolio.createDate ? portfolio.createDate|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ portfolio.middleman }}</td>
+                        <td>{{ portfolio.lifeinsurance ? 'Yes' : 'No' }}</td>
+                        <td>{{ portfolio.lastTotalAmount }}</td>
+                        <td>
+                            <a href="{{ path('portfolio_show', {'id': portfolio.id}) }}">
+                                <i class="fa fa-search"></i> &nbsp;
+                                Détail
+                            </a>
+                        </td>
                     </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">Aucun portefeuille enregistré</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
-                {{ dump(portfolios) }}
             </table>
         </section>
 
-        {% else %}
-            <p>Accès impossible</p>
-        {% endif %}
-    </section>
+    {% else %}
+        <p>Accès interdit</p>
+    {% endif %}
+
 {% endblock %}

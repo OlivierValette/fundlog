@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d91f04faf0be54d7e64a1142a65bfe4",
+    "content-hash": "95cfc6e7b1e6d2e056c1b1ccf2e65470",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -3652,7 +3652,7 @@
         },
         {
             "name": "symfony/security-csrf",
-            "version": "v4.2.6",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-csrf.git",
@@ -4124,16 +4124,16 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v4.2.6",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "2313fb5003110ab2e338bea27d9ced5bde7559c5"
+                "reference": "ef70509b7cec68d4c202d08b6d9ab5e66eac3d03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/2313fb5003110ab2e338bea27d9ced5bde7559c5",
-                "reference": "2313fb5003110ab2e338bea27d9ced5bde7559c5",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/ef70509b7cec68d4c202d08b6d9ab5e66eac3d03",
+                "reference": "ef70509b7cec68d4c202d08b6d9ab5e66eac3d03",
                 "shasum": ""
             },
             "require": {
@@ -4209,7 +4209,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
-            "time": "2019-04-11T11:27:41+00:00"
+            "time": "2019-04-17T15:01:37+00:00"
         },
         {
             "name": "symfony/var-exporter",

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau portfolio{% endblock %}
+
+{% block body %}
+    <h1 class="title is-3">Créer un nouveau portefeuille</h1>
+
+    {{ include('portfolio/_form.html.twig') }}
+
+    <a href="{{ path('portfolio_index') }}">Retour à la liste</a>
+
+{% endblock %}

@@ -15,7 +15,7 @@ easy_admin:
             - { label: 'Gestion des utilisateurs'}
             - { label: 'Utilisateurs', entity: User, icon: 'user' }
             - { label: 'Divers'}
-            - { label: 'Retour au site', route: 'portfolios', icon: 'mail-reply' }
+            - { label: 'Retour au site', route: 'portfolio_index', icon: 'mail-reply' }
     formats:
         date:     'd/m/Y'
         time:     'H:i'

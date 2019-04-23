@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="1hit1f8" resname="list.row_actions">
+        <source>list.row_actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="WPzArF9" resname="toggle_navigation">
+        <source>toggle_navigation</source>
+        <target></target>
+      </trans-unit>
+      <trans-unit id="Qj1ElaL" resname="action.cancel">
+        <source>action.cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="hTKWQ6g" resname="action.delete">
+        <source>action.delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="8IveD6W" resname="action.list">
+        <source>action.list</source>
+        <target>Retour à la liste</target>
+      </trans-unit>
+      <trans-unit id="f.rvF6y" resname="action.new">
+        <source>action.new</source>
+        <target>Nouveau</target>
+      </trans-unit>
+      <trans-unit id="odDw0du" resname="action.search">
+        <source>action.search</source>
+        <target>Rechercher</target>
+      </trans-unit>
+      <trans-unit id="0xSwaIv" resname="Email could not be found.">
+        <source>Email could not be found.</source>
+        <target>Cet email ne correspond à aucun compte</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
