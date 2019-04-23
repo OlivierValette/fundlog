@@ -29,6 +29,13 @@ class Portfolio
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="account", type="string", length=255, nullable=false)
+     */
+    private $account;
 
     /**
      * @var \DateTime|null
@@ -118,7 +125,19 @@ class Portfolio
 
         return $this;
     }
-
+    
+    public function getAccount(): ?string
+    {
+        return $this->account;
+    }
+    
+    public function setAccount(string $account): self
+    {
+        $this->account = $account;
+        
+        return $this;
+    }
+    
     public function getCreateDate(): ?\DateTimeInterface
     {
         return $this->createDate;
