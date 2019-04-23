@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Portfolio;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PortfoliosController extends BaseController
@@ -13,9 +14,16 @@ class PortfoliosController extends BaseController
     {
         // Checking to see if the user is logged in
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        
+        $user = $this->getUser();
+    
+        $portfolios = $this->getDoctrine()
+            ->getRepository(Portfolio::class)
+            ->findBy(['user' => $user]);
+    
         return $this->render('portfolios/index.html.twig', [
-            'controller_name' => 'PortfoliosController',
+            'portfolios' => $portfolios,
+            'title' => 'fundlog: Portfolios',
         ]);
+        
     }
 }
