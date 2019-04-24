@@ -112,3 +112,45 @@ $fa-font-path: "~font-awesome/fonts";
   margin-top: 1.5rem;
   margin-bottom: 1rem;
 }
+
+// Cookie popup
+.cookie-popup-container {
+  background-color: $billiard;
+  z-index: 9999;
+  position: fixed;
+  max-width: 24em;
+  bottom: 1em;
+  left: 1em;
+  color: $hope;
+  overflow: hidden;
+  transition: opacity 1s ease;
+}
+
+.cookie-popup-message {
+  margin: 2em 2em 1.5em;
+  display: block;
+  font-size: 16px;
+}
+
+.cookie-popup-learn-more-link {
+  color: $link;
+  text-decoration: underline;
+}
+
+.cookie-popup-confirmation {
+  margin: 2em 2em 1.5em;
+  display: block;
+}
+
+@media (max-width: 399px) {
+  .cookie-popup-message {
+    margin:1em;
+    display: block;
+    font-size: 16px
+  }
+
+  .cookie-popup-confirmation {
+    margin: 1em 1em 1.5em;
+    display: block
+  }
+}

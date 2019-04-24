@@ -23,3 +23,25 @@ $(document).ready(function() {
 
     });
 });
+
+function CookiePopup(hideOrshow) {
+    if (hideOrshow === 'hide') {
+        document.getElementById('js-cookie-popup').style.display = "none";
+    }
+    else if (localStorage.getItem("popupWasShown") == null) {
+        localStorage.setItem("popupWasShown", 1);
+        document.getElementById('js-cookie-popup').removeAttribute('style');
+    }
+}
+window.onload = function () {
+    setTimeout(function () {
+        CookiePopup('show');
+    }, 0);
+}
+
+
+function hideNow(e) {
+    if (e.target.id === 'js-cookie-popup') {
+        document.getElementById('js-cookie-popup').style.display = 'none';
+    }
+}
