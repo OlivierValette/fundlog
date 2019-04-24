@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Portfolio;
+use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
 use App\Form\PortfolioType;
 use DateTime;
@@ -92,12 +93,20 @@ class PortfolioController extends BaseController
         $portfolio_lines = $this->getDoctrine()
             ->getRepository(PortfolioLine::class)
             ->findBy(['portfolio' => $portfolio]);
-        
+    
+        // Looking for an active transaction on this portfolio
+        $transaction = $this->getDoctrine()
+            ->getRepository(PortfolioIo::class)
+            ->findBy([
+                'portfolio' => $portfolio,
+                'confirmDate' => NULL
+            ]);
         
         return $this->render('portfolio/show.html.twig', [
             'portfolio' => $portfolio,
             'portfolio_lines' => $portfolio_lines,
-            'title' => 'fundlog: Portfolio ' . $portfolio->getName(),
+            'portfolio_io' => $transaction,
+            'title' => 'fundlog: ' . $portfolio->getName(),
         ]);
     }
 
@@ -108,7 +117,6 @@ class PortfolioController extends BaseController
     {
         // Checking to see if the user is logged in
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
         
         $form = $this->createForm(PortfolioType::class, $portfolio);
         $form->handleRequest($request);
@@ -134,8 +142,8 @@ class PortfolioController extends BaseController
     {
         // Checking to see if the user is logged in
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
         
+        //TODO: archive portfolio before deleting or desactivate
         if ($this->isCsrfTokenValid('delete'.$portfolio->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($portfolio);

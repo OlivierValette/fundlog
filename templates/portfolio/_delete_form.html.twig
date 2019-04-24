@@ -3,5 +3,8 @@
       onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ portfolio.id) }}">
-    <button class="button is-block is-danger">Delete</button>
+    <button class="button is-block is-danger">
+        <i class="fa fa-trash-o"></i> &nbsp;
+        Archiver
+    </button>
 </form>

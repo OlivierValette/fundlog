@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PortfolioLine{% endblock %}
+
+{% block body %}
+    <h1>PortfolioLine</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ portfolio_line.id }}</td>
+            </tr>
+            <tr>
+                <th>Qty</th>
+                <td>{{ portfolio_line.qty }}</td>
+            </tr>
+            <tr>
+                <th>Lvalue</th>
+                <td>{{ portfolio_line.lvalue }}</td>
+            </tr>
+            <tr>
+                <th>IoQty</th>
+                <td>{{ portfolio_line.ioQty }}</td>
+            </tr>
+            <tr>
+                <th>IoValue</th>
+                <td>{{ portfolio_line.ioValue }}</td>
+            </tr>
+            <tr>
+                <th>IoHide</th>
+                <td>{{ portfolio_line.ioHide ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('portfolio_line_index') }}">back to list</a>
+
+    <a href="{{ path('portfolio_line_edit', {'id': portfolio_line.id}) }}">edit</a>
+
+    {{ include('portfolio_line/_delete_form.html.twig') }}
+{% endblock %}

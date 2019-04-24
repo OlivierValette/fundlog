@@ -10,7 +10,8 @@
                     <div class="tile is-child box">
                         <p class="title is-3">{{ portfolio.name }}</p>
                         <p class="subtitle is-5">{{ portfolio.account }}</p>
-                        <p>Ici les chiffres clés du portefeuille</p>
+                        <p>{{ portfolio.lastTotalAmount }}</p>
+                        <p>{{ portfolio.lastPerf }}</p>
                     </div>
                 </div>
                 <div class="tile is-parent is-6">
@@ -30,17 +31,48 @@
             <nav class="level">
                 <!-- Left side -->
                 <div class="level-left">
-
+                    <p class="level-item">
+                        <a class="button is-primary" href="{{ path('portfolio_index') }}">
+                            <i class="fa fa-arrow-left"></i> &nbsp;
+                            Retour à la liste
+                        </a>
+                    </p>
+                    <p class="level-item">
+{#                        TODO: change link to export#}
+                        <a class="button is-warning" href="{{ path('portfolio_index') }}">
+                            <i class="fa fa-download"></i> &nbsp;
+                            Exporter
+                        </a>
+                    </p>
+                    <p class="level-item">
+                        {{ include('portfolio/_delete_form.html.twig') }}
+                    </p>
                 </div>
 
                 <!-- Right side -->
                 <div class="level-right">
-                    <p class="level-item">
-                        <a class="button is-success" href="{{ path('portfolio_new') }}">
-                            <i class="fa fa-plus-square"></i> &nbsp;
-                            Nouveau
-                        </a>
-                    </p>
+                    {% if not portfolio_io %}
+                        {# Pas d'arbitrage en cours #}
+                        <p class="level-item">
+                            <a class="button is-info" href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">
+                                <i class="fa fa-pencil-square-o"></i> &nbsp;
+                                Nouvel arbitrage
+                            </a>
+                        </p>
+                    {% else %}
+                        <p class="level-item">
+                            <a class="button is-info" href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">
+                                <i class="fa fa-pencil-square-o"></i> &nbsp;
+                                Modifier arbitrage
+                            </a>
+                        </p>
+                        <p class="level-item">
+                            <a class="button is-warning" href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">
+                                <i class="fa fa-calculator"></i> &nbsp;
+                                Confirmer arbitrage
+                            </a>
+                        </p>
+                    {% endif %}
                 </div>
             </nav>
         </section>
@@ -48,37 +80,34 @@
         <section class="data section">
             <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                 <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Numéro</th>
-                    <th>Céé le</th>
-                    <th>Etablissement</th>
-                    <th>Assur.</th>
-                    <th>Valeur</th>
-                    <th>Actions</th>
-                </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Fond</th>
+                        <th>ISIN</th>
+                        <th>Qté</th>
+                        <th>Valeur liq.</th>
+                        <th>IoValue</th>
+                        <th>IoQty</th>
+                        <th>IoHide</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {% for portfolio_line in portfolio_lines %}
-                    <tr>
-                        <td>{{ portfolio.name }}</td>
-                        <td>{{ portfolio.account }}</td>
-                        <td>{{ portfolio.createDate ? portfolio.createDate|date('d/m/Y (H:i)') : '' }}</td>
-                        <td>{{ portfolio.middleman }}</td>
-                        <td>{{ portfolio.lifeinsurance }}</td>
-                        <td>{{ portfolio.lastTotalAmount }}</td>
-                        <td>
-                            <a href="{{ path('portfolio_show', {'id': portfolio.id}) }}">
-                                <i class="fa fa-search"></i> &nbsp;
-                                Détail
-                            </a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="9">Aucun portefeuille enregistré</td>
-                    </tr>
-                {% endfor %}
+                    {% for portfolio_line in portfolio_lines %}
+                        <tr>
+                            <td>{{ portfolio_line.id }}</td>
+                            <td>{{ portfolio_line.fund.name }}</td>
+                            <td>{{ portfolio_line.fund.isin }}</td>
+                            <td>{{ portfolio_line.qty }}</td>
+                            <td>{{ portfolio_line.lvalue }}</td>
+                            <td>{{ portfolio_line.ioQty }}</td>
+                            <td>{{ portfolio_line.ioValue }}</td>
+                            <td>{{ portfolio_line.ioHide ? 'Oui' : 'Non' }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="9">Aucune ligne sur ce portefeuille</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </section>
@@ -86,48 +115,5 @@
     {% else %}
         <p>Accès interdit</p>
     {% endif %}
-
-
-    <h1>Portfolio</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ portfolio.id }}</td>
-            </tr>
-            <tr>
-                <th>CreateDate</th>
-                <td>{{ portfolio.createDate ? portfolio.createDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Inputs</th>
-                <td>{{ portfolio.inputs }}</td>
-            </tr>
-            <tr>
-                <th>Outputs</th>
-                <td>{{ portfolio.outputs }}</td>
-            </tr>
-            <tr>
-                <th>LastTotalAmount</th>
-                <td>{{ portfolio.lastTotalAmount }}</td>
-            </tr>
-            <tr>
-                <th>LastPerf</th>
-                <td>{{ portfolio.lastPerf }}</td>
-            </tr>
-            <tr>
-                <th>Archived</th>
-                <td>{{ portfolio.archived ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-
-    <a class="button" href="{{ path('portfolio_index') }}">Retour à la liste</a>
-
-    <a class="button" href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">Modifier</a>
-
-    {{ include('portfolio/_delete_form.html.twig') }}
 
 {% endblock %}
