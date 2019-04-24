@@ -12,6 +12,7 @@ easy_admin:
             - { label: 'Intermédiaires', entity: Middleman, icon: 'male' }
             - { label: "Gestion des données d'activité"}
             - { label: 'Portefeuilles', entity: Portfolio, icon: 'th-list' }
+            - { label: 'Lignes de portefeuilles', entity: PortfolioLine, icon: 'list' }
             - { label: "Gestion des informations financières"}
             - { label: 'Sources', entity: Source, icon: 'search' }
             - { label: 'Mapping', entity: Scraping, icon: 'hand-rock-o' }
