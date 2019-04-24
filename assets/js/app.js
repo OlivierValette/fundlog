@@ -14,11 +14,13 @@ const $ = require('jquery');
 
 $(document).ready(function() {
 
-    // Cookie consent
+    // Cookie consent (stored on localStorage)
     setTimeout(function () {
-        $("#cookieConsent").fadeIn(500);
+        if (localStorage.getItem("cookieConsent") !== "OK") $("#cookieConsent").fadeIn(500);
     }, 5000);
+
     $("#cookieConsentOK").click(function() {
+        localStorage.setItem("cookieConsent", "OK");
         $("#cookieConsent").fadeOut(500);
     });
 

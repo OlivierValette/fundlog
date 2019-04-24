@@ -116,14 +116,15 @@ $fa-font-path: "~font-awesome/fonts";
 // Cookie popup
 .cookie-popup-container {
   background-color: $billiard;
-  z-index: 9999;
-  position: fixed;
-  max-width: 24em;
   bottom: 1em;
-  left: 1em;
   color: $hope;
+  display: none;
+  left: 1em;
+  max-width: 24em;
   overflow: hidden;
+  position: fixed;
   transition: opacity 1s ease;
+  z-index: 9999;
 }
 
 .cookie-popup-message {
