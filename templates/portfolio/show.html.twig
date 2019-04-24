@@ -8,8 +8,8 @@
             <div class="tile is-ancestor">
                 <div class="tile is-parent is-3">
                     <div class="tile is-child box">
-                        <p class="title is-3">{{ portfolio.name }}</p>
-                        <p class="subtitle is-5">{{ portfolio.account }}</p>
+                        <p class="title is-3 is-marginless is-spaced">{{ portfolio.name }}</p>
+                        <p class="subtitle is-5 is-marginless">{{ portfolio.account }}</p>
                         <p>{{ portfolio.lastTotalAmount }}</p>
                         <p>{{ portfolio.lastPerf }}</p>
                     </div>
@@ -42,6 +42,12 @@
                         <a class="button is-warning" href="{{ path('portfolio_index') }}">
                             <i class="fa fa-download"></i> &nbsp;
                             Exporter
+                        </a>
+                    </p>
+                    <p class="level-item">
+                        <a class="button is-danger" href="{{ path('portfolio_archive', {'id': portfolio.id}) }}">
+                            <i class="fa fa-archive"></i> &nbsp;
+                            Archiver
                         </a>
                     </p>
                     <p class="level-item">

@@ -24,10 +24,14 @@ class PortfolioController extends BaseController
         // Checking to see if the user is logged in
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-        
+    
+        // Get user's (not archived) portfolios
         $portfolios = $this->getDoctrine()
             ->getRepository(Portfolio::class)
-            ->findBy(['user' => $user]);
+            ->findBy([
+                'user' => $user,
+                'archived' => false,
+            ]);
 
         return $this->render('portfolio/index.html.twig', [
             'portfolios' => $portfolios,
@@ -63,7 +67,7 @@ class PortfolioController extends BaseController
         $portfolio->setOutputs(0);
         $portfolio->setLastTotalAmount(0);
         $portfolio->setLastPerf(0);
-        $portfolio->setArchived('false');
+        $portfolio->setArchived(false);
 
         $form = $this->createForm(PortfolioType::class, $portfolio);
         $form->handleRequest($request);
@@ -89,6 +93,12 @@ class PortfolioController extends BaseController
     {
         // Checking to see if the user is logged in
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
+        // Get user to check it is the owner of portfolio to be shown
+        $user = $this->getUser();
+        if ($user != $portfolio->getUser()) {
+            return $this->redirectToRoute('portfolio_index');
+        }
     
         $portfolio_lines = $this->getDoctrine()
             ->getRepository(PortfolioLine::class)
@@ -97,7 +107,7 @@ class PortfolioController extends BaseController
         // Looking for an active transaction on this portfolio
         $transaction = $this->getDoctrine()
             ->getRepository(PortfolioIo::class)
-            ->findBy([
+            ->findOneBy([
                 'portfolio' => $portfolio,
                 'confirmDate' => NULL
             ]);
@@ -117,24 +127,73 @@ class PortfolioController extends BaseController
     {
         // Checking to see if the user is logged in
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        
-        $form = $this->createForm(PortfolioType::class, $portfolio);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('portfolio_index', [
-                'id' => $portfolio->getId(),
-            ]);
+    
+        // Get user to check it is the owner of portfolio to be edited
+        $user = $this->getUser();
+        if ($user != $portfolio->getUser()) {
+            return $this->redirectToRoute('portfolio_index');
         }
+    
+        // Retrieving an active transaction on this portfolio
+        $transaction = $this->getDoctrine()
+            ->getRepository(PortfolioIo::class)
+            ->findOneBy([
+                'portfolio' => $portfolio,
+                'confirmDate' => NULL
+            ]);
+        // Otherwise create new transaction
+        if (!$transaction) {
+            $transaction = new PortfolioIo();
+            $transaction->setPortfolio($portfolio);
+            // Initialize with current date-time
+            $transaction->setCreationDate(new DateTime());
+            // Set default values
+            $transaction->setNetAmount(0);
+            // Save to database
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($transaction);
+            $entityManager->flush();
+        }
+        
+        // Retrieve portfolio lines if not hidden
+        $portfolio_lines = $this->getDoctrine()
+            ->getRepository(PortfolioLine::class)
+            ->findBy([
+                'portfolio' => $portfolio,
+                'ioHide' => false,
+            ]);
 
         return $this->render('portfolio/edit.html.twig', [
             'portfolio' => $portfolio,
-            'form' => $form->createView(),
+            'portfolio_lines' => $portfolio_lines,
+            'portfolio_io' => $transaction,
+            'title' => 'fundlog: arbitrage sur' . $portfolio->getName(),
         ]);
     }
-
+    
+    /**
+     * @Route("/{id}/archive", name="portfolio_archive", methods={"GET|POST"})
+     */
+    public function archive(Request $request, Portfolio $portfolio): Response
+    {
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
+        // Get user to check it is the owner of portfolio to be closed
+        $user = $this->getUser();
+        if ($user != $portfolio->getUser()) {
+            return $this->redirectToRoute('portfolio_index');
+        }
+    
+        // Update object dateEnd with current date-time
+        $portfolio->setArchived(true);
+    
+        // database update
+        $this->getDoctrine()->getManager()->flush();
+    
+        return $this->redirectToRoute('portfolio_index');
+    }
+    
     /**
      * @Route("/{id}", name="portfolio_delete", methods={"DELETE"})
      */

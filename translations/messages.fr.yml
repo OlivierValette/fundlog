@@ -9,3 +9,5 @@ action.search: Rechercher
 Email could not be found.: Cet email ne correspond à aucun compte.
 Are you sure you want to delete this item?: Confirmer la suppression ?
 Delete: Supprimer
+Id: Id
+Name: Nom

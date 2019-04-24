@@ -1,13 +1,143 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Portfolio{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <h1>Edit Portfolio</h1>
 
-    {{ include('portfolio/_form.html.twig', {'button_label': 'Update'}) }}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-    <a href="{{ path('portfolio_index') }}">back to list</a>
+        {% set waiting = '<i class="fa fa-spinner fa-pulse fa-fw"></i>' %}
 
-    {{ include('portfolio/_delete_form.html.twig') }}
+        <section class="dashboard section">
+            <div class="tile is-ancestor">
+                <div class="tile is-parent is-4">
+                    <div class="tile is-child box">
+                        <p class="title is-3 is-marginless is-spaced">{{ portfolio.name }}</p>
+                        <p class="subtitle is-5 is-marginless">{{ portfolio.account }}</p>
+                        <p>Gestionnaire : {{ portfolio.middleman.fullname }}</p>
+                        <p>{{ portfolio.middleman.email }}</p>
+                    </div>
+                </div>
+                <div class="tile is-parent is-4">
+                    <div class="tile is-child box">
+                        <p class="title has-text-centered is-2 is-marginless">Arbitrage</p>
+                    </div>
+                </div>
+                <div class="tile is-parent">
+                    <div class="tile is-child box">
+                        <p>Demande d'arbitrage <strong>#{{ portfolio_io.id }}</strong></p>
+                        <p>Créé le :
+                            {{ portfolio_io.creationDate|date('d/m/Y (H:i)') }}</p>
+                        <p>Validé le :
+                            {{ (portfolio_io.validDate ? portfolio_io.validDate|date('d/m/Y (H:i)') : waiting)|raw }}</p>
+                        <p>Envoyé le :
+                            {{ (portfolio_io.sendDate ? portfolio_io.sendDate|date('d/m/Y (H:i)') : waiting)|raw }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="action section">
+            <nav class="level">
+                <!-- Left side -->
+                <div class="level-left">
+                    <p class="level-item">
+                        <a class="button is-primary" href="{{ path('portfolio_show', {'id': portfolio.id}) }}">
+                            <i class="fa fa-arrow-left"></i> &nbsp;
+                            Retour
+                        </a>
+                    </p>
+                    {% if not portfolio_io.validDate %}
+                        {# Transaction not validated #}
+                        <p class="level-item">
+                            {# TODO: change link to update dates#}
+                            <a class="button is-info" href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">
+                                <i class="fa fa-check"></i> &nbsp;
+                                Valider
+                            </a>
+                        </p>
+                    {% elseif not portfolio_io.sendDate %}
+                        {# Transaction not send #}
+                        <p class="level-item">
+                            {# TODO: change link to send mail#}
+                            <a class="button is-warning" href="{{ path('portfolio_show', {'id': portfolio.id}) }}">
+                                <i class="fa fa-envelope"></i> &nbsp;
+                                Envoyer
+                            </a>
+                        </p>
+                    {% endif %}
+                    {# Transaction can always be deleted -- if still pending !#}
+                    <p class="level-item">
+                        {# TODO: change link to delete Io not portfolio!#}
+                        {{ include('portfolio/_delete_form.html.twig') }}
+                    </p>
+                </div>
+
+                <!-- Right side -->
+                <div class="level-right">
+                    {# Transaction can always be modified -- if still pending !#}
+                    <p class="level-item">
+                        <a class="button is-info" href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">
+                            <i class="fa fa-pencil-square-o"></i> &nbsp;
+                            Ajouter ligne
+                        </a>
+                    </p>
+                    {% if portfolio_io.sendDate %}
+                        {# Confirmation link -- only if ransaction  send #}
+                        <p class="level-item">
+                            <a class="button is-warning" href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">
+                                <i class="fa fa-calculator"></i> &nbsp;
+                                Confirmer arbitrage
+                            </a>
+                        </p>
+                    {% endif %}
+                </div>
+            </nav>
+        </section>
+
+        <section class="data section">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Fond</th>
+                    <th>ISIN</th>
+                    <th>Qté</th>
+                    <th>Valeur liq.</th>
+                    <th>IoQty</th>
+                    <th>IoValue</th>
+                    <th>IoHide</th>
+                    <th>action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for portfolio_line in portfolio_lines %}
+                    <tr>
+                        <td>{{ portfolio_line.id }}</td>
+                        <td>{{ portfolio_line.fund.name }}</td>
+                        <td>{{ portfolio_line.fund.isin }}</td>
+                        <td>{{ portfolio_line.qty }}</td>
+                        <td>{{ portfolio_line.lvalue }}</td>
+                        <td>{{ portfolio_line.ioQty }}</td>
+                        <td>{{ portfolio_line.ioValue }}</td>
+                        <td>
+                            {{ portfolio_line.ioHide ? 'Oui' : 'Non' }}
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">Aucune ligne sur ce portefeuille</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    {% else %}
+        <p>Accès interdit</p>
+    {% endif %}
+
 {% endblock %}

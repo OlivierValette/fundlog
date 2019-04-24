@@ -13,6 +13,8 @@ $terra: #7B895B;
 $tan: #BEA42E;
 $beige-light: #D0D1CD;
 $beige-lighter: #EFF0EB;
+$reddish: #960000;
+$gween: #259169;
 
 // Colors
 $black:        hsl(0, 0%, 4%) !default
@@ -39,9 +41,9 @@ $red:          hsl(348, 100%, 61%) !default
 // Primary colors
 $primary: $billiard;
 $info: $hope;
-$success: $green !default
+$success: $gween;
 $warning: $tan;
-$danger: $red !default
+$danger: $reddish;
 $light: $beige-light;
 $dark: $dark-green;
 $grey-dark: $terra;
