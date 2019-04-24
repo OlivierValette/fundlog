@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PortfolioIo index{% endblock %}
+
+{% block body %}
+    <h1>PortfolioIo index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NetAmount</th>
+                <th>CreationDate</th>
+                <th>UpdateDate</th>
+                <th>ValidDate</th>
+                <th>SendDate</th>
+                <th>ConfirmDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for portfolio_io in portfolio_ios %}
+            <tr>
+                <td>{{ portfolio_io.id }}</td>
+                <td>{{ portfolio_io.netAmount }}</td>
+                <td>{{ portfolio_io.creationDate ? portfolio_io.creationDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ portfolio_io.updateDate ? portfolio_io.updateDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ portfolio_io.validDate ? portfolio_io.validDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ portfolio_io.sendDate ? portfolio_io.sendDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ portfolio_io.confirmDate ? portfolio_io.confirmDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('portfolio_io_show', {'id': portfolio_io.id}) }}">show</a>
+                    <a href="{{ path('portfolio_io_edit', {'id': portfolio_io.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('portfolio_io_new') }}">Create new</a>
+{% endblock %}
