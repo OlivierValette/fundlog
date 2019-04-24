@@ -103,6 +103,11 @@ class Middleman
 
         return $this;
     }
+    
+    public function getFullname(): ?string
+    {
+        return $this->getFirstname() . ' ' . $this->getLastname();
+    }
 
     public function getEmail(): ?string
     {
