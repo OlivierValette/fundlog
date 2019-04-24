@@ -10,7 +10,7 @@
     {% endif %}
 
     {# Cookie popup #}
-    <div class="cookie-popup-container" id="js-cookie-popup">
+    <div class="cookie-popup-container" id="cookieConsent">
         <p class="cookie-popup-message">
             Nous utilisons les cookies afin de fournir les services et fonctionnalités proposés
             sur notre site et afin d’améliorer l’expérience de nos utilisateurs.
@@ -18,7 +18,7 @@
         </p>
         <div class="cookie-popup-confirmation">
             <a href="{{ path('information') }}#conf" class="button is-info">Plus d'information...</a>
-            <input class="button js-cookie-agree" type="submit" name="submit" value="J'accepte" onClick="CookiePopup('hide')">
+            <input class="button" id="cookieConsentOK" type="submit" name="submit" value="J'accepte" onClick="CookiePopup('hide')">
         </div>
     </div>
 

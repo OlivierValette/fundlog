@@ -14,6 +14,14 @@ const $ = require('jquery');
 
 $(document).ready(function() {
 
+    // Cookie consent
+    setTimeout(function () {
+        $("#cookieConsent").fadeIn(500);
+    }, 5000);
+    $("#cookieConsentOK").click(function() {
+        $("#cookieConsent").fadeOut(500);
+    });
+
     // Check for click events on the navbar burger icon
     $(".navbar-burger").click(function() {
 
@@ -23,25 +31,3 @@ $(document).ready(function() {
 
     });
 });
-
-function CookiePopup(hideOrshow) {
-    if (hideOrshow === 'hide') {
-        document.getElementById('js-cookie-popup').style.display = "none";
-    }
-    else if (localStorage.getItem("popupWasShown") == null) {
-        localStorage.setItem("popupWasShown", 1);
-        document.getElementById('js-cookie-popup').removeAttribute('style');
-    }
-}
-window.onload = function () {
-    setTimeout(function () {
-        CookiePopup('show');
-    }, 0);
-}
-
-
-function hideNow(e) {
-    if (e.target.id === 'js-cookie-popup') {
-        document.getElementById('js-cookie-popup').style.display = 'none';
-    }
-}
