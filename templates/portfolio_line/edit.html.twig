@@ -1,13 +1,4 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Edit PortfolioLine{% endblock %}
-
-{% block body %}
-    <h1>Edit PortfolioLine</h1>
-
-    {{ include('portfolio_line/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('portfolio_line_index') }}">back to list</a>
-
-    {{ include('portfolio_line/_delete_form.html.twig') }}
-{% endblock %}
+{{ portfolio_line.id }}
+{{ form_start(form, {'action': path('portfolio_line_edit', { 'id': portfolio_line.id })}) }}
+    {{ form_widget(form) }}
+{{ form_end(form) }}

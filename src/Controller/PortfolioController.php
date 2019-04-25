@@ -188,7 +188,6 @@ class PortfolioController extends BaseController
         $form->handleRequest($request);
     
         return $this->render('portfolio/edit.html.twig', [
-            'form' => $form->createView(),
             'formAdd' => $formAdd->createView(),
             'portfolio' => $portfolio,
             'portfolio_new_line' => $portfolio_new_line,

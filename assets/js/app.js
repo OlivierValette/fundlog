@@ -48,9 +48,30 @@ $(document).ready(function() {
         });
     });
 
-    // // Add line in table
-    // $("#addLineButton").click(function() {
-    //     $("#addLineContent").removeClass("is-hidden");
-    // });
+    // Modal for editing portfolio lines
+
+    // Listening button with "modal-trigger" class
+    $('.modal-trigger').click( () => {
+
+        // retrieve route in "data-route" property
+        const url = $(this).attr('data-target');
+        console.log(url);
+        const action = $(this).attr('data-action');
+        console.log(action);
+
+        // modal controls
+        $('.delete').click( () => $('.modal').removeClass('is-active'));
+
+        // ajax call of symfony controller retrieving template
+        // TODO: separate actions
+        $.get(url, (data) => {
+            // html injection in modal
+            $.when( $('.modal-card-body').html(data) ).done(
+                // modal activation
+                $('.modal').addClass('is-active')
+            );
+
+        });
+    });
 
 });
