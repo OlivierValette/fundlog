@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Fund
  *
- * @ORM\Table(name="fund", uniqueConstraints={@ORM\UniqueConstraint(name="id_UNIQUE", columns={"id"}), @ORM\UniqueConstraint(name="isin_UNIQUE", columns={"isin"})}, indexes={@ORM\Index(name="fk_fund_asset_class1_idx", columns={"asset_class_id"}), @ORM\Index(name="fk_fund_category1_idx", columns={"category_category_id"})})
+ * @ORM\Table(name="fund", uniqueConstraints={@ORM\UniqueConstraint(name="id_UNIQUE", columns={"id"}), @ORM\UniqueConstraint(name="isin_UNIQUE", columns={"isin"})}, indexes={@ORM\Index(name="fk_fund_asset_class1_idx", columns={"asset_class_id"}), @ORM\Index(name="fk_fund_category1_idx", columns={"category_id"})})
  * @ORM\Entity
  */
 class Fund
@@ -57,10 +57,10 @@ class Fund
      *
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="category_category_id", referencedColumnName="category_id")
+     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * })
      */
-    private $categoryCategory;
+    private $category;
 
     public function getId(): ?int
     {
@@ -115,17 +115,16 @@ class Fund
         return $this;
     }
 
-    public function getCategoryCategory(): ?Category
+    public function getCategory(): ?Category
     {
-        return $this->categoryCategory;
+        return $this->category;
     }
 
-    public function setCategoryCategory(?Category $categoryCategory): self
+    public function setCategory(?Category $category): self
     {
-        $this->categoryCategory = $categoryCategory;
+        $this->category = $category;
 
         return $this;
     }
-
 
 }

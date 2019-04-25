@@ -1,0 +1,2 @@
+1	john.doe@gmail.com	["ROLE_USER"]	$argon2i$v=19$m=1024,t=2,p=2$RTh3dmc5RWdIZEtwVkEweQ$RtodhtDyMT2q8OQEPAKxxipwc3FTaU7SkbMyM1nZIP8	John	Doe	2019-04-23 14:11:11
+2	olivier.valette@spi10.com	["ROLE_ADMIN"]	$argon2i$v=19$m=1024,t=2,p=2$cWFxY1RKMjRydHZtQmdaNg$ooFnahIx2onvcy5DPkO6wNhNs+5I2mJ79XoP1tFyxYA	Olivier	Valette	2019-04-23 14:12:07
