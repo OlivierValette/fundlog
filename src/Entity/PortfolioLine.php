@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PortfolioLine
  *
  * @ORM\Table(name="portfolio_line", indexes={@ORM\Index(name="fk_portfolio_line_fund1_idx", columns={"fund_id"}), @ORM\Index(name="fk_portfolio_line_portfolio1_idx", columns={"portfolio_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PortfolioLineRepository")
  */
 class PortfolioLine
 {

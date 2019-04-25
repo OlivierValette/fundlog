@@ -100,10 +100,11 @@ class PortfolioController extends BaseController
         if ($user != $portfolio->getUser()) {
             return $this->redirectToRoute('portfolio_index');
         }
-    
+        
+        // List of active lines on this portfolio
         $portfolio_lines = $this->getDoctrine()
             ->getRepository(PortfolioLine::class)
-            ->findBy(['portfolio' => $portfolio]);
+            ->findActiveLines($portfolio);
     
         // Looking for an active transaction on this portfolio
         $transaction = $this->getDoctrine()
