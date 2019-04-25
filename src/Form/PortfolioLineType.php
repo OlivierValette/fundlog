@@ -6,6 +6,7 @@ use App\Entity\Fund;
 use App\Entity\PortfolioLine;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,6 +18,7 @@ class PortfolioLineType extends AbstractType
         $builder
             ->add('ioQty',NumberType::class, ['label' => " "])
             ->add('ioValue',NumberType::class, ['label' => " "])
+            ->add('ioHide',CheckboxType::class, ['label' => " "])
             ->add('fund', EntityType::class, [
                 'label' => " ",
                 // looks for choices from this entity

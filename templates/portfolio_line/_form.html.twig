@@ -19,10 +19,16 @@
             </table>
         </div>
         <div class="column">
-            <button class="button is-primary">
-                <i class="fa fa-plus-square-o"></i> &nbsp;
-                {{ button_label|default('Ajouter') }}
-            </button>
+            <div class="buttons">
+                <button class="button is-primary">
+                    <i class="fa fa-plus-square-o"></i> &nbsp;
+                    {{ button_label|default('Ajouter cette ligne') }}
+                </button>
+                <a class="button is-warning" href="{{ path('fund_new') }}">
+                    <i class="fa fa-plus-square-o"></i> &nbsp;
+                    {{ button_label|default('Ajouter un fonds absent') }}
+                </a>
+            </div>
         </div>
     </div>
 {{ form_end(form) }}

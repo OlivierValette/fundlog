@@ -180,7 +180,7 @@ class PortfolioController extends BaseController
             $entityManager->persist($portfolio_new_line);
             $entityManager->flush();
         
-            return $this->redirectToRoute('portfolio_edit');
+            return $this->redirectToRoute('portfolio_edit', ['id' => $portfolio->getId()]);
         }
 
         return $this->render('portfolio/edit.html.twig', [

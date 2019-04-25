@@ -47,4 +47,10 @@ $(document).ready(function() {
             });
         });
     });
+
+    // // Add line in table
+    // $("#addLineButton").click(function() {
+    //     $("#addLineContent").removeClass("is-hidden");
+    // });
+
 });

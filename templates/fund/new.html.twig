@@ -10,7 +10,16 @@
 
         {{ include('fund/_form.html.twig') }}
 
-        <a class="button is-warning is-centered" href="{{ path('fund_index') }}">Retour</a>
+        <div class="buttons">
+            <a class="button is-primary is-centered" href="{{ app.request.headers.get('referer') }}">
+                <i class="fa fa-backward"></i> &nbsp;
+                Retour
+            </a>
+            <a class="button is-warning is-centered" href="{{ path('fund_index') }}">
+                <i class="fa fa-list"></i> &nbsp;
+                Liste des fonds
+            </a>
+            </div>
     </section>
 
     <section class="data section">
