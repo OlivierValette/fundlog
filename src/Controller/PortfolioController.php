@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Portfolio;
 use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
+use App\Form\PortfolioLineType;
 use App\Form\PortfolioType;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
@@ -162,9 +163,30 @@ class PortfolioController extends BaseController
                 'portfolio' => $portfolio,
                 'ioHide' => false,
             ]);
+        
+        // Managing new line in portfolio for transaction
+        $portfolio_new_line = new PortfolioLine();
+        // Initialize new line
+        $portfolio_new_line->setQty(0.0);
+        $portfolio_new_line->setLvalue(0.0);
+        $portfolio_new_line->setPortfolio($portfolio);
+        $portfolio_new_line->setIoHide(false);
+        
+        $form = $this->createForm(PortfolioLineType::class, $portfolio_new_line);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($portfolio_new_line);
+            $entityManager->flush();
+        
+            return $this->redirectToRoute('portfolio_edit');
+        }
 
         return $this->render('portfolio/edit.html.twig', [
+            'form' => $form->createView(),
             'portfolio' => $portfolio,
+            'portfolio_line' => $portfolio_new_line,
             'portfolio_lines' => $portfolio_lines,
             'portfolio_io' => $transaction,
             'title' => 'fundlog: arbitrage sur' . $portfolio->getName(),

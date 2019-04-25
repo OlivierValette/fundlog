@@ -1,4 +1,29 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="columns is-vcentered">
+        <div class="column is-three-quarters">
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>ISIN</th>
+                        <th>Quantité souscrite</th>
+                        <th>Valeur souscrite</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ form_row(form.fund) }}</td>
+                        <td>{{ form_row(form.ioQty) }}</td>
+                        <td>{{ form_row(form.ioValue) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="column">
+            <button class="button is-primary">
+                <i class="fa fa-plus-square-o"></i> &nbsp;
+                {{ button_label|default('Ajouter') }}
+            </button>
+        </div>
+    </div>
 {{ form_end(form) }}
+

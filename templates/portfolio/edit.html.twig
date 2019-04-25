@@ -95,6 +95,10 @@
             </nav>
         </section>
 
+        <section class="update section">
+            {{ include('portfolio_line/_form.html.twig') }}
+        </section>
+
         <section class="data section">
             <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                 <thead>
@@ -104,10 +108,9 @@
                     <th>ISIN</th>
                     <th>Qté</th>
                     <th>Valeur liq.</th>
-                    <th>IoQty</th>
-                    <th>IoValue</th>
-                    <th>IoHide</th>
-                    <th>action</th>
+                    <th>Qté arbitrée</th>
+                    <th>Valeur arbitrée</th>
+                    <th>Supprimer</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -122,9 +125,6 @@
                         <td>{{ portfolio_line.ioValue }}</td>
                         <td>
                             {{ portfolio_line.ioHide ? 'Oui' : 'Non' }}
-                        </td>
-                        <td>
-
                         </td>
                     </tr>
                 {% else %}
