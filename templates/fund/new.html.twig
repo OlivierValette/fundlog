@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'form/bulma_layout.html.twig' %}
+
+{% block title %}fundlog: ajout de fonds{% endblock %}
+
+{% block body %}
+
+    <section class="form section">
+        <h1 class="title is-3">Ajout de fonds</h1>
+
+        {{ include('fund/_form.html.twig') }}
+
+        <a class="button is-warning is-centered" href="{{ path('fund_index') }}">Retour</a>
+    </section>
+
+    <section class="data section">
+        <p class="title is-3">Liste des fonds courants</p>
+
+        <div class="field">
+            <div class="control">
+                <input type="text" class="input is-primary" id="fundBaseSearch" placeholder="Rechercher...">
+            </div>
+        </div>
+
+        <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+            <thead>
+            <tr>
+                <th>ISIN</th>
+                <th>Nom</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for fund in fund_base %}
+                <tr>
+                    <td>{{ fund.isin }}</td>
+                    <td>{{ fund.name }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">Aucun fonds disponible</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+
+{% endblock %}

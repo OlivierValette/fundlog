@@ -1,0 +1,23 @@
+{{ form_start(form) }}
+    <div class="columns is-vcentered">
+        <div class="column is-three-quarters">
+            <table class="table is-fullwidth">
+                <tbody>
+                    <tr>
+                        <td>{{ form_row(form.isin) }}</td>
+                        <td>{{ form_row(form.name) }}</td>
+                        <td>{{ form_row(form.assetClass) }}</td>
+                        <td>{{ form_row(form.category) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="column">
+            <button class="button is-primary">
+                <i class="fa fa-plus-square-o"></i> &nbsp;
+                {{ button_label|default('Ajouter') }}
+            </button>
+        </div>
+    </div>
+{{ form_end(form) }}
+

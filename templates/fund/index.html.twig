@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+        <section class="data section">
+            <p class="title is-3">Liste des fonds suivis</p>
+
+            <section class="action section">
+                <nav class="level">
+                    <!-- Left side -->
+                    <div class="level-left">
+                        <p class="level-item">
+                            <div class="field">
+                                <div class="control">
+                                    <input type="text" class="input is-primary" id="fundBaseSearch" placeholder="Rechercher...">
+                                </div>
+                            </div>
+                        </p>
+                    </div>
+                    <!-- Right side -->
+                    <div class="level-right">
+                        <p class="level-item">
+                            <a class="button is-success" href="{{ path('fund_new') }}">
+                                <i class="fa fa-plus-square"></i> &nbsp;
+                                Ajouter un fond
+                            </a>
+                        </p>
+                    </div>
+                </nav>
+            </section>
+
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>ISIN</th>
+                    <th>Nom</th>
+                    <th>Val. Liq.</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for fund in funds %}
+                    <tr>
+                        <td>{{ fund.id }}</td>
+                        <td>{{ fund.isin }}</td>
+                        <td>{{ fund.name }}</td>
+                        <td>{{ fund.lastLvalue }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">Aucun fonds enregistré</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    {% else %}
+        <p>Accès interdit</p>
+    {% endif %}
+
+{% endblock %}
