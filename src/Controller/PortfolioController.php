@@ -173,21 +173,25 @@ class PortfolioController extends BaseController
         $portfolio_new_line->setPortfolio($portfolio);
         $portfolio_new_line->setIoHide(false);
         
-        $form = $this->createForm(PortfolioLineType::class, $portfolio_new_line);
-        $form->handleRequest($request);
+        $formAdd = $this->createForm(PortfolioLineType::class, $portfolio_new_line);
+        $formAdd->handleRequest($request);
     
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($formAdd->isSubmitted() && $formAdd->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($portfolio_new_line);
             $entityManager->flush();
         
             return $this->redirectToRoute('portfolio_edit', ['id' => $portfolio->getId()]);
         }
-
+    
+        $form = $this->createForm(PortfolioLineType::class, $portfolio_new_line);
+        $form->handleRequest($request);
+    
         return $this->render('portfolio/edit.html.twig', [
             'form' => $form->createView(),
+            'formAdd' => $formAdd->createView(),
             'portfolio' => $portfolio,
-            'portfolio_line' => $portfolio_new_line,
+            'portfolio_new_line' => $portfolio_new_line,
             'portfolio_lines' => $portfolio_lines,
             'portfolio_io' => $transaction,
             'title' => 'fundlog: arbitrage sur' . $portfolio->getName(),

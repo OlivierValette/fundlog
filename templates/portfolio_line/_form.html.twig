@@ -1,4 +1,4 @@
-{{ form_start(form) }}
+{{ form_start(formAdd) }}
     <div class="columns is-vcentered">
         <div class="column is-three-quarters">
             <table class="table is-fullwidth">
@@ -11,9 +11,9 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ form_row(form.fund) }}</td>
-                        <td>{{ form_row(form.ioQty) }}</td>
-                        <td>{{ form_row(form.ioValue) }}</td>
+                        <td>{{ form_row(formAdd.fund) }}</td>
+                        <td>{{ form_row(formAdd.ioQty) }}</td>
+                        <td>{{ form_row(formAdd.ioValue) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -31,5 +31,5 @@
             </div>
         </div>
     </div>
-{{ form_end(form) }}
+{{ form_end(formAdd) }}
 
