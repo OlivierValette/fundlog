@@ -4,13 +4,14 @@ namespace App\Controller;
 
 use App\Entity\PortfolioIo;
 use App\Form\PortfolioIoType;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/portfolio/io")
+ * @Route("/portfolioio")
  */
 class PortfolioIoController extends AbstractController
 {
@@ -28,39 +29,97 @@ class PortfolioIoController extends AbstractController
         ]);
     }
 
+//    /**
+//     * @Route("/new", name="portfolio_io_new", methods={"GET","POST"})
+//     */
+//    public function new(Request $request): Response
+//    {
+//        $portfolioIo = new PortfolioIo();
+//        $form = $this->createForm(PortfolioIoType::class, $portfolioIo);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($portfolioIo);
+//            $entityManager->flush();
+//
+//            return $this->redirectToRoute('portfolio_io_index');
+//        }
+//
+//        return $this->render('portfolio_io/new.html.twig', [
+//            'portfolio_io' => $portfolioIo,
+//            'form' => $form->createView(),
+//        ]);
+//    }
+//
+//    /**
+//     * @Route("/{id}", name="portfolio_io_show", methods={"GET"})
+//     */
+//    public function show(PortfolioIo $portfolioIo): Response
+//    {
+//        return $this->render('portfolio_io/show.html.twig', [
+//            'portfolio_io' => $portfolioIo,
+//        ]);
+//    }
+    
     /**
-     * @Route("/new", name="portfolio_io_new", methods={"GET","POST"})
+     * @Route("/{id}/validate", name="portfolio_io_validate", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function validate(Request $request, PortfolioIo $portfolioIo): Response
     {
-        $portfolioIo = new PortfolioIo();
-        $form = $this->createForm(PortfolioIoType::class, $portfolioIo);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($portfolioIo);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('portfolio_io_index');
+    
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    
+        // Get user to check it is the owner of portfolio
+        $user = $this->getUser();
+        if ($user != $portfolioIo->getPortfolio()->getUser()) {
+            return $this->redirectToRoute('portfolio_index');
         }
 
-        return $this->render('portfolio_io/new.html.twig', [
-            'portfolio_io' => $portfolioIo,
-            'form' => $form->createView(),
+        // Set validation date
+        $portfolioIo->setValidDate(new DateTime());
+        // Save to database
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($portfolioIo);
+        $entityManager->flush();
+    
+        // Back to portfolio edit page
+        return $this->redirectToRoute('portfolio_edit', [
+            'id' => $portfolioIo->getPortfolio()->getId()
         ]);
     }
-
+    
     /**
-     * @Route("/{id}", name="portfolio_io_show", methods={"GET"})
+     * @Route("/{id}/send", name="portfolio_io_send", methods={"GET","POST"})
      */
-    public function show(PortfolioIo $portfolioIo): Response
+    public function send(Request $request, PortfolioIo $portfolioIo): Response
     {
-        return $this->render('portfolio_io/show.html.twig', [
-            'portfolio_io' => $portfolioIo,
+        
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
+        // Get user to check it is the owner of portfolio
+        $user = $this->getUser();
+        if ($user != $portfolioIo->getPortfolio()->getUser()) {
+            return $this->redirectToRoute('portfolio_index');
+        }
+        
+        //TODO: send mail to middleman!
+        
+        // Set validation date
+        $portfolioIo->setSendDate(new DateTime());
+        // Save to database
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($portfolioIo);
+        $entityManager->flush();
+        
+        // Back to portfolio edit page
+        return $this->redirectToRoute('portfolio_edit', [
+            'id' => $portfolioIo->getPortfolio()->getId()
         ]);
     }
-
+    
     /**
      * @Route("/{id}/edit", name="portfolio_io_edit", methods={"GET","POST"})
      */

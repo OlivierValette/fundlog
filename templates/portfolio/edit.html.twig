@@ -52,7 +52,7 @@
                         {# Transaction not validated #}
                         <p class="level-item">
                             {# TODO: change link to update dates#}
-                            <a class="button is-info" href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">
+                            <a class="button is-info" href="{{ path('portfolio_io_validate', {'id': portfolio_io.id}) }}">
                                 <i class="fa fa-check"></i> &nbsp;
                                 Valider
                             </a>
@@ -61,7 +61,7 @@
                         {# Transaction not send #}
                         <p class="level-item">
                             {# TODO: change link to send mail#}
-                            <a class="button is-warning" href="{{ path('portfolio_show', {'id': portfolio.id}) }}">
+                            <a class="button is-warning" href="{{ path('portfolio_io_send', {'id': portfolio_io.id}) }}">
                                 <i class="fa fa-envelope"></i> &nbsp;
                                 Envoyer
                             </a>

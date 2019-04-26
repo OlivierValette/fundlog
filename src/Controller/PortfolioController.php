@@ -208,13 +208,13 @@ class PortfolioController extends BaseController
         if ($user != $portfolio->getUser()) {
             return $this->redirectToRoute('portfolio_index');
         }
-    
+        
         // Update object dateEnd with current date-time
         $portfolio->setArchived(true);
-    
+        
         // database update
         $this->getDoctrine()->getManager()->flush();
-    
+        
         return $this->redirectToRoute('portfolio_index');
     }
     
