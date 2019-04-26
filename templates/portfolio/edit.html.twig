@@ -99,10 +99,6 @@
             </nav>
         </section>
 
-        <section class="update section" id="addLineContent">
-            {{ include('portfolio_line/_form.html.twig') }}
-        </section>
-
         <section class="data section">
 
             <table class="table is-bordered is-striped is-hoverable is-fullwidth">
@@ -113,7 +109,7 @@
                     <th>ISIN</th>
                     <th>Qté</th>
                     <th>Valeur liq.</th>
-                    <th>Qté à arbitrer</th>
+                    <th>Valeur totale</th>
                     <th>Valeur à arbitrer</th>
                     <th>Actions</th>
                 </tr>
@@ -125,21 +121,22 @@
                         <td>{{ portfolio_line.fund.name }}</td>
                         <td>{{ portfolio_line.fund.isin }}</td>
                         <td>{{ portfolio_line.qty }}</td>
-                        <td>{{ portfolio_line.lvalue }}</td>
-                        <td>{{ portfolio_line.ioQty }}</td>
-                        <td>{{ portfolio_line.ioValue }}</td>
+                        <td>{{ portfolio_line.lvalue }} €</td>
+                        <td>{{ portfolio_line.qty * portfolio_line.lvalue }} €</td>
+                        <td>{{ portfolio_line.ioValue }} €</td>
                         <td>
                             <div class="buttons">
                                 <a class="button is-primary modal-trigger" href="#modalform"
                                    data-action="edit"
-                                   data-target="path('portfolio_line_edit', {{ portfolio_line.id }})">
+                                   data-reference="{{ portfolio_line.id }} - ({{ portfolio_line.fund.isin }})"
+                                   data-target="{{ path('portfolio_line_edit', {'id': portfolio_line.id }) }}">
                                     <i class="fa fa-pencil-square-o"></i>
                                 </a>
-                                <a class="button is-danger modal-trigger" href="#modalform"
-                                   data-action="delete"
-                                   data-target="path('portfolio_line_edit', {{ portfolio_line.id }})">
-                                    <i class="fa fa-trash-o"></i>
-                                </a>
+                                {% if portfolio_line.qty == 0.0 %}
+                                    {{ include('portfolio_line/_delete_form.html.twig') }}
+                                {% else %}
+                                    {{ include('portfolio_line/_hide_form.html.twig') }}
+                                {% endif %}
                             </div>
                         </td>
                     </tr>
@@ -155,16 +152,24 @@
                 <div class="modal-background"></div>
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Arbitrer</p>
+                        <p class="modal-card-title"></p>
                         <button class="delete" aria-label="close"></button>
                     </header>
                     <section class="modal-card-body">
                         Coucou
                     </section>
+                    <footer class="modal-card-foot">
+                        <button class="button is-warning">Annuler</button>
+                    </footer>
                 </div>
             </div>
 
         </section>
+
+        <section class="update section" id="addLineContent">
+            {{ include('portfolio_line/_form.html.twig') }}
+        </section>
+
 
     {% else %}
         <p>Accès interdit</p>

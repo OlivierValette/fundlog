@@ -82,18 +82,37 @@ class PortfolioLineController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
+    
     /**
      * @Route("/{id}", name="portfolio_line_delete", methods={"DELETE"})
      */
     public function delete(Request $request, PortfolioLine $portfolioLine): Response
     {
         if ($this->isCsrfTokenValid('delete'.$portfolioLine->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($portfolioLine);
-            $entityManager->flush();
+            // controls if line is not empty
+            $line = $this->getDoctrine()
+                ->getRepository(PortfolioLine::class)
+                ->findOneBy([ 'id' => $portfolioLine ]);
+            if ($line->getQty() === 0.0) {
+                // line is empty
+                // delete line
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($portfolioLine);
+                $entityManager->flush();
+            } else {
+                // line is not empty
+                // suppress IO values and hide line in transaction
+                $portfolioLine->setIoQty(0.0);
+                $portfolioLine->setIoValue(0.0);
+                $portfolioLine->setIoHide(true);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($portfolioLine);
+                $entityManager->flush();
+            }
         }
-
-        return $this->redirectToRoute('portfolio_line_index');
+    
+        return $this->redirectToRoute('portfolio_edit', [
+            'id' => $portfolioLine->getPortfolio()->getId()
+        ]);
     }
 }

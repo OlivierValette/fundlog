@@ -48,30 +48,33 @@ $(document).ready(function() {
         });
     });
 
+
     // Modal for editing portfolio lines
 
     // Listening button with "modal-trigger" class
     $('.modal-trigger').click( () => {
 
-        // retrieve route in "data-route" property
-        const url = $(this).attr('data-target');
-        console.log(url);
-        const action = $(this).attr('data-action');
-        console.log(action);
-
-        // modal controls
-        $('.delete').click( () => $('.modal').removeClass('is-active'));
+        // retrieve target in "data-target" property
+        const modalTrigger = document.querySelector('.modal-trigger');
+        const url = modalTrigger.dataset.target;
+        // retrieve action in "data-action" property
+        const action = modalTrigger.dataset.action;
+        const modale = document.querySelector('.modal');
+        // retrieve reference in "data-reference" property
+        const reference = modalTrigger.dataset.reference;
+        // setting modal title
+        $('.modal-card-title').text('Arbitrer la ligne #' + reference);
 
         // ajax call of symfony controller retrieving template
         // TODO: separate actions
         $.get(url, (data) => {
-            // html injection in modal
-            $.when( $('.modal-card-body').html(data) ).done(
-                // modal activation
-                $('.modal').addClass('is-active')
-            );
-
+            // html injection in modal followed by modal activation
+            $.when( $('.modal-card-body').html(data) ).done( modale.classList.add('is-active'));
+            // modal controls
+            $('.delete').click( () => modale.classList.remove('is-active'));
+            $('.button').click( () => modale.classList.remove('is-active'));
         });
     });
+
 
 });

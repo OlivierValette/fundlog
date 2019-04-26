@@ -1,8 +1,9 @@
 <form method="post" action="{{ path('portfolio_line_delete', {'id': portfolio_line.id}) }}"
-      onsubmit="return confirm('Confirmez-vous la suppression de cette ligne ?');">
+      onsubmit="return confirm('Cacher définitivement cette ligne sur l\'arbitrage en cours ?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ portfolio_line.id) }}">
     <button class="button is-danger">
-        <i class="fa fa-trash"></i>
+        <i class="fa fa-eye-slash"></i> &nbsp;
+        Supprimer
     </button>
 </form>

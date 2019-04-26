@@ -4,15 +4,13 @@
             <table class="table is-fullwidth">
                 <thead>
                     <tr>
-                        <th>ISIN</th>
-                        <th>Quantité souscrite</th>
-                        <th>Valeur souscrite</th>
+                        <th>ISIN du fonds</th>
+                        <th>Valeur souscrite (€)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{{ form_row(formAdd.fund) }}</td>
-                        <td>{{ form_row(formAdd.ioQty) }}</td>
                         <td>{{ form_row(formAdd.ioValue) }}</td>
                     </tr>
                 </tbody>
@@ -26,7 +24,7 @@
                 </button>
                 <a class="button is-warning" href="{{ path('fund_new') }}">
                     <i class="fa fa-plus-square-o"></i> &nbsp;
-                    {{ button_label|default('Ajouter un fonds absent') }}
+                    {{ button_label|default('Ajouter un nouveau fonds') }}
                 </a>
             </div>
         </div>
