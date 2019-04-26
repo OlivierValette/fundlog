@@ -120,39 +120,40 @@ class PortfolioIoController extends AbstractController
         ]);
     }
     
-    /**
-     * @Route("/{id}/edit", name="portfolio_io_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, PortfolioIo $portfolioIo): Response
-    {
-        $form = $this->createForm(PortfolioIoType::class, $portfolioIo);
-        $form->handleRequest($request);
+//    /**
+//     * @Route("/{id}/edit", name="portfolio_io_edit", methods={"GET","POST"})
+//     */
+//    public function edit(Request $request, PortfolioIo $portfolioIo): Response
+//    {
+//        $form = $this->createForm(PortfolioIoType::class, $portfolioIo);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $this->getDoctrine()->getManager()->flush();
+//
+//            return $this->redirectToRoute('portfolio_io_index', [
+//                'id' => $portfolioIo->getId(),
+//            ]);
+//        }
+//
+//        return $this->render('portfolio_io/edit.html.twig', [
+//            'portfolio_io' => $portfolioIo,
+//            'form' => $form->createView(),
+//        ]);
+//    }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+//    /**
+//     * @Route("/{id}", name="portfolio_io_delete", methods={"DELETE"})
+//     */
+//    public function delete(Request $request, PortfolioIo $portfolioIo): Response
+//    {
+//        if ($this->isCsrfTokenValid('delete'.$portfolioIo->getId(), $request->request->get('_token'))) {
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->remove($portfolioIo);
+//            $entityManager->flush();
+//        }
+//
+//        return $this->redirectToRoute('portfolio_io_index');
+//    }
 
-            return $this->redirectToRoute('portfolio_io_index', [
-                'id' => $portfolioIo->getId(),
-            ]);
-        }
-
-        return $this->render('portfolio_io/edit.html.twig', [
-            'portfolio_io' => $portfolioIo,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="portfolio_io_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, PortfolioIo $portfolioIo): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$portfolioIo->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($portfolioIo);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('portfolio_io_index');
-    }
 }

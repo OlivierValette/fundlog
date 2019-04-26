@@ -120,10 +120,10 @@
                         <td>{{ portfolio_line.id }}</td>
                         <td>{{ portfolio_line.fund.name }}</td>
                         <td>{{ portfolio_line.fund.isin }}</td>
-                        <td>{{ portfolio_line.qty }}</td>
-                        <td>{{ portfolio_line.lvalue }} €</td>
-                        <td>{{ portfolio_line.qty * portfolio_line.lvalue }} €</td>
-                        <td>{{ portfolio_line.ioValue }} €</td>
+                        <td class="has-text-right">{{ portfolio_line.qty|number_format(4, ',', ' ') }}</td>
+                        <td class="has-text-right">{{ portfolio_line.lvalue|number_format(2, ',', ' ') }} €</td>
+                        <td class="has-text-right">{{ (portfolio_line.qty * portfolio_line.lvalue)|number_format(2, ',', ' ') }} €</td>
+                        <td class="has-text-right">{{ portfolio_line.ioValue|number_format(2, ',', ' ') }} €</td>
                         <td>
                             <div class="buttons">
                                 <a class="button is-primary modal-trigger" href="#modalform"
@@ -139,11 +139,22 @@
                             </div>
                         </td>
                     </tr>
+                    {# last line for total amount #}
                 {% else %}
                     <tr>
                         <td colspan="9">Aucune ligne sur ce portefeuille</td>
                     </tr>
                 {% endfor %}
+                    <tr class="is-selected">
+                        <td></td>
+                        <td>TOTAL INVESTISSEMENT/DESINVESTISSEMENT</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="has-text-right">{{ io_total_amount|number_format(2, ',', ' ') }} €</td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
 

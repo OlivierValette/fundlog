@@ -35,4 +35,18 @@ class PortfolioLineRepository extends ServiceEntityRepository
     
         return $qb->getQuery()->getResult();
     }
+    
+    public function ioTotalAmount($pf): float
+    {
+        // Create query
+        $qb = $this->createQueryBuilder('pfl');
+        $qb = $qb->select('SUM(pfl.ioValue) as ioTotalAmount')
+            ->andWhere($qb->expr()->eq('pfl.portfolio', ':pf'));
+        
+        // Give parameters values
+        $qb->setParameter(':pf', $pf);
+        
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+    
 }

@@ -144,6 +144,7 @@ class PortfolioController extends BaseController
                 'portfolio' => $portfolio,
                 'confirmDate' => NULL
             ]);
+        
         // Otherwise create new transaction
         if (!$transaction) {
             $transaction = new PortfolioIo();
@@ -157,6 +158,11 @@ class PortfolioController extends BaseController
             $entityManager->persist($transaction);
             $entityManager->flush();
         }
+        
+        // Calculate transaction total amount
+        $io_total_amount = $this->getDoctrine()
+            ->getRepository(PortfolioLine::class)
+            ->ioTotalAmount($portfolio);
         
         // Retrieve portfolio lines if not hidden
         $portfolio_lines = $this->getDoctrine()
@@ -191,6 +197,7 @@ class PortfolioController extends BaseController
             'portfolio_new_line' => $portfolio_new_line,
             'portfolio_lines' => $portfolio_lines,
             'portfolio_io' => $transaction,
+            'io_total_amount' => $io_total_amount,
             'title' => 'fundlog: arbitrage sur' . $portfolio->getName(),
         ]);
     }
