@@ -84,6 +84,27 @@ class PortfolioLineController extends AbstractController
     }
     
     /**
+     * @Route("/{id}/io_edit", name="portfolio_line_io_edit", methods={"GET","POST"})
+     */
+    public function io_edit(Request $request, PortfolioLine $portfolioLine): Response
+    {
+        $form = $this->createForm(PortfolioLineType::class, $portfolioLine);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            
+            return $this->redirectToRoute('portfolio_edit', [
+                'id' => $portfolioLine->getPortfolio()->getId()
+            ]);
+        }
+        
+        return $this->render('portfolio_line/io_edit.html.twig', [
+            'portfolio_line' => $portfolioLine,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
      * @Route("/{id}", name="portfolio_line_delete", methods={"DELETE"})
      */
     public function delete(Request $request, PortfolioLine $portfolioLine): Response

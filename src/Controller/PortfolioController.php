@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Portfolio;
 use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
+use App\Form\PortfolioLineAddIoType;
 use App\Form\PortfolioLineType;
 use App\Form\PortfolioType;
 use DateTime;
@@ -173,7 +174,7 @@ class PortfolioController extends BaseController
         $portfolio_new_line->setPortfolio($portfolio);
         $portfolio_new_line->setIoHide(false);
         
-        $formAdd = $this->createForm(PortfolioLineType::class, $portfolio_new_line);
+        $formAdd = $this->createForm(PortfolioLineAddIoType::class, $portfolio_new_line);
         $formAdd->handleRequest($request);
     
         if ($formAdd->isSubmitted() && $formAdd->isValid()) {
@@ -183,9 +184,6 @@ class PortfolioController extends BaseController
         
             return $this->redirectToRoute('portfolio_edit', ['id' => $portfolio->getId()]);
         }
-    
-        $form = $this->createForm(PortfolioLineType::class, $portfolio_new_line);
-        $form->handleRequest($request);
     
         return $this->render('portfolio/edit.html.twig', [
             'formAdd' => $formAdd->createView(),

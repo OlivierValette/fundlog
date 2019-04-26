@@ -52,18 +52,16 @@ $(document).ready(function() {
     // Modal for editing portfolio lines
 
     // Listening button with "modal-trigger" class
-    $('.modal-trigger').click( () => {
+    $('.modal-trigger').click( (e) => {
+        // retrieve ajax target url in "data-target" property
+        const url = e.currentTarget.dataset.target;
+        // retrieve transaction line
+        const line = e.currentTarget.dataset.line;
 
-        // retrieve target in "data-target" property
-        const modalTrigger = document.querySelector('.modal-trigger');
-        const url = modalTrigger.dataset.target;
-        // retrieve action in "data-action" property
-        const action = modalTrigger.dataset.action;
         const modale = document.querySelector('.modal');
-        // retrieve reference in "data-reference" property
-        const reference = modalTrigger.dataset.reference;
+
         // setting modal title
-        $('.modal-card-title').text('Arbitrer la ligne #' + reference);
+        $('.modal-card-title').text('Arbitrer la ligne #' + line);
 
         // ajax call of symfony controller retrieving template
         // TODO: separate actions

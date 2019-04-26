@@ -1,7 +1,15 @@
-{{ portfolio_line.id }}
-{{ form_start(form, {'action': path('portfolio_line_edit', { 'id': portfolio_line.id })}) }}
-    {{ form_widget(form) }}
-    <button class="button is-block is-primary">
-        {{ button_label|default('Enregistrer') }}
-    </button>
+{% form_theme form 'form/bulma_layout.html.twig' %}
+
+{{ form_start(form, {'action': path('portfolio_line_io_edit', { 'id': portfolio_line.id })}) }}
+
+<p>Valeur arbitrée actuelle : {{ portfolio_line.ioValue }}</p>
+
+<div class="control">
+    {{ form_row(form.ioValue) }}
+</div>
+
+<button class="button is-block is-primary">
+    {{ button_label|default('Enregistrer') }}
+</button>
+
 {{ form_end(form) }}
