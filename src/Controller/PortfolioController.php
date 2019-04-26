@@ -203,6 +203,46 @@ class PortfolioController extends BaseController
     }
     
     /**
+     * @Route("/{id}/confirm", name="portfolio_confirm", methods={"GET","POST"})
+     */
+    public function confirm(Request $request, Portfolio $portfolio): Response
+    {
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
+        // Get user to check it is the owner of portfolio to be confirmed
+        $user = $this->getUser();
+        if ($user != $portfolio->getUser()) {
+            return $this->redirectToRoute('portfolio_index');
+        }
+        
+        // Retrieving an active transaction on this portfolio
+        $transaction = $this->getDoctrine()
+            ->getRepository(PortfolioIo::class)
+            ->findOneBy([
+                'portfolio' => $portfolio,
+                'confirmDate' => NULL
+            ]);
+        
+        // If no transaction, no need to confirm!
+        if (!$transaction) {
+            return $this->redirectToRoute('portfolio_index');
+        }
+        
+        // Retrieve portfolio lines to be confirmed
+        $portfolio_lines = $this->getDoctrine()
+            ->getRepository(PortfolioLine::class)
+            ->findIoLines($portfolio);
+        
+        return $this->render('portfolio/confirm.html.twig', [
+            'portfolio' => $portfolio,
+            'portfolio_lines' => $portfolio_lines,
+            'portfolio_io' => $transaction,
+            'title' => 'fundlog: confirmation ' . $portfolio->getName(),
+        ]);
+    }
+    
+    /**
      * @Route("/{id}/archive", name="portfolio_archive", methods={"GET|POST"})
      */
     public function archive(Request $request, Portfolio $portfolio): Response

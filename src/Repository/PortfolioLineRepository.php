@@ -36,6 +36,24 @@ class PortfolioLineRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
     
+    public function findIoLines($pf): array
+    {
+        
+        // Create query
+        $qb = $this->createQueryBuilder('pfl');
+        $qb = $qb->select('pfl')
+            ->andWhere($qb->expr()->eq('pfl.portfolio', ':pf'))
+            ->andWhere($qb->expr()->neq('pfl.ioValue', ':val'))
+            ->orderBy('pfl.id', 'ASC');
+        
+        // Give parameters values
+        $qb->setParameter(':pf', $pf);
+        $qb->setParameter(':val', 0.0);
+        
+        return $qb->getQuery()->getResult();
+    }
+    
+    
     public function ioTotalAmount($pf): float
     {
         // Create query

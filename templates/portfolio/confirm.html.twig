@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-{% form_theme formAdd 'form/bulma_layout.html.twig' %}
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -21,19 +20,10 @@
                 </div>
                 <div class="tile is-parent is-4">
                     <div class="tile is-child box">
-                        <p class="title has-text-centered is-2 is-marginless">Arbitrage</p>
+                        <p class="title has-text-centered is-2 is-marginless">Confirmation d'arbitrage</p>
                         <article class="notification is-small ">
                             <button class="delete"></button>
-                            {% if not portfolio_io.validDate %}
-                                {# Transaction not validated #}
-                                Brouillon d'arbitrage en attente de validation et d'envoi
-                            {% elseif not portfolio_io.sendDate %}
-                                {# Transaction not send #}
-                                Arbitrage validé en attente d'envoi
-                            {% elseif not portfolio_io.confirmDate %}
-                                {# Transaction not confirmed #}
-                                Arbitrage envoyé en attente de confirmation
-                            {% endif %}
+                            Saisir la confirmation d'arbitrage reçue
                         </article>
                     </div>
                 </div>
@@ -73,25 +63,13 @@
                             Retour
                         </a>
                     </p>
-                    {% if not portfolio_io.validDate %}
-                        {# Transaction not validated #}
-                        <p class="level-item">
-                            {# TODO: change link to update dates#}
-                            <a class="button is-info" href="{{ path('portfolio_io_validate', {'id': portfolio_io.id}) }}">
-                                <i class="fa fa-check"></i> &nbsp;
-                                Valider
-                            </a>
-                        </p>
-                    {% elseif not portfolio_io.sendDate %}
-                        {# Transaction not send #}
-                        <p class="level-item">
-                            {# TODO: change link to send mail#}
-                            <a class="button is-warning" href="{{ path('portfolio_io_send', {'id': portfolio_io.id}) }}">
-                                <i class="fa fa-envelope"></i> &nbsp;
-                                Envoyer
-                            </a>
-                        </p>
-                    {% endif %}
+                    {# Transaction can still be edited -- if necessary !#}
+                    <p class="level-item">
+                        <a class="button is-info" href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">
+                            <i class="fa fa-pencil-square-o"></i> &nbsp;
+                            Modifier avant confirmation
+                        </a>
+                    </p>
                     {# Transaction can always be deleted -- if still pending !#}
                     <p class="level-item">
                         {# TODO: change link to delete Io not portfolio!#}
@@ -101,25 +79,13 @@
 
                 <!-- Right side -->
                 <div class="level-right">
-                    {# Transaction can always be modified -- if still pending !#}
-{#
+                    {# Confirmation link -- only if ransaction  send #}
                     <p class="level-item">
-                        <a class="button is-info" id="addLineButton"
-                           href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">
-                            <i class="fa fa-pencil-square-o"></i> &nbsp;
-                            Ajouter ligne
+                        <a class="button is-warning" href="{{ path('portfolio_confirm', {'id': portfolio.id}) }}">
+                            <i class="fa fa-calculator"></i> &nbsp;
+                            Confirmer arbitrage
                         </a>
                     </p>
-#}
-                    {% if portfolio_io.sendDate %}
-                        {# Confirmation link -- only if transaction sent #}
-                        <p class="level-item">
-                            <a class="button is-warning" href="{{ path('portfolio_confirm', {'id': portfolio.id}) }}">
-                                <i class="fa fa-calculator"></i> &nbsp;
-                                Confirmer arbitrage
-                            </a>
-                        </p>
-                    {% endif %}
                 </div>
             </nav>
         </section>
@@ -132,10 +98,11 @@
                         <th>Id</th>
                         <th>Fond</th>
                         <th>ISIN</th>
-                        <th>Qté</th>
-                        <th>Valeur liq.</th>
-                        <th>Valeur totale</th>
-                        <th>Valeur à arbitrer</th>
+                        <th>Valeur actuelle</th>
+                        <th>Arbitrage demandé</th>
+                        <th>Saisie Qté</th>
+                        <th>Saisie Valeur liq.</th>
+                        <th>Valeur réactualisée</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -145,10 +112,17 @@
                         <td>{{ portfolio_line.id }}</td>
                         <td>{{ portfolio_line.fund.name }}</td>
                         <td>{{ portfolio_line.fund.isin }}</td>
-                        <td class="has-text-right">{{ portfolio_line.qty|number_format(4, ',', ' ') }}</td>
-                        <td class="has-text-right">{{ portfolio_line.lvalue|number_format(2, ',', ' ') }} €</td>
                         <td class="has-text-right">{{ (portfolio_line.qty * portfolio_line.lvalue)|number_format(2, ',', ' ') }} €</td>
                         <td class="has-text-right">{{ portfolio_line.ioValue|number_format(2, ',', ' ') }} €</td>
+                        <td class="has-text-right">
+                            <input type="text">
+                        </td>
+                        <td class="has-text-right">
+                            
+                        </td>
+                        <td class="has-text-right">
+                            
+                        </td>
                         <td>
                             <div class="buttons">
                                 <a class="button is-primary modal-trigger" href="#modalform"
@@ -164,22 +138,22 @@
                             </div>
                         </td>
                     </tr>
+                    {# last line for total amount #}
                 {% else %}
                     <tr>
-                        <td colspan="9">Aucune ligne sur cet arbitrage</td>
+                        <td colspan="9">Aucune ligne à confirmer sur cet arbitrage</td>
                     </tr>
                 {% endfor %}
-                    {# last line for total amount #}
-                    <tr class="is-selected">
-                        <td></td>
-                        <td>TOTAL INVESTISSEMENT/DESINVESTISSEMENT</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="has-text-right">{{ io_total_amount|number_format(2, ',', ' ') }} €</td>
-                        <td></td>
-                    </tr>
+{#                    <tr class="is-selected">#}
+{#                        <td></td>#}
+{#                        <td>TOTAL INVESTISSEMENT/DESINVESTISSEMENT</td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                        <td></td>#}
+{#                        <td class="has-text-right">{{ io_total_amount|number_format(2, ',', ' ') }} €</td>#}
+{#                        <td></td>#}
+{#                    </tr>#}
                 </tbody>
             </table>
 
@@ -199,11 +173,6 @@
             </div>
 
         </section>
-
-        <section class="update section" id="addLineContent">
-            {{ include('portfolio_line/_form.html.twig') }}
-        </section>
-
 
     {% else %}
         <p>Accès interdit</p>
