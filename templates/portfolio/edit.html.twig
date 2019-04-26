@@ -39,13 +39,25 @@
                 </div>
                 <div class="tile is-parent">
                     <div class="tile is-child box">
-                        <p>Demande d'arbitrage <strong>#{{ portfolio_io.id }}</strong></p>
-                        <p>Créé le :
-                            {{ portfolio_io.creationDate|date('d/m/Y (H:i)') }}</p>
-                        <p>Validé le :
-                            {{ (portfolio_io.validDate ? portfolio_io.validDate|date('d/m/Y (H:i)') : waiting)|raw }}</p>
-                        <p>Envoyé le :
-                            {{ (portfolio_io.sendDate ? portfolio_io.sendDate|date('d/m/Y (H:i)') : waiting)|raw }}</p>
+                        <p><strong>Demande d'arbitrage #{{ portfolio_io.id }}</strong></p>
+                        <div class="tags has-addons is-marginless">
+                            <span class="tag">Création</span>
+                            <span class="tag is-info">
+                                {{ portfolio_io.creationDate|date('d/m/Y (H:i)') }}
+                            </span>
+                        </div>
+                        <div class="tags has-addons is-marginless">
+                            <span class="tag">Validation</span>
+                            <span class="tag is-info">
+                                {{ (portfolio_io.validDate ? portfolio_io.validDate|date('d/m/Y (H:i)') : waiting)|raw }}
+                            </span>
+                        </div>
+                        <div class="tags has-addons is-marginless">
+                            <span class="tag">Envoi</span>
+                            <span class="tag is-info">
+                                {{ (portfolio_io.sendDate ? portfolio_io.sendDate|date('d/m/Y (H:i)') : waiting)|raw }}
+                            </span>
+                            </div>
                     </div>
                 </div>
             </div>
