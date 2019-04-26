@@ -64,6 +64,7 @@ $footer-background-color: $beige-lighter;
 $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
+$notification-padding: 0.4rem 2.5rem 0.25rem 1.5rem;
 
 // Typography
 $family-sans-serif: 'Open Sans Condensed', sans-serif;
@@ -154,4 +155,9 @@ $fa-font-path: "~font-awesome/fonts";
     margin: 1em 1em 1.5em;
     display: block
   }
+}
+
+// notifications
+.notification {
+  margin: 1rem 0;
 }

@@ -22,6 +22,19 @@
                 <div class="tile is-parent is-4">
                     <div class="tile is-child box">
                         <p class="title has-text-centered is-2 is-marginless">Arbitrage</p>
+                        <article class="notification is-warning is-small ">
+                            <button class="delete"></button>
+                            {% if not portfolio_io.validDate %}
+                                {# Transaction not validated #}
+                                Brouillon d'arbitrage en attente de validation et d'envoi
+                            {% elseif not portfolio_io.sendDate %}
+                                {# Transaction not send #}
+                                Arbitrage validé en attente d'envoi
+                            {% elseif not portfolio_io.confirmDate %}
+                                {# Transaction not confirmed #}
+                                Arbitrage envoyé en attente de confirmation
+                            {% endif %}
+                        </article>
                     </div>
                 </div>
                 <div class="tile is-parent">
