@@ -121,7 +121,7 @@ class PortfolioLineController extends AbstractController
             $portfolioLine->setIoConfirm(true);
             // save to db
             $this->getDoctrine()->getManager()->flush();
-            // Then go back to portfolio list
+            // Then go back to confirmation page
             return $this->redirectToRoute('portfolio_confirm', [
                 'id' => $portfolioLine->getPortfolio()->getId()
             ]);

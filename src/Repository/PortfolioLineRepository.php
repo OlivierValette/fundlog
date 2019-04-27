@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Portfolio;
 use App\Entity\PortfolioLine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -24,7 +25,7 @@ class PortfolioLineRepository extends ServiceEntityRepository
      * @param $pf       Portfolio object
      * @return array
      */
-    public function findActiveLines($pf): array
+    public function findActiveLines(Portfolio $pf): array
     {
     
         // Create query
@@ -47,7 +48,7 @@ class PortfolioLineRepository extends ServiceEntityRepository
      * @param $pf       Portfolio object
      * @return array
      */
-    public function findIoLines($pf): array
+    public function findIoLines(Portfolio $pf): array
     {
         
         // Create query
@@ -75,7 +76,7 @@ class PortfolioLineRepository extends ServiceEntityRepository
      * @return float
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function ioTotalAmount($pf): float
+    public function ioTotalAmount(Portfolio $pf): float
     {
         // Create query
         $qb = $this->createQueryBuilder('pfl');

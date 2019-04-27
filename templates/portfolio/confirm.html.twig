@@ -139,16 +139,6 @@
                         <td colspan="9">Aucune ligne à confirmer sur cet arbitrage</td>
                     </tr>
                 {% endfor %}
-{#                    <tr class="is-selected">#}
-{#                        <td></td>#}
-{#                        <td>TOTAL INVESTISSEMENT/DESINVESTISSEMENT</td>#}
-{#                        <td></td>#}
-{#                        <td></td>#}
-{#                        <td></td>#}
-{#                        <td></td>#}
-{#                        <td class="has-text-right">{{ io_total_amount|number_format(2, ',', ' ') }} €</td>#}
-{#                        <td></td>#}
-{#                    </tr>#}
                 </tbody>
             </table>
 
@@ -167,6 +157,10 @@
                 </div>
             </div>
 
+        </section>
+
+        <section class="update section" id="addNetAmount">
+            {{ include('portfolio_io/_form.html.twig') }}
         </section>
 
     {% else %}

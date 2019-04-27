@@ -1,4 +1,20 @@
+{% form_theme form 'form/bulma_layout.html.twig' %}
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="columns is-vcentered">
+    <div class="column is-4 is-offset-7">
+        <div class="field">
+            <label class="label">Montant de l'investissement / désinvestissement</label>
+            <div class="control">
+                {{ form_row(form.netAmount) }}
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <button class="button is-primary">
+            <i class="fa fa-check"></i> &nbsp;
+            {{ button_label|default('Valider') }}
+        </button>
+    </div>
+</div>
 {{ form_end(form) }}

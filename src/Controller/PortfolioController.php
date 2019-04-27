@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Portfolio;
 use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
+use App\Form\PortfolioIoType;
 use App\Form\PortfolioLineAddIoType;
 use App\Form\PortfolioLineType;
 use App\Form\PortfolioType;
@@ -233,8 +234,21 @@ class PortfolioController extends BaseController
         $portfolio_lines = $this->getDoctrine()
             ->getRepository(PortfolioLine::class)
             ->findIoLines($portfolio);
+    
+        // Prepare form fo net_amount (PortfolioIo) input
+        $form = $this->createForm(PortfolioIoType::class, $transaction);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($portfolio);
+            $entityManager->flush();
         
+            return $this->redirectToRoute('portfolio_confirm', ['id' => $portfolio->getId()]);
+        }
+    
         return $this->render('portfolio/confirm.html.twig', [
+            'form' => $form->createView(),
             'portfolio' => $portfolio,
             'portfolio_lines' => $portfolio_lines,
             'portfolio_io' => $transaction,
