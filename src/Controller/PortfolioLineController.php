@@ -117,10 +117,8 @@ class PortfolioLineController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            // Reset io values in PortfolioLine once real values updated, ready for next transaction
-            $portfolioLine->setIoQty(0.0);
-            $portfolioLine->setIoValue(0.0);
-            $portfolioLine->setIoHide(false);
+            // Set ioConfirm to true once real values updated until transaction fully confirmed
+            $portfolioLine->setIoConfirm(true);
             // save to db
             $this->getDoctrine()->getManager()->flush();
             // Then go back to portfolio list
