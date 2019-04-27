@@ -1,0 +1,19 @@
+{{ form_start(form, {'action': path('portfolio_line_io_confirm', { 'id': portfolio_line.id })}) }}
+
+<p>{{ portfolio_line.fund.isin }} - {{ portfolio_line.fund.name }}</p>
+<p>Valeur de la demande d'arbitrage : {{ portfolio_line.ioValue }} €</p>
+
+<div class="control">
+    {{ form_widget(form.qty, { 'attr': {'class': 'input is-medium'} }) }}
+</div>
+<div class="control">
+    {{ form_widget(form.lvalue, { 'attr': {'class': 'input is-medium'} }) }}
+</div>
+
+<div class="control">
+    <button class="button is-block is-primary">
+        {{ button_label|default('Enregistrer') }}
+    </button>
+</div>
+
+{{ form_end(form) }}

@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
+use App\Form\PortfolioLineConfirmType;
 use App\Form\PortfolioLineType;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -104,6 +107,34 @@ class PortfolioLineController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    
+    /**
+     * @Route("/{id}/io_confirm", name="portfolio_line_io_confirm", methods={"GET","POST"})
+     */
+    public function io_confirm(Request $request, PortfolioLine $portfolioLine): Response
+    {
+        $form = $this->createForm(PortfolioLineConfirmType::class, $portfolioLine);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Reset io values in PortfolioLine once real values updated, ready for next transaction
+            $portfolioLine->setIoQty(0.0);
+            $portfolioLine->setIoValue(0.0);
+            $portfolioLine->setIoHide(false);
+            // save to db
+            $this->getDoctrine()->getManager()->flush();
+            // Then go back to portfolio list
+            return $this->redirectToRoute('portfolio_confirm', [
+                'id' => $portfolioLine->getPortfolio()->getId()
+            ]);
+        }
+        
+        return $this->render('portfolio_line/io_confirm.html.twig', [
+            'portfolio_line' => $portfolioLine,
+            'form' => $form->createView(),
+        ]);
+    }
+    
     /**
      * @Route("/{id}", name="portfolio_line_delete", methods={"DELETE"})
      */

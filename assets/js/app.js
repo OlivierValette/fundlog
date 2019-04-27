@@ -49,7 +49,7 @@ $(document).ready(function() {
     });
 
 
-    // Modal for editing portfolio lines
+    // Modal for portfolio lines editing
 
     // Listening button with "modal-trigger" class
     $('.modal-trigger').click( (e) => {
@@ -74,7 +74,34 @@ $(document).ready(function() {
         });
     });
 
+    // Modal for portfolio lines confirmation
+
+    // Listening button with "modal-trigger" class
+    $('.modal-trigger-confirm').click( (e) => {
+        // retrieve ajax target url in "data-target" property
+        const url = e.currentTarget.dataset.target;
+        // retrieve transaction line
+        const line = e.currentTarget.dataset.line;
+
+        const modale = document.querySelector('.modal');
+
+        // setting modal title
+        $('.modal-card-title').text('Saisie de confirmation de la ligne #' + line);
+
+        // ajax call of symfony controller retrieving template
+        // TODO: separate actions
+        $.get(url, (data) => {
+            // html injection in modal followed by modal activation
+            $.when( $('.modal-card-body').html(data) ).done( modale.classList.add('is-active'));
+            // modal controls
+            $('.delete').click( () => modale.classList.remove('is-active'));
+            $('.button').click( () => modale.classList.remove('is-active'));
+        });
+    });
+
+
     // Transaction notification
+
     (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
         let $notification = $delete.parentNode;
         $delete.addEventListener('click', () => {
