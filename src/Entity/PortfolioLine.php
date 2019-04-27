@@ -55,7 +55,14 @@ class PortfolioLine
      * @ORM\Column(name="io_hide", type="boolean", nullable=true)
      */
     private $ioHide = '0';
-
+    
+    /**
+     * @var bool|null
+     *
+     * @ORM\Column(name="io_confirm", type="boolean", nullable=true)
+     */
+    private $ioConfirm = '0';
+    
     /**
      * @var \Fund
      *
@@ -138,6 +145,18 @@ class PortfolioLine
     {
         $this->ioHide = $ioHide;
 
+        return $this;
+    }
+    
+    public function getIoConfirm(): ?bool
+    {
+        return $this->ioConfirm;
+    }
+    
+    public function setIoConfirm(?bool $IoConfirm): self
+    {
+        $this->ioConfirm = $IoConfirm;
+        
         return $this;
     }
 
