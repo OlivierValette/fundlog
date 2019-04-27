@@ -234,13 +234,9 @@ class PortfolioController extends BaseController
             ->getRepository(PortfolioLine::class)
             ->findIoLines($portfolio);
         
-        // Save values before new values input
-        $portfolio_lines_save = $portfolio_lines;
-        
         return $this->render('portfolio/confirm.html.twig', [
             'portfolio' => $portfolio,
             'portfolio_lines' => $portfolio_lines,
-            'portfolio_lines_save' => $portfolio_lines_save,
             'portfolio_io' => $transaction,
             'title' => 'fundlog: confirmation ' . $portfolio->getName(),
         ]);

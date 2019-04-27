@@ -98,11 +98,9 @@
                         <th>Id</th>
                         <th>Fond</th>
                         <th>ISIN</th>
-                        <th>Qté actuelle</th>
-                        <th>Valeur actuelle</th>
                         <th>Arbitrage demandé</th>
-                        <th>Saisie Qté</th>
-                        <th>Saisie Valeur liq.</th>
+                        <th>Qté</th>
+                        <th>Valeur liq.</th>
                         <th>Valeur réactualisée</th>
                         <th>Actions</th>
                     </tr>
@@ -113,12 +111,18 @@
                         <td>{{ portfolio_line.id }}</td>
                         <td>{{ portfolio_line.fund.name }}</td>
                         <td>{{ portfolio_line.fund.isin }}</td>
-                        <td class="has-text-right">{{ portfolio_lines_save[key].qty|number_format(4, ',', ' ') }} €</td>
-                        <td class="has-text-right">{{ (portfolio_lines_save[key].qty * portfolio_lines_save[key].lvalue)|number_format(2, ',', ' ') }} €</td>
-                        <td class="has-text-right">{{ portfolio_line.ioValue|number_format(2, ',', ' ') }} €</td>
-                        <td class="has-text-right">{{ portfolio_line.qty|number_format(4, ',', ' ') }} €
-                        <td class="has-text-right">{{ portfolio_line.lvalue|number_format(2, ',', ' ') }} €
-                        <td class="has-text-right">{{ (portfolio_line.qty * portfolio_line.lvalue)|number_format(2, ',', ' ') }} €
+                        <td class="has-text-right">
+                            {{ portfolio_line.ioValue|number_format(2, ',', ' ') }} €
+                        </td>
+                        <td class="has-text-right">
+                            {{ portfolio_line.qty|number_format(4, ',', ' ') }}
+                        </td>
+                        <td class="has-text-right">
+                            {{ portfolio_line.lvalue|number_format(2, ',', ' ') }} €
+                        </td>
+                        <td class="has-text-right">
+                            {{ (portfolio_line.qty * portfolio_line.lvalue)|number_format(2, ',', ' ') }} €
+                        </td>
                         <td>
                             <div class="buttons">
                                 <a class="button is-primary modal-trigger-confirm" href="#modalform-confirm"
