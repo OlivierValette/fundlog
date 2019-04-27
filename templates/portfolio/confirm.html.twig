@@ -23,7 +23,11 @@
                         <p class="title has-text-centered is-2 is-marginless">Confirmation d'arbitrage</p>
                         <article class="notification is-small ">
                             <button class="delete"></button>
-                            Saisir la confirmation d'arbitrage reçue
+                                {% if status %}
+                                    Confirmer définitivement l'arbitrage
+                                {% else %}
+                                    Saisir la confirmation d'arbitrage reçue
+                                {% endif %}
                         </article>
                     </div>
                 </div>
@@ -79,13 +83,15 @@
 
                 <!-- Right side -->
                 <div class="level-right">
-                    {# Confirmation link -- only if ransaction  send #}
+                    {# Confirmation link -- only if transaction fully confirmed #}
+                    {% if  status %}
                     <p class="level-item">
-                        <a class="button is-warning" href="{{ path('portfolio_confirm', {'id': portfolio.id}) }}">
+                        <a class="button is-dark" href="{{ path('portfolio_reset', {'id': portfolio.id}) }}">
                             <i class="fa fa-calculator"></i> &nbsp;
                             Confirmer arbitrage
                         </a>
                     </p>
+                    {% endif %}
                 </div>
             </nav>
         </section>

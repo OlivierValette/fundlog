@@ -7,7 +7,6 @@ use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
 use App\Form\PortfolioIoType;
 use App\Form\PortfolioLineAddIoType;
-use App\Form\PortfolioLineType;
 use App\Form\PortfolioType;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
@@ -153,7 +152,7 @@ class PortfolioController extends BaseController
             // Initialize with current date-time
             $transaction->setCreationDate(new DateTime());
             // Set default values
-            $transaction->setNetAmount(0);
+            $transaction->setNetAmount(null);
             // Save to database
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($transaction);
@@ -234,6 +233,18 @@ class PortfolioController extends BaseController
         $portfolio_lines = $this->getDoctrine()
             ->getRepository(PortfolioLine::class)
             ->findIoLines($portfolio);
+        
+        // Controls confirmation progression
+        $status = false;
+        $total_number_lines = sizeof($portfolio_lines);
+        $confirmed_lines = 0;
+        foreach ($portfolio_lines as $portfolio_line) {
+            if ($portfolio_line->getIoConfirm()) {
+                ++$confirmed_lines;
+            }
+        }
+        if ($confirmed_lines == $total_number_lines && $transaction->getNetAmount() != null) $status = true;
+        
     
         // Prepare form fo net_amount (PortfolioIo) input
         $form = $this->createForm(PortfolioIoType::class, $transaction);
@@ -252,8 +263,54 @@ class PortfolioController extends BaseController
             'portfolio' => $portfolio,
             'portfolio_lines' => $portfolio_lines,
             'portfolio_io' => $transaction,
+            'status' => $status,
             'title' => 'fundlog: confirmation ' . $portfolio->getName(),
         ]);
+    }
+    
+    /**
+     * @Route("/{id}/reset", name="portfolio_reset", methods={"GET","POST"})
+     */
+    public function io_reset(Request $request, Portfolio $portfolio): Response
+    {
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    
+        // Get user to check it is the owner of portfolio to be confirmed
+        $user = $this->getUser();
+        if ($user != $portfolio->getUser()) {
+            return $this->redirectToRoute('portfolio_index');
+        }
+    
+        // Retrieving an active transaction on this portfolio
+        $transaction = $this->getDoctrine()
+            ->getRepository(PortfolioIo::class)
+            ->findOneBy([
+                'portfolio' => $portfolio,
+                'confirmDate' => NULL
+            ]);
+    
+        // If no transaction, no need to confirm!
+        if (!$transaction) {
+            return $this->redirectToRoute('portfolio_index');
+        }
+        
+        
+    
+        // Retrieve portfolio lines to be confirmed
+        $portfolio_lines = $this->getDoctrine()
+            ->getRepository(PortfolioLine::class)
+            ->findIoLines($portfolio);
+    
+    
+        // Set ioConfirm to true once real values updated until transaction fully confirmed
+        $portfolioLine->setIoConfirm(true);
+        // save to db
+        $this->getDoctrine()->getManager()->flush();
+        
+        
+        // Then go back to portfolios page
+        return $this->redirectToRoute('portfolio_index');
     }
     
     /**
