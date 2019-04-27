@@ -3,9 +3,11 @@
 <p>{{ portfolio_line.fund.isin }} - {{ portfolio_line.fund.name }}</p>
 <p>Valeur arbitrée actuelle : {{ portfolio_line.ioValue }} €</p>
 
-<div class="control">
-    {{ form_widget(form.ioValue, { 'attr': {'class': 'input is-medium'} }) }}
-{#    {{ form_row(form.ioValue) }}#}
+<div class="field">
+    <label class="label">{{ form_label(form.ioValue) }}</label>
+    <div class="control">
+        {{ form_widget(form.ioValue, { 'attr': {'class': 'input is-medium'} }) }}
+    </div>
 </div>
 
 <div class="control">
