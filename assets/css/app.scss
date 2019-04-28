@@ -16,6 +16,12 @@ $beige-lighter: #EFF0EB;
 $reddish: #960000;
 $gween: #259169;
 
+// 2019 Pantone palette
+$p2019: #ff6f61;
+$amberglow: #D2B798;
+$rayellow: #F29D37;
+$papaya: #F59F6A;
+
 // Colors
 $black:        hsl(0, 0%, 4%) !default
 $black-bis:    hsl(0, 0%, 7%) !default
@@ -44,7 +50,7 @@ $link: $tan;
 $info: $hope;
 $success: $gween;
 $warning: $tan;
-$danger: $reddish;
+$danger: $p2019;
 $light: $beige-light;
 $dark: $dark-green;
 $grey-dark: $terra;

@@ -294,17 +294,20 @@ class PortfolioController extends BaseController
         if (!$transaction) {
             return $this->redirectToRoute('portfolio_index');
         }
+        // Set confirmDate and save to db
+        $transaction->setConfirmDate(new DateTime());
+        $this->getDoctrine()->getManager()->flush();
         
-        
-    
         // Retrieve portfolio lines to be confirmed
         $portfolio_lines = $this->getDoctrine()
             ->getRepository(PortfolioLine::class)
             ->findIoLines($portfolio);
     
-    
         // Set ioConfirm to true once real values updated until transaction fully confirmed
-        $portfolioLine->setIoConfirm(true);
+        foreach ($portfolio_lines as $portfolio_line) {
+            $portfolio_line->setIoValue(null);
+            $portfolio_line->setIoConfirm(false);
+        }
         // save to db
         $this->getDoctrine()->getManager()->flush();
         
@@ -329,7 +332,6 @@ class PortfolioController extends BaseController
         
         // Update object dateEnd with current date-time
         $portfolio->setArchived(true);
-        
         // database update
         $this->getDoctrine()->getManager()->flush();
         
@@ -344,7 +346,6 @@ class PortfolioController extends BaseController
         // Checking to see if the user is logged in
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         
-        //TODO: archive portfolio before deleting or desactivate
         if ($this->isCsrfTokenValid('delete'.$portfolio->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($portfolio);
