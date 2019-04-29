@@ -31,9 +31,16 @@ class Source
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string", length=255, nullable=false)
+     * @ORM\Column(name="search_url", type="string", length=255, nullable=false)
      */
-    private $url;
+    private $search_url;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fund_url", type="string", length=255, nullable=false)
+     */
+    private $fund_url;
     
     public function getId(): ?int
     {
@@ -52,14 +59,26 @@ class Source
         return $this;
     }
 
-    public function getUrl(): ?string
+    public function getSearchUrl(): ?string
     {
-        return $this->url;
+        return $this->search_url;
     }
 
-    public function setUrl(string $url): self
+    public function setSearchUrl(string $search_url): self
     {
-        $this->url = $url;
+        $this->search_url = $search_url;
+
+        return $this;
+    }
+
+    public function getFundUrl(): ?string
+    {
+        return $this->fund_url;
+    }
+
+    public function setFundUrl(string $fund_url): self
+    {
+        $this->fund_url = $fund_url;
 
         return $this;
     }
