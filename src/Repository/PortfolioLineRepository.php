@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Portfolio;
 use App\Entity\PortfolioLine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -74,7 +75,7 @@ class PortfolioLineRepository extends ServiceEntityRepository
     /** ioTotalAmount : compute the total amount of a transaction
      * @param $pf       Portfolio object
      * @return float
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function ioTotalAmount(Portfolio $pf): float
     {
@@ -85,8 +86,9 @@ class PortfolioLineRepository extends ServiceEntityRepository
         
         // Give parameters values
         $qb->setParameter(':pf', $pf);
+        $result = $qb->getQuery()->getSingleScalarResult();
         
-        return $qb->getQuery()->getSingleScalarResult();
+        return $result ? $result : 0.0 ;
     }
     
 }

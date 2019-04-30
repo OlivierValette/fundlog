@@ -152,7 +152,7 @@ class PortfolioController extends BaseController
             // Initialize with current date-time
             $transaction->setCreationDate(new DateTime());
             // Set default values
-            $transaction->setNetAmount(null);
+            $transaction->setNetAmount(0.0);
             // Save to database
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($transaction);

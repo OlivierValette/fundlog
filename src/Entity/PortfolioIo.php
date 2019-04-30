@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,35 +30,35 @@ class PortfolioIo
     private $netAmount;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="creation_date", type="datetime", nullable=true)
      */
     private $creationDate;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="update_date", type="datetime", nullable=true)
      */
     private $updateDate;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="valid_date", type="datetime", nullable=true)
      */
     private $validDate;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="send_date", type="datetime", nullable=true)
      */
     private $sendDate;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="confirm_date", type="datetime", nullable=true)
      */
