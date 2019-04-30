@@ -113,27 +113,6 @@ class FinInfo
     private $perfAm3;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="category", type="string", length=255, nullable=true)
-     */
-    private $category;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="category_code", type="string", length=16, nullable=true)
-     */
-    private $categoryCode;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="asset", type="string", length=255, nullable=true)
-     */
-    private $asset;
-
-    /**
      * @var \Fund
      *
      * @ORM\ManyToOne(targetEntity="Fund")
@@ -314,42 +293,6 @@ class FinInfo
         return $this;
     }
 
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?string $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    public function getCategoryCode(): ?string
-    {
-        return $this->categoryCode;
-    }
-
-    public function setCategoryCode(?string $categoryCode): self
-    {
-        $this->categoryCode = $categoryCode;
-
-        return $this;
-    }
-
-    public function getAsset(): ?string
-    {
-        return $this->asset;
-    }
-
-    public function setAsset(?string $asset): self
-    {
-        $this->asset = $asset;
-
-        return $this;
-    }
-
     public function getFund(): ?Fund
     {
         return $this->fund;
@@ -373,6 +316,5 @@ class FinInfo
 
         return $this;
     }
-
 
 }

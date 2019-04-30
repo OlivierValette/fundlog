@@ -1,4 +1,2 @@
 1	morningstar	http://www.morningstar.fr/fr/funds/SecuritySearchResults.aspx?search=	http://www.morningstar.fr/fr/funds/snapshot/snapshot.aspx?id=
-2	quantalys	"http://www.quantalys.com/search/listefonds.aspx?autobind=1&autoredirect=1&ISINorNom=
-"	"http://www.quantalys.com/Fonds/
-"
+2	quantalys	http://www.quantalys.com/search/listefonds.aspx?autobind=1&autoredirect=1&ISINorNom=	http://www.quantalys.com/Fonds/
