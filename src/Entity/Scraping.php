@@ -31,9 +31,9 @@ class Scraping
     /**
      * @var string|null
      *
-     * @ORM\Column(name="tag", type="string", length=255, nullable=true)
+     * @ORM\Column(name="tag0", type="string", length=255, nullable=true)
      */
-    private $tag;
+    private $tag0;
 
     /**
      * @var string|null
@@ -52,9 +52,9 @@ class Scraping
     /**
      * @var string|null
      *
-     * @ORM\Column(name="class", type="string", length=255, nullable=true)
+     * @ORM\Column(name="class0", type="string", length=255, nullable=true)
      */
-    private $class;
+    private $class0;
 
     /**
      * @var string|null
@@ -73,9 +73,9 @@ class Scraping
     /**
      * @var int|null
      *
-     * @ORM\Column(name="index", type="integer", nullable=true)
+     * @ORM\Column(name="index0", type="integer", nullable=true)
      */
-    private $index;
+    private $index0;
 
     /**
      * @var int|null
@@ -94,9 +94,9 @@ class Scraping
     /**
      * @var string|null
      *
-     * @ORM\Column(name="attr", type="string", length=255, nullable=true)
+     * @ORM\Column(name="attr0", type="string", length=255, nullable=true)
      */
-    private $attr;
+    private $attr0;
 
     /**
      * @var string|null
@@ -122,9 +122,9 @@ class Scraping
     /**
      * @var string|null
      *
-     * @ORM\Column(name="else", type="string", length=255, nullable=true)
+     * @ORM\Column(name="moreover", type="string", length=255, nullable=true)
      */
-    private $else;
+    private $moreover;
 
     /**
      * @var \Source
@@ -153,14 +153,14 @@ class Scraping
         return $this;
     }
 
-    public function getTag(): ?string
+    public function getTag0(): ?string
     {
-        return $this->tag;
+        return $this->tag0;
     }
 
-    public function setTag(?string $tag): self
+    public function setTag0(?string $tag0): self
     {
-        $this->tag = $tag;
+        $this->tag0 = $tag0;
 
         return $this;
     }
@@ -189,14 +189,14 @@ class Scraping
         return $this;
     }
 
-    public function getClass(): ?string
+    public function getClass0(): ?string
     {
-        return $this->class;
+        return $this->class0;
     }
 
-    public function setClass(?string $class): self
+    public function setClass0(?string $class0): self
     {
-        $this->class = $class;
+        $this->class0 = $class0;
 
         return $this;
     }
@@ -225,14 +225,14 @@ class Scraping
         return $this;
     }
 
-    public function getIndex(): ?int
+    public function getIndex0(): ?int
     {
-        return $this->index;
+        return $this->index0;
     }
 
-    public function setIndex(?int $index): self
+    public function setIndex0(?int $index0): self
     {
-        $this->index = $index;
+        $this->index0 = $index0;
 
         return $this;
     }
@@ -261,14 +261,14 @@ class Scraping
         return $this;
     }
 
-    public function getAttr(): ?string
+    public function getAttr0(): ?string
     {
-        return $this->attr;
+        return $this->attr0;
     }
 
-    public function setAttr(?string $attr): self
+    public function setAttr0(?string $attr0): self
     {
-        $this->attr = $attr;
+        $this->attr0 = $attr0;
 
         return $this;
     }
@@ -309,14 +309,14 @@ class Scraping
         return $this;
     }
 
-    public function getElse(): ?string
+    public function getMoreover(): ?string
     {
-        return $this->else;
+        return $this->moreover;
     }
 
-    public function setElse(?string $else): self
+    public function setMoreover(?string $moreover): self
     {
-        $this->else = $else;
+        $this->moreover = $moreover;
 
         return $this;
     }
@@ -332,6 +332,10 @@ class Scraping
 
         return $this;
     }
-
-
+    
+    public function __toString()
+    {
+        return $this->getSource()->getName() + $this->getItem();
+    }
+    
 }
