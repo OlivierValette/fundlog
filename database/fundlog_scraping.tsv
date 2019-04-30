@@ -1,0 +1,24 @@
+1	1	name	h1									1	div	snapshotTitleBox		
+2	1	rating					1					0	span	rating_sprite	class	
+3	1	lvdate	td		titleBarNote							1	table	overviewPerformanceTable		
+4	1	perf_a	td		col7							1	table	overviewCalenderYearReturnsTable		
+5	1	perf_am1	td		col6							1	table	overviewCalenderYearReturnsTable		
+6	1	perf_am2	td		col5							1	table	overviewCalenderYearReturnsTable		
+7	1	perf_am3	td		col4							1	table	overviewCalenderYearReturnsTable		
+8	1	benchmark	td	span	footer	value		1				1	table	overviewCalenderYearReturnsTable		
+9	1	lvalue	td		line text							1	table	overviewKeyStatsTable		value[value.find(u'\xa0')+1:]
+10	1	currency	td		line text							1	table	overviewKeyStatsTable		value[:value.find(u'\xa0')-1]
+11	1	isin	td		line text			2				1	table	overviewKeyStatsTable		
+12	2	name	h1	strong								1	div	panel-heading		
+13	2	isin	h1	small								1	div	panel-heading		
+14	2	rating	div		spritefonds			1		class		0	div	panel-heading		
+15	2	lvalue	span		vl-box-value							1	div	panel-body		value.strip()[:value.strip().find('E')-2]
+16	2	lvdate	span		vl-box-date							1	div	panel-body		.strip()
+17	2	currency	span		vl-box-value							1	div	panel-body		value.strip()[:value.strip().find('E'):]
+18	2	benchmark	dd					5				1	dl	dl-fichier-identite		
+19	2	date_ytd	td	strong			0	0				1	table			updated.strip()[updated.strip().find(' ')+1:]
+20	2	perf_a	td				0	10				1	table			
+21	2	perf_am1	td				0	29				1	table			
+22	2	perf_am2	td				0	32				1	table			
+23	2	perf_am3	td				0	35				1	table			
+24	1	date_ytd	td		titleBarNote							1	table	overviewPerformanceTable		
