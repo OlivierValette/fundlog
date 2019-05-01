@@ -6,17 +6,17 @@
 6	1	perf_am2	td		col5							1	table	overviewCalenderYearReturnsTable		
 7	1	perf_am3	td		col4							1	table	overviewCalenderYearReturnsTable		
 8	1	benchmark	td	span	footer	value		1				1	table	overviewCalenderYearReturnsTable		
-9	1	lvalue	td		line text							1	table	overviewKeyStatsTable		value[value.find(u'\xa0')+1:]
-10	1	currency	td		line text							1	table	overviewKeyStatsTable		value[:value.find(u'\xa0')-1]
+9	1	lvalue	td		line text							1	table	overviewKeyStatsTable		x[x.find(u'\xa0')+1:]
+10	1	currency	td		line text							1	table	overviewKeyStatsTable		x[:x.find(u'\xa0')-1]
 11	1	isin	td		line text			2				1	table	overviewKeyStatsTable		
 12	2	name	h1	strong								1	div	panel-heading		
 13	2	isin	h1	small								1	div	panel-heading		
 14	2	rating	div		spritefonds			1		class		0	div	panel-heading		
-15	2	lvalue	span		vl-box-value							1	div	panel-body		value.strip()[:value.strip().find('E')-2]
-16	2	lvdate	span		vl-box-date							1	div	panel-body		.strip()
-17	2	currency	span		vl-box-value							1	div	panel-body		value.strip()[:value.strip().find('E'):]
+15	2	lvalue	span		vl-box-value							1	div	panel-body		x.strip()[:x.strip().find('E')-2]
+16	2	lvdate	span		vl-box-date							1	div	panel-body		x.strip()
+17	2	currency	span		vl-box-value							1	div	panel-body		x.strip()[:x.strip().find('E'):]
 18	2	benchmark	dd					5				1	dl	dl-fichier-identite		
-19	2	date_ytd	td	strong			0	0				1	table			updated.strip()[updated.strip().find(' ')+1:]
+19	2	date_ytd	td	strong			0	0				1	table			x.strip()[x.strip().find(' ')+1:]
 20	2	perf_a	td				0	10				1	table			
 21	2	perf_am1	td				0	29				1	table			
 22	2	perf_am2	td				0	32				1	table			
