@@ -317,6 +317,54 @@ class PortfolioController extends BaseController
     }
     
     /**
+     * @Route("/{id}/export/portfolio.csv", name="portfolio_export")
+     */
+    public function exportCsv(Portfolio $portfolio)
+    {
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
+        // Get user to check it is the owner of portfolio to be shown
+        $user = $this->getUser();
+        if ($user != $portfolio->getUser()) {
+            return $this->redirectToRoute('portfolio_index');
+        }
+        
+        // List of active lines on this portfolio
+        $portfolio_lines = $this->getDoctrine()
+            ->getRepository(PortfolioLine::class)
+            ->findActiveLines($portfolio);
+        
+        $rows = [];
+        $data = [
+            'PORTEFEUILLE',
+            'LIGNE',
+            'ISIN',
+            'LIBELLE DU FONDS',
+            'QUANTITE',
+            'DERNIERE VALEUR LIQUIDATIVE',
+        ];
+        $rows[] = implode(';', $data);
+        foreach ($portfolio_lines as $portfolio_line) {
+            $data = [
+                $portfolio_line->getPortfolio()->getName(),
+                $portfolio_line->getId(),
+                $portfolio_line->getfund()->getIsin(),
+                $portfolio_line->getfund()->getName(),
+                number_format($portfolio_line->getQty(),4, ',', ''),
+                number_format($portfolio_line->getlvalue(),2, ',', ''),
+            ];
+            $rows[] = implode(';', $data);
+        }
+        $content = implode("\n", $rows);
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'text/csv');
+        
+        return $response;
+        
+    }
+    
+    /**
      * @Route("/{id}/archive", name="portfolio_archive", methods={"GET|POST"})
      */
     public function archive(Request $request, Portfolio $portfolio): Response
