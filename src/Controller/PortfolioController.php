@@ -361,7 +361,6 @@ class PortfolioController extends BaseController
         $response->headers->set('Content-Type', 'text/csv');
         
         return $response;
-        
     }
     
     /**

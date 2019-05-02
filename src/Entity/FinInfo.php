@@ -71,13 +71,6 @@ class FinInfo
     private $lvalue;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="currency", type="string", length=3, nullable=true)
-     */
-    private $currency;
-
-    /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="date_ytd", type="datetime", nullable=true)
@@ -111,6 +104,16 @@ class FinInfo
      * @ORM\Column(name="perf_am3", type="float", precision=10, scale=0, nullable=true)
      */
     private $perfAm3;
+    
+    /**
+     * @var \Currency
+     *
+     * @ORM\ManyToOne(targetEntity="Currency")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
+     * })
+     */
+    private $currency;
 
     /**
      * @var \Fund
@@ -221,18 +224,6 @@ class FinInfo
         return $this;
     }
 
-    public function getCurrency(): ?string
-    {
-        return $this->currency;
-    }
-
-    public function setCurrency(?string $currency): self
-    {
-        $this->currency = $currency;
-
-        return $this;
-    }
-
     public function getDateYtd(): ?\DateTimeInterface
     {
         return $this->dateYtd;
@@ -290,6 +281,18 @@ class FinInfo
     {
         $this->perfAm3 = $perfAm3;
 
+        return $this;
+    }
+    
+    public function getCurrency(): ?Currency
+    {
+        return $this->currency;
+    }
+    
+    public function setCurrency(?Currency $currency): self
+    {
+        $this->currency = $currency;
+        
         return $this;
     }
 
