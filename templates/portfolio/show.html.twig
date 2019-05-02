@@ -92,9 +92,7 @@
                         <th>ISIN</th>
                         <th>Qté</th>
                         <th>Valeur liq.</th>
-                        <th>IoValue</th>
-                        <th>IoQty</th>
-                        <th>IoHide</th>
+                        <th>Valeur totale</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,17 +101,24 @@
                             <td>{{ portfolio_line.id }}</td>
                             <td>{{ portfolio_line.fund.name }}</td>
                             <td>{{ portfolio_line.fund.isin }}</td>
-                            <td>{{ portfolio_line.qty }}</td>
-                            <td>{{ portfolio_line.lvalue }}</td>
-                            <td>{{ portfolio_line.ioQty }}</td>
-                            <td>{{ portfolio_line.ioValue }}</td>
-                            <td>{{ portfolio_line.ioHide ? 'Oui' : 'Non' }}</td>
+                            <td class="has-text-right">{{ portfolio_line.qty|number_format(4, ',', ' ') }}</td>
+                            <td class="has-text-right">{{ portfolio_line.lvalue|number_format(2, ',', ' ') }} €</td>
+                            <td class="has-text-right">{{ (portfolio_line.qty * portfolio_line.lvalue)|number_format(2, ',', ' ') }} €</td>
                         </tr>
                     {% else %}
                         <tr>
                             <td colspan="9">Aucune ligne sur ce portefeuille</td>
                         </tr>
                     {% endfor %}
+                    {# last line for total amount #}
+                    <tr class="is-selected">
+                        <td></td>
+                        <td>TOTAL</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="has-text-right">{{ portfolio.lastTotalAmount|number_format(2, ',', ' ') }} €</td>
+                    </tr>
                 </tbody>
             </table>
         </section>
