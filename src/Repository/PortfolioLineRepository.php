@@ -71,6 +71,24 @@ class PortfolioLineRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
     
+    /** totalAmount : compute the total amount of a portfolio
+     * @param $pf       Portfolio object
+     * @return float
+     * @throws NonUniqueResultException
+     */
+    public function totalAmount(Portfolio $pf): float
+    {
+        // Create query
+        $qb = $this->createQueryBuilder('pfl');
+        $qb = $qb->select('SUM(pfl.qty*pfl.lvalue) as totalAmount')
+            ->andWhere($qb->expr()->eq('pfl.portfolio', ':pf'));
+        
+        // Give parameters values
+        $qb->setParameter(':pf', $pf);
+        $result = $qb->getQuery()->getSingleScalarResult();
+        
+        return $result ? $result : 0.0 ;
+    }
     
     /** ioTotalAmount : compute the total amount of a transaction
      * @param $pf       Portfolio object
@@ -81,7 +99,7 @@ class PortfolioLineRepository extends ServiceEntityRepository
     {
         // Create query
         $qb = $this->createQueryBuilder('pfl');
-        $qb = $qb->select('SUM(pfl.ioValue) as ioTotalAmount')
+        $qb = $qb->select('SUM(pfl.ioQty*pfl.ioValue) as ioTotalAmount')
             ->andWhere($qb->expr()->eq('pfl.portfolio', ':pf'));
         
         // Give parameters values

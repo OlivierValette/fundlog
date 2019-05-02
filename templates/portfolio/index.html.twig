@@ -53,7 +53,7 @@
                     <th>Nom</th>
                     <th>Numéro</th>
                     <th>Céé le</th>
-                    <th>Etablissement</th>
+                    <th>Établissement</th>
                     <th>Assur.</th>
                     <th>Valeur</th>
                     <th>Actions</th>
@@ -67,7 +67,7 @@
                         <td>{{ portfolio.createDate ? portfolio.createDate|date('d/m/Y (H:i)') : '' }}</td>
                         <td>{{ portfolio.middleman }}</td>
                         <td>{{ portfolio.lifeinsurance }}</td>
-                        <td>{{ portfolio.lastTotalAmount }}</td>
+                        <td class="has-text-right">{{ portfolio.lastTotalAmount|number_format(2, ',', ' ') }} €</td>
                         <td>
                             <a href="{{ path('portfolio_show', {'id': portfolio.id}) }}">
                                 <i class="fa fa-search"></i> &nbsp;

@@ -305,10 +305,19 @@ class PortfolioController extends BaseController
     
         // Set ioConfirm to true once real values updated until transaction fully confirmed
         foreach ($portfolio_lines as $portfolio_line) {
+            $portfolio_line->setIoQty(null);
             $portfolio_line->setIoValue(null);
+            $portfolio_line->setIoHide(null);
             $portfolio_line->setIoConfirm(false);
         }
         // save to db
+        $this->getDoctrine()->getManager()->flush();
+        
+        // Compute and update new total amount of portfolio
+        $totalAmount = $this->getDoctrine()
+            ->getRepository(PortfolioLine::class)
+            ->totalAmount($portfolio);
+        $portfolio->setLastTotalAmount($totalAmount);
         $this->getDoctrine()->getManager()->flush();
         
         
