@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\FinInfo;
 use App\Entity\Portfolio;
 use App\Entity\PortfolioLine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -89,7 +90,7 @@ class PortfolioLineRepository extends ServiceEntityRepository
         
         return $result ? $result : 0.0 ;
     }
-    
+
     /** ioTotalAmount : compute the total amount of a transaction
      * @param $pf       Portfolio object
      * @return float

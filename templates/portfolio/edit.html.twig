@@ -94,23 +94,15 @@
                     {% endif %}
                     {# Transaction can always be deleted -- if still pending !#}
                     <p class="level-item">
-                        {# TODO: change link to delete Io not portfolio!#}
-                        {{ include('portfolio/_delete_form.html.twig') }}
+                        <a class="button is-danger" href="{{ path('portfolio_reset', {'id': portfolio.id}) }}">
+                            <i class="fa fa-trash"></i> &nbsp;
+                            Supprimer
+                        </a>
                     </p>
                 </div>
 
                 <!-- Right side -->
                 <div class="level-right">
-                    {# Transaction can always be modified -- if still pending !#}
-{#
-                    <p class="level-item">
-                        <a class="button is-info" id="addLineButton"
-                           href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">
-                            <i class="fa fa-pencil-square-o"></i> &nbsp;
-                            Ajouter ligne
-                        </a>
-                    </p>
-#}
                     {% if portfolio_io.sendDate %}
                         {# Confirmation link -- only if transaction sent #}
                         <p class="level-item">

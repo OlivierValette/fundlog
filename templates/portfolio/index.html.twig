@@ -11,7 +11,19 @@
                     <div class="tile is-child box">
                         <p class="title is-3  is-marginless is-spaced">Vue globale</p>
                         <p class="subtitle is-5 is-marginless">{{ app.user.fullname }}</p>
-                        <p>Ici le montant total des portefeuilles</p>
+                        <table class="table is-bordered is-fullwidth">
+                            <tbody>
+                                <tr>
+                                    <td class="has-text-right">
+                                        <i class="fa fa-arrow-up fa-2x"></i> &nbsp;
+                                        %
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="is-size-4 is-bold has-text-right">{{ totalAmount|number_format(2, ',', ' ') }} €</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="tile is-parent is-6">

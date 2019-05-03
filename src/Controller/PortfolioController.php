@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\FinInfo;
 use App\Entity\Portfolio;
 use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
+use App\Entity\Source;
 use App\Form\PortfolioIoType;
 use App\Form\PortfolioLineAddIoType;
 use App\Form\PortfolioType;
@@ -34,9 +36,15 @@ class PortfolioController extends BaseController
                 'user' => $user,
                 'archived' => false,
             ]);
+        
+        $totalAmount = 0.;
+        foreach ($portfolios as $portfolio) {
+            $totalAmount += $portfolio->getLastTotalAmount();
+        }
 
         return $this->render('portfolio/index.html.twig', [
             'portfolios' => $portfolios,
+            'totalAmount' => $totalAmount,
             'title' => 'fundlog: Portfolios',
         ]);
     }
@@ -114,11 +122,27 @@ class PortfolioController extends BaseController
                 'portfolio' => $portfolio,
                 'confirmDate' => NULL
             ]);
+    
+        // links to financial infos
+        $links = [];
+        foreach ($portfolio_lines as $portfolio_line) {
+            $fin_infos = $this->getDoctrine()
+                ->getRepository(FinInfo::class)
+                ->findBy([ 'fund' => $portfolio_line->getFund() ]);
+            $links [$portfolio_line->getId()] = [];
+            foreach ($fin_infos as $fin_info) {
+                array_push($links [$portfolio_line->getId()], [
+                    'source' => $fin_info->getSource()->getName(),
+                    'url' => $fin_info->getSource()->getFundUrl() . $fin_info->getCode(),
+                    ]);
+            }
+        }
         
         return $this->render('portfolio/show.html.twig', [
             'portfolio' => $portfolio,
             'portfolio_lines' => $portfolio_lines,
             'portfolio_io' => $transaction,
+            'links' => $links,
             'title' => 'fundlog: ' . $portfolio->getName(),
         ]);
     }
@@ -269,9 +293,9 @@ class PortfolioController extends BaseController
     }
     
     /**
-     * @Route("/{id}/reset", name="portfolio_reset", methods={"GET","POST"})
+     * @Route("/{id}/confirmed", name="portfolio_confirmed", methods={"GET","POST"})
      */
-    public function io_reset(Request $request, Portfolio $portfolio): Response
+    public function io_confirmed(Request $request, Portfolio $portfolio): Response
     {
         // Checking to see if the user is logged in
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -297,21 +321,23 @@ class PortfolioController extends BaseController
         // Set confirmDate and save to db
         $transaction->setConfirmDate(new DateTime());
         $this->getDoctrine()->getManager()->flush();
-        
+    
         // Retrieve portfolio lines to be confirmed
         $portfolio_lines = $this->getDoctrine()
             ->getRepository(PortfolioLine::class)
             ->findIoLines($portfolio);
-    
-        // Set ioConfirm to true once real values updated until transaction fully confirmed
+        
+        // reset io related columns
         foreach ($portfolio_lines as $portfolio_line) {
             $portfolio_line->setIoQty(null);
             $portfolio_line->setIoValue(null);
             $portfolio_line->setIoHide(null);
+            // reset ioConfirm to false because transaction is fully confirmed
             $portfolio_line->setIoConfirm(false);
         }
         // save to db
         $this->getDoctrine()->getManager()->flush();
+    
         
         // Compute and update new total amount of portfolio
         $totalAmount = $this->getDoctrine()
@@ -323,6 +349,66 @@ class PortfolioController extends BaseController
         
         // Then go back to portfolios page
         return $this->redirectToRoute('portfolio_index');
+    }
+    
+    /**
+     * @Route("/{id}/reset", name="portfolio_reset", methods={"GET","POST"})
+     */
+    public function io_reset(Request $request, Portfolio $portfolio): Response
+    {
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
+        // Get user to check it is the owner of portfolio to be confirmed
+        $user = $this->getUser();
+        if ($user != $portfolio->getUser()) {
+            return $this->redirectToRoute('portfolio_index');
+        }
+        
+        // Retrieving an active transaction on this portfolio
+        $transaction = $this->getDoctrine()
+            ->getRepository(PortfolioIo::class)
+            ->findOneBy([
+                'portfolio' => $portfolio,
+                'confirmDate' => NULL
+            ]);
+        
+        // If no transaction, no need to confirm!
+        if (!$transaction) {
+            return $this->redirectToRoute('portfolio_index');
+        }
+        
+        // delete transaction
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($transaction);
+        $entityManager->flush();
+        
+        // Retrieve portfolio lines to be confirmed
+        $portfolio_lines = $this->getDoctrine()
+            ->getRepository(PortfolioLine::class)
+            ->findIoLines($portfolio);
+        
+        // suppress new portfolio lines with qty = 0.0
+        foreach ($portfolio_lines as $portfolio_line) {
+            $entityManager = $this->getDoctrine()->getManager();
+            if ($portfolio_line->getQty === 0.0) {
+                // remove line from database
+                $entityManager->remove($portfolio_line);
+            }
+            else {
+                // reset io related columns in others
+                $portfolio_line->setIoQty(null);
+                $portfolio_line->setIoValue(null);
+                $portfolio_line->setIoHide(null);
+                // reset ioConfirm to false because transaction is fully confirmed
+                $portfolio_line->setIoConfirm(false);
+                // save to db
+            }
+            $entityManager->flush();
+        }
+        
+        // Then go back the portfolio page
+        return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
     }
     
     /**

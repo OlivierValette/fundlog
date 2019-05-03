@@ -10,8 +10,26 @@
                     <div class="tile is-child box">
                         <p class="title is-3 is-marginless is-spaced">{{ portfolio.name }}</p>
                         <p class="subtitle is-5 is-marginless">{{ portfolio.account }}</p>
-                        <p>{{ portfolio.lastTotalAmount }}</p>
-                        <p>{{ portfolio.lastPerf }}</p>
+                        <table class="table is-bordered is-fullwidth">
+                            <tbody>
+                            <tr>
+                                <td class="is-size-5 is-bold has-text-centered">
+                                    {% if portfolio.lastPerf > 0 %}
+                                        <i class="fa fa-arrow-up fa-2x"></i>
+                                    {% elseif portfolio.lastPerf < 0 %}
+                                        <i class="fa fa-arrow-down fa-2x"></i>
+                                    {% else %}
+                                        <i class="fa fa-arrow-right fa-2x"></i>
+                                    {% endif %}
+                                    &nbsp;
+                                    {{ portfolio.lastPerf }}%
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="is-size-4 is-bold has-text-right">{{ portfolio.lastTotalAmount|number_format(2, ',', ' ') }} €</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="tile is-parent is-6">
@@ -38,14 +56,13 @@
                         </a>
                     </p>
                     <p class="level-item">
-{#                        TODO: change link to export#}
-                        <a class="button is-warning" href="{{ path('portfolio_export', {'id': portfolio.id}) }}">
+                        <a class="button is-info" href="{{ path('portfolio_export', {'id': portfolio.id}) }}">
                             <i class="fa fa-download"></i> &nbsp;
                             Exporter
                         </a>
                     </p>
                     <p class="level-item">
-                        <a class="button is-danger" href="{{ path('portfolio_archive', {'id': portfolio.id}) }}">
+                        <a class="button is-dark" href="{{ path('portfolio_archive', {'id': portfolio.id}) }}">
                             <i class="fa fa-archive"></i> &nbsp;
                             Archiver
                         </a>
@@ -73,7 +90,7 @@
                             </a>
                         </p>
                         <p class="level-item">
-                            <a class="button is-warning" href="{{ path('portfolio_edit', {'id': portfolio.id}) }}">
+                            <a class="button is-warning" href="{{ path('portfolio_confirm', {'id': portfolio.id}) }}">
                                 <i class="fa fa-calculator"></i> &nbsp;
                                 Confirmer arbitrage
                             </a>
@@ -87,7 +104,7 @@
             <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>Ligne</th>
                         <th>Fond</th>
                         <th>ISIN</th>
                         <th>Qté</th>
@@ -98,8 +115,21 @@
                 <tbody>
                     {% for portfolio_line in portfolio_lines %}
                         <tr>
-                            <td>{{ portfolio_line.id }}</td>
-                            <td>{{ portfolio_line.fund.name }}</td>
+                            <td>{{ loop.index }}</td>
+                            <td>
+                                <div class="field is-grouped">
+                                    {{ portfolio_line.fund.name }} &nbsp;
+                                    <div class="tags">
+                                        {% for link in links[portfolio_line.id] %}
+                                            {%  if 'UNSET' not in link['url'] %}
+                                                <a class="tag is-link" href="{{ link['url'] }}" target="_blank">
+                                                    {{ link['source'] }}
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </td>
                             <td>{{ portfolio_line.fund.isin }}</td>
                             <td class="has-text-right">{{ portfolio_line.qty|number_format(4, ',', ' ') }}</td>
                             <td class="has-text-right">{{ portfolio_line.lvalue|number_format(2, ',', ' ') }} €</td>

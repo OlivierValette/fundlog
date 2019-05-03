@@ -86,7 +86,7 @@
                     {# Confirmation link -- only if transaction fully confirmed #}
                     {% if  status %}
                     <p class="level-item">
-                        <a class="button is-dark" href="{{ path('portfolio_reset', {'id': portfolio.id}) }}">
+                        <a class="button is-dark" href="{{ path('portfolio_confirmed', {'id': portfolio.id}) }}">
                             <i class="fa fa-calculator"></i> &nbsp;
                             Confirmer arbitrage
                         </a>
