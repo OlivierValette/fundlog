@@ -131,9 +131,15 @@
                                 </div>
                             </td>
                             <td>{{ portfolio_line.fund.isin }}</td>
-                            <td class="has-text-right">{{ portfolio_line.qty|number_format(4, ',', ' ') }}</td>
-                            <td class="has-text-right">{{ portfolio_line.lvalue|number_format(2, ',', ' ') }} €</td>
-                            <td class="has-text-right">{{ (portfolio_line.qty * portfolio_line.lvalue)|number_format(2, ',', ' ') }} €</td>
+                            <td class="has-text-right">
+                                {{ portfolio_line.qty|number_format(4, ',', ' ') }}
+                            </td>
+                            <td class="has-text-right">
+                                {{ (portfolio_line.fund.lastLvalue ?: portfolio_line.lvalue)|number_format(2, ',', ' ') }} €
+                            </td>
+                            <td class="has-text-right">
+                                {{ (portfolio_line.qty * (portfolio_line.fund.lastLvalue ?: portfolio_line.lvalue))|number_format(2, ',', ' ') }} €
+                            </td>
                         </tr>
                     {% else %}
                         <tr>
