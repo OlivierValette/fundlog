@@ -6,7 +6,6 @@ use App\Entity\FinInfo;
 use App\Entity\Portfolio;
 use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
-use App\Entity\Source;
 use App\Form\PortfolioIoType;
 use App\Form\PortfolioLineAddIoType;
 use App\Form\PortfolioType;

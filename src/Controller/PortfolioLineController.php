@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
 use App\Form\PortfolioLineConfirmType;
 use App\Form\PortfolioLineType;
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
