@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,23 +21,23 @@ class FundHist
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
+    
     /**
-     * @var int
+     * @var DateTime|null
      *
-     * @ORM\Column(name="year", type="bigint", nullable=false)
+     * @ORM\Column(name="lvdate", type="datetime", nullable=true)
      */
-    private $year;
-
+    private $lvdate;
+    
     /**
      * @var float|null
      *
-     * @ORM\Column(name="perf", type="float", precision=10, scale=0, nullable=true)
+     * @ORM\Column(name="lvalue", type="float", precision=10, scale=0, nullable=true)
      */
-    private $perf;
+    private $lvalue;
 
     /**
-     * @var \Fund
+     * @var Fund
      *
      * @ORM\ManyToOne(targetEntity="Fund")
      * @ORM\JoinColumns({
@@ -49,29 +50,37 @@ class FundHist
     {
         return $this->id;
     }
-
-    public function getYear(): ?int
+    
+    /**
+     * @return DateTime|null
+     */
+    public function getLvdate(): ?DateTime
     {
-        return $this->year;
+        return $this->lvdate;
     }
-
-    public function setYear(int $year): self
+    
+    /**
+     * @param DateTime|null $lvdate
+     */
+    public function setLvdate(?DateTime $lvdate): void
     {
-        $this->year = $year;
-
-        return $this;
+        $this->lvdate = $lvdate;
     }
-
-    public function getPerf(): ?float
+    
+    /**
+     * @return float|null
+     */
+    public function getLvalue(): ?float
     {
-        return $this->perf;
+        return $this->lvalue;
     }
-
-    public function setPerf(?float $perf): self
+    
+    /**
+     * @param float|null $lvalue
+     */
+    public function setLvalue(?float $lvalue): void
     {
-        $this->perf = $perf;
-
-        return $this;
+        $this->lvalue = $lvalue;
     }
 
     public function getFund(): ?Fund

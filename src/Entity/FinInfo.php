@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -57,7 +58,7 @@ class FinInfo
     private $benchmark;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="lvdate", type="datetime", nullable=true)
      */
@@ -71,7 +72,7 @@ class FinInfo
     private $lvalue;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="date_ytd", type="datetime", nullable=true)
      */
@@ -106,7 +107,7 @@ class FinInfo
     private $perfAm3;
     
     /**
-     * @var \Currency
+     * @var Currency
      *
      * @ORM\ManyToOne(targetEntity="Currency")
      * @ORM\JoinColumns({
@@ -116,7 +117,7 @@ class FinInfo
     private $currency;
 
     /**
-     * @var \Fund
+     * @var Fund
      *
      * @ORM\ManyToOne(targetEntity="Fund")
      * @ORM\JoinColumns({
@@ -126,7 +127,7 @@ class FinInfo
     private $fund;
 
     /**
-     * @var \Source
+     * @var Source
      *
      * @ORM\ManyToOne(targetEntity="Source")
      * @ORM\JoinColumns({
