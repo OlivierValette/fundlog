@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CurrencyController extends BaseController
 {
     /**
-     * @Route("/currency", name="currency", methods={"GET","POST"})
+     * @Route("/currency", name="currency_update", methods={"GET","POST"})
      */
     public function getCurrencies()
     {
@@ -49,7 +49,7 @@ class CurrencyController extends BaseController
             }
         }
         $entityManager->flush();
-        
-        return new Response("Taux de conversion des devises mis à jour");
+    
+        return $this->redirectToRoute('portfolio_index');
     }
 }
