@@ -3,8 +3,11 @@
 namespace App\Service;
 
 
-class HttpRequest
+class HttpQuery
 {
+    // Important, see:
+    // https://stackoverflow.com/questions/24611640/curl-60-ssl-certificate-unable-to-get-local-issuer-certificate
+    //
     protected $_useragent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1';
     protected $_url;
     protected $_followlocation;
@@ -19,6 +22,7 @@ class HttpRequest
     protected $_includeHeader;
     protected $_noBody;
     protected $_status;
+    protected $_error;
     protected $_binaryTransfer;
     public    $authentication = 0;
     public    $auth_name      = '';
@@ -92,14 +96,14 @@ class HttpRequest
         
         $s = curl_init();
         
-        curl_setopt($s,CURLOPT_URL,$this->_url);
-        curl_setopt($s,CURLOPT_HTTPHEADER,array('Expect:'));
-        curl_setopt($s,CURLOPT_TIMEOUT,$this->_timeout);
-        curl_setopt($s,CURLOPT_MAXREDIRS,$this->_maxRedirects);
+        curl_setopt($s,CURLOPT_URL, $this->_url);
+        curl_setopt($s,CURLOPT_HTTPHEADER, array('Expect:'));
+        curl_setopt($s,CURLOPT_TIMEOUT, $this->_timeout);
+        curl_setopt($s,CURLOPT_MAXREDIRS, $this->_maxRedirects);
         curl_setopt($s,CURLOPT_RETURNTRANSFER,true);
-        curl_setopt($s,CURLOPT_FOLLOWLOCATION,$this->_followlocation);
-        curl_setopt($s,CURLOPT_COOKIEJAR,$this->_cookieFileLocation);
-        curl_setopt($s,CURLOPT_COOKIEFILE,$this->_cookieFileLocation);
+        curl_setopt($s,CURLOPT_FOLLOWLOCATION, $this->_followlocation);
+        curl_setopt($s,CURLOPT_COOKIEJAR, $this->_cookieFileLocation);
+        curl_setopt($s,CURLOPT_COOKIEFILE, $this->_cookieFileLocation);
         
         if ($this->authentication == 1){
             curl_setopt($s, CURLOPT_USERPWD, $this->auth_name.':'.$this->auth_pass);
@@ -107,7 +111,7 @@ class HttpRequest
         if ($this->_post)
         {
             curl_setopt($s,CURLOPT_POST,true);
-            curl_setopt($s,CURLOPT_POSTFIELDS,$this->_postFields);
+            curl_setopt($s,CURLOPT_POSTFIELDS, $this->_postFields);
         }
         
         if ($this->_includeHeader)
@@ -125,8 +129,16 @@ class HttpRequest
         
         $this->_webpage = curl_exec($s);
         $this->_status = curl_getinfo($s,CURLINFO_HTTP_CODE);
+        $this->_error = curl_error($s);
+        
         curl_close($s);
-        return $this->_webpage;
+        
+        return $this;
+    }
+    
+    public function getHttpUrl()
+    {
+        return $this->_url;
     }
     
     public function getHttpStatus()
@@ -134,4 +146,13 @@ class HttpRequest
         return $this->_status;
     }
     
+    public function getHttpError()
+    {
+        return $this->_error;
+    }
+    
+    public function getHttpJson()
+    {
+        return $this->_webpage;
+    }
 }
