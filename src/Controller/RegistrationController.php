@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
      * @return RedirectResponse|Response
      * @throws Exception
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, \Swift_Mailer $mailer)
     {
         // 1) build the form
         $user = new User();
@@ -48,8 +48,22 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             
-            // TODO Improvements to consider:
             // send an email to the user / get its confirmation
+            $message = (new \Swift_Message('Bienvenue sur fundlog !'))
+                ->setFrom('fundlog.app@gmail.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                    // templates/emails/registration.html.twig
+                        'emails/registration.html.twig',
+                        ['user' => $user]
+                    ),
+                    'text/html'
+                )
+            ;
+    
+            $mailer->send($message);
+            
             // set a "flash" success message for the user
             
             return $this->redirectToRoute('app_login');

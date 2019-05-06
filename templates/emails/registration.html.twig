@@ -1,13 +1,15 @@
-<h3>Votre compte sur fundlog est créé</h3>
+<h3>Votre compte sur fundlog est créé !</h3>
 
-Bonjour {{ user.fullname }},
+<p>Bonjour {{ user.fullname }},</p>
 
-Votre compte vient d'être créé sur fundlog.
+<p>Votre compte vient d'être créé sur fundlog.</p>
 
-{# example, assuming you have a route named "login" #}
-Pour vous connecter, <a href="{{ url('app_login') }}">cliquez ici</a>.
+<p>Pour vous connecter, <a href="{{ url('app_login') }}">cliquez ici</a>.</p>
 
-Merci de votre confiance.
+<p>Merci de votre confiance.</p>
+<p><i>L'équipe www.fundlog.fr.</i></p>
 
-{# Makes an absolute URL to the /images/logo.png file #}
-<img src="{{ absolute_url(asset('build/images/logo.png')) }}" alt="Logo fundlog">
+{#
+Insertion du logo (inutile en dev)
+<img src="{{ absolute_url(asset('build/images/logo.png')) }}" alt="Logo fundlog"></p>
+#}
