@@ -5,29 +5,38 @@
     (<strong>{{ middleman.company }}</strong>)
 </p>
 
-Bonjour,
+<p>Bonjour,</p>
 
-Merci de prendre en compte la demande d'arbitrage qui suit dans les meilleurs délais :
+<p>Merci de prendre en compte la demande d'arbitrage qui suit dans les meilleurs délais :</p>
 
-<p>Portefeuille : {{ portfolio.name }} ({{ portfolio.account }}</p>
+<p>Portefeuille : <strong>{{ portfolio.name }} - {{ portfolio.account }}</strong></p>
 
-<table class="table is-bordered is-fullwidth">
+<table>
+    <thead>
+        <tr style="border-bottom: 1px solid #ddd;">
+            <td>Fonds</td>
+            <td>ISIN</td>
+            <td>Montant à arbitrer</td>
+        </tr>
+    </thead>
     <tbody>
         {% for line in portfolio_lines %}
-            <tr>
-                <td>{{ portfolio_lines.fund.isin }}</td>
-                <td>{{ portfolio_lines.fund.name }}</td>
-                <td class="has-text-right">{{ portfolio_lines.ioValue|number_format(2, ',', ' ') }} €</td>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td>{{ line.fund.name }}</td>
+                <td>{{ line.fund.isin }}</td>
+                <td style="text-align: right;">{{ line.ioValue|number_format(2, ',', ' ') }} €</td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
 
-Dans l'attente de votre confirmation,
+<p>Dans l'attente de votre confirmation,</p>
 
-Avec mes remerciements.
-{{ user.fullname }}
+<p>Avec mes remerciements.</p>
+<p><i>{{ user.fullname }}</i></p>
 
-{# Makes an absolute URL to the /images/logo.png file #}
 <p>Ce mail est généré par www.fundlog.fr</p>
+
+{# Makes an absolute URL to the /images/logo.png file. For production environment...
 <img src="{{ absolute_url(asset('build/images/logo.png')) }}" alt="Logo fundlog">
+#}
