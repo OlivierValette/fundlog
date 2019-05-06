@@ -2,6 +2,65 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+
+{% block cdn %}
+    {{  parent() }}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load("current", {packages: ["corechart", "timeline"]});
+
+        google.charts.setOnLoadCallback(drawLineChart);
+
+        function drawLineChart() {
+            let data = new google.visualization.DataTable();
+            data.addColumn('string', 'Période');
+            data.addColumn('number', 'Valorisation');
+            data.addRows([
+                ['Nitrogen', 0.78],
+                ['Oxygen', 0.21],
+                ['Other', 0.01]
+            ]);
+
+            let options = {
+                legend: 'none',
+                lineWidth: 3,
+                series: {
+                    0: { color: '#037365' },
+                    1: { color: '#BEA42E' },
+                    2: { color: '#7B895B' },
+                }
+            };
+
+            let chart = new google.visualization.LineChart(document.getElementById('chartLine'));
+
+            chart.draw(data, options);
+        }
+
+        google.charts.setOnLoadCallback(drawPieChart);
+
+        function drawPieChart() {
+            let data = new google.visualization.DataTable();
+            data.addColumn('string', 'Période');
+            data.addColumn('number', 'Valorisation');
+            data.addRows([
+                {% for portfolio in portfolios %}
+                    [ '{{ portfolio.name }}', {{ portfolio.lastTotalAmount|round }}],
+                {% endfor %}
+            ]);
+
+            let options = {
+                legend: 'none',
+                colors: ['#037365', '#BEA42E', '#7BD4CC', '#7B895B', '#F59F6A'],
+            };
+
+            let chart = new google.visualization.PieChart(document.getElementById('chartPie'));
+
+            chart.draw(data, options);
+        }
+
+    </script>
+{%  endblock %}
+
 {% block body %}
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -28,12 +87,12 @@
                 </div>
                 <div class="tile is-parent is-6">
                     <div class="tile is-child box">
-                        <p>Ici, un graphique d'évolution</p>
+                        <div id="chartLine" style="width: 700px; height: 200px;"></div>
                     </div>
                 </div>
                 <div class="tile is-parent">
                     <div class="tile is-child box">
-                        <p>Ici le camembert</p>
+                        <div id="chartPie" style="width: 300px; height: 200px;"></div>
                     </div>
                 </div>
             </div>
