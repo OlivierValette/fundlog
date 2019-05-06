@@ -163,14 +163,16 @@ class PortfolioLineController extends AbstractController
                 $entityManager->remove($portfolioLine);
                 $entityManager->flush();
             } else {
-                // line is not empty
-                // suppress IO values and hide line in transaction
-                $portfolioLine->setIoQty(0.0);
-                $portfolioLine->setIoValue(0.0);
-                $portfolioLine->setIoHide(true);
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($portfolioLine);
-                $entityManager->flush();
+                // line is not empty, is there an input in io_value?
+                if ($line->getIoValue() === null or $line->getIoValue() === 0.0) {
+                    // suppress IO values and hide line in transaction
+                    $portfolioLine->setIoQty(0.0);
+                    $portfolioLine->setIoValue(0.0);
+                    $portfolioLine->setIoHide(true);
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($portfolioLine);
+                    $entityManager->flush();
+                }
             }
         }
     

@@ -153,7 +153,7 @@
                                         {{ include('portfolio_line/_delete_form.html.twig') }}
                                     {% endif %}
                                 {% else %}
-                                    {% if portfolio_line.ioConfirm == false %}
+                                    {% if portfolio_line.ioConfirm == false and portfolio_line.ioValue == 0.0 %}
                                         {{ include('portfolio_line/_hide_form.html.twig') }}
                                     {% endif %}
                                 {% endif %}
