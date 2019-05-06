@@ -330,7 +330,8 @@ class PortfolioController extends BaseController
         foreach ($portfolio_lines as $portfolio_line) {
             $portfolio_line->setIoQty(null);
             $portfolio_line->setIoValue(null);
-            $portfolio_line->setIoHide(null);
+            // reset ioHide to false for next transaction
+            $portfolio_line->setIoHide(false);
             // reset ioConfirm to false because transaction is fully confirmed
             $portfolio_line->setIoConfirm(false);
         }
