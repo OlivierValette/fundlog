@@ -210,6 +210,13 @@ class PortfolioController extends BaseController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($portfolio_new_line);
             $entityManager->flush();
+            
+            // reset dates in case of new line
+            $transaction->setValidDate(null);
+            $transaction->setSendDate(null);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($transaction);
+            $entityManager->flush();
         
             return $this->redirectToRoute('portfolio_edit', ['id' => $portfolio->getId()]);
         }
