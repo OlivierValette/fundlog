@@ -31,40 +31,7 @@ class PortfolioIoController extends AbstractController
             'portfolio_ios' => $portfolioIos,
         ]);
     }
-
-//    /**
-//     * @Route("/new", name="portfolio_io_new", methods={"GET","POST"})
-//     */
-//    public function new(Request $request): Response
-//    {
-//        $portfolioIo = new PortfolioIo();
-//        $form = $this->createForm(PortfolioIoType::class, $portfolioIo);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $entityManager = $this->getDoctrine()->getManager();
-//            $entityManager->persist($portfolioIo);
-//            $entityManager->flush();
-//
-//            return $this->redirectToRoute('portfolio_io_index');
-//        }
-//
-//        return $this->render('portfolio_io/new.html.twig', [
-//            'portfolio_io' => $portfolioIo,
-//            'form' => $form->createView(),
-//        ]);
-//    }
-//
-//    /**
-//     * @Route("/{id}", name="portfolio_io_show", methods={"GET"})
-//     */
-//    public function show(PortfolioIo $portfolioIo): Response
-//    {
-//        return $this->render('portfolio_io/show.html.twig', [
-//            'portfolio_io' => $portfolioIo,
-//        ]);
-//    }
-    
+   
     /**
      * @Route("/{id}/validate", name="portfolio_io_validate", methods={"GET","POST"})
      */
@@ -112,20 +79,20 @@ class PortfolioIoController extends AbstractController
         $portfolio = $this->getDoctrine()
             ->getRepository(Portfolio::class)
             ->findOneBy([
-                'portfolio' => $portfolioIo->getPortfolio(),
+                'id' => $portfolioIo->getPortfolio(),
             ]);
         
         $middleman = $this->getDoctrine()
             ->getRepository(Middleman::class)
             ->findOneBy([
-                'id' => $portfolioIo->getPortfolio()->getMiddleman(),
+                'id' => $portfolio->getMiddleman(),
             ]);
     
         // Retrieving an active transaction on this portfolio
         $transaction = $this->getDoctrine()
             ->getRepository(PortfolioIo::class)
             ->findOneBy([
-                'portfolio' => $portfolioIo->getPortfolio(),
+                'portfolio' => $portfolio,
                 'confirmDate' => NULL
             ]);
     
@@ -135,7 +102,7 @@ class PortfolioIoController extends AbstractController
             ->findIoLines($portfolioIo->getPortfolio());
         
         // If no transaction to validate, go back
-        if ($transaction and $transaction->getValidDate) {
+        if ($transaction and $transaction->getValidDate()) {
             // Send mail to middleman
             $message = (new \Swift_Message("Demande d'arbitrage"))
                 ->setFrom($user->getEmail())
@@ -150,16 +117,6 @@ class PortfolioIoController extends AbstractController
                         ]),
                     'text/html'
                 )
-                /*
-                 * If you also want to include a plaintext version of the message
-                ->addPart(
-                    $this->renderView(
-                        'emails/registration.txt.twig',
-                        ['name' => $name]
-                    ),
-                    'text/plain'
-                )
-                */
             ;
             $mailer->send($message);
             
@@ -179,40 +136,4 @@ class PortfolioIoController extends AbstractController
         ]);
     }
     
-//    /**
-//     * @Route("/{id}/edit", name="portfolio_io_edit", methods={"GET","POST"})
-//     */
-//    public function edit(Request $request, PortfolioIo $portfolioIo): Response
-//    {
-//        $form = $this->createForm(PortfolioIoType::class, $portfolioIo);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $this->getDoctrine()->getManager()->flush();
-//
-//            return $this->redirectToRoute('portfolio_io_index', [
-//                'id' => $portfolioIo->getId(),
-//            ]);
-//        }
-//
-//        return $this->render('portfolio_io/edit.html.twig', [
-//            'portfolio_io' => $portfolioIo,
-//            'form' => $form->createView(),
-//        ]);
-//    }
-
-//    /**
-//     * @Route("/{id}", name="portfolio_io_delete", methods={"DELETE"})
-//     */
-//    public function delete(Request $request, PortfolioIo $portfolioIo): Response
-//    {
-//        if ($this->isCsrfTokenValid('delete'.$portfolioIo->getId(), $request->request->get('_token'))) {
-//            $entityManager = $this->getDoctrine()->getManager();
-//            $entityManager->remove($portfolioIo);
-//            $entityManager->flush();
-//        }
-//
-//        return $this->redirectToRoute('portfolio_io_index');
-//    }
-
 }
