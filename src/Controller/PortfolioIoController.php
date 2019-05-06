@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Middleman;
+use App\Entity\Portfolio;
 use App\Entity\PortfolioIo;
-use App\Form\PortfolioIoType;
+use App\Entity\PortfolioLine;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
  * @Route("/portfolioio")
@@ -93,7 +96,7 @@ class PortfolioIoController extends AbstractController
     /**
      * @Route("/{id}/send", name="portfolio_io_send", methods={"GET","POST"})
      */
-    public function send(Request $request, PortfolioIo $portfolioIo): Response
+    public function send(Request $request, PortfolioIo $portfolioIo, \Swift_Mailer $mailer): Response
     {
         
         // Checking to see if the user is logged in
@@ -105,14 +108,70 @@ class PortfolioIoController extends AbstractController
             return $this->redirectToRoute('portfolio_index');
         }
         
-        //TODO: send mail to middleman!
+        // Retrieving the portfolio
+        $portfolio = $this->getDoctrine()
+            ->getRepository(Portfolio::class)
+            ->findOneBy([
+                'portfolio' => $portfolioIo->getPortfolio(),
+            ]);
         
-        // Set validation date
-        $portfolioIo->setSendDate(new DateTime());
-        // Save to database
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($portfolioIo);
-        $entityManager->flush();
+        $middleman = $this->getDoctrine()
+            ->getRepository(Middleman::class)
+            ->findOneBy([
+                'id' => $portfolioIo->getPortfolio()->getMiddleman(),
+            ]);
+    
+        // Retrieving an active transaction on this portfolio
+        $transaction = $this->getDoctrine()
+            ->getRepository(PortfolioIo::class)
+            ->findOneBy([
+                'portfolio' => $portfolioIo->getPortfolio(),
+                'confirmDate' => NULL
+            ]);
+    
+        // Retrieve portfolio lines to be confirmed
+        $portfolio_lines = $this->getDoctrine()
+            ->getRepository(PortfolioLine::class)
+            ->findIoLines($portfolioIo->getPortfolio());
+        
+        // If no transaction to validate, go back
+        if ($transaction and $transaction->getValidDate) {
+            // Send mail to middleman
+            $message = (new \Swift_Message("Demande d'arbitrage"))
+                ->setFrom($user->getEmail())
+                ->setTo($portfolioIo->getPortfolio()->getMiddleman()->getEmail())
+                ->setBody(
+                    $this->renderView('emails/transaction.html.twig',[
+                        'user' => $user,
+                        'middleman' => $middleman,
+                        'portfolio' => $portfolio,
+                        'portfolio_io' => $transaction,
+                        'portfolio_lines' => $portfolio_lines,
+                        ]),
+                    'text/html'
+                )
+                /*
+                 * If you also want to include a plaintext version of the message
+                ->addPart(
+                    $this->renderView(
+                        'emails/registration.txt.twig',
+                        ['name' => $name]
+                    ),
+                    'text/plain'
+                )
+                */
+            ;
+            $mailer->send($message);
+            
+            // Set validation date
+            $portfolioIo->setSendDate(new DateTime());
+            // Save to database
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($portfolioIo);
+            $entityManager->flush();
+            
+        }
+        
         
         // Back to portfolio edit page
         return $this->redirectToRoute('portfolio_edit', [

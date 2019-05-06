@@ -1,0 +1,33 @@
+<h3>Demande d'arbitrage</h3>
+
+<p>
+    <i>A l'attention de {{ middleman.title }} {{ middleman.firstname }} {{ middleman.lastname }}</i>
+    (<strong>{{ middleman.company }}</strong>)
+</p>
+
+Bonjour,
+
+Merci de prendre en compte la demande d'arbitrage qui suit dans les meilleurs délais :
+
+<p>Portefeuille : {{ portfolio.name }} ({{ portfolio.account }}</p>
+
+<table class="table is-bordered is-fullwidth">
+    <tbody>
+        {% for line in portfolio_lines %}
+            <tr>
+                <td>{{ portfolio_lines.fund.isin }}</td>
+                <td>{{ portfolio_lines.fund.name }}</td>
+                <td class="has-text-right">{{ portfolio_lines.ioValue|number_format(2, ',', ' ') }} €</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+Dans l'attente de votre confirmation,
+
+Avec mes remerciements.
+{{ user.fullname }}
+
+{# Makes an absolute URL to the /images/logo.png file #}
+<p>Ce mail est généré par www.fundlog.fr</p>
+<img src="{{ absolute_url(asset('build/images/logo.png')) }}" alt="Logo fundlog">
