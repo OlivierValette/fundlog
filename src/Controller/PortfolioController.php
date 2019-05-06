@@ -390,10 +390,10 @@ class PortfolioController extends BaseController
         $entityManager->remove($transaction);
         $entityManager->flush();
         
-        // Retrieve portfolio lines to be confirmed
+        // Retrieve portfolio lines
         $portfolio_lines = $this->getDoctrine()
             ->getRepository(PortfolioLine::class)
-            ->findIoLines($portfolio);
+            ->findBy([ 'portfolio' => $portfolio ]);
         
         // suppress new portfolio lines with qty = 0.0
         foreach ($portfolio_lines as $portfolio_line) {
