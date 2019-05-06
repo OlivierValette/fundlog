@@ -100,7 +100,7 @@ class PortfolioLineRepository extends ServiceEntityRepository
     {
         // Create query
         $qb = $this->createQueryBuilder('pfl');
-        $qb = $qb->select('SUM(pfl.ioQty*pfl.ioValue) as ioTotalAmount')
+        $qb = $qb->select('SUM(pfl.ioValue) as ioTotalAmount')
             ->andWhere($qb->expr()->eq('pfl.portfolio', ':pf'));
         
         // Give parameters values
