@@ -4,75 +4,109 @@
 
 {% block body %}
     <section class="section">
-        <div class="container">
-
-            {% include 'security/intro.html.twig' %}
-
-            <p class="title is-6">
-                De manière indépendante
-            </p>
-            <p>
-                Avec fundlog.fr vous avez un même outil de suivi, quelque soit l’intermédiaire financier,
-                pour toutes vos banques et toutes les compagnies d’assurance.
-            </p>
-            <p class="title is-6">Une vision synthétique de votre situation
-            </p>
-            <p>
-                Avec des tableaux de bord synthétiques, soit d’un portefeuille, soit de la globalité de ceux-ci,
-                vous pouvez visualiser en un coup d’œil votre situation et les performances de chacun de vos
-                portefeuilles.
-            </p>
-            <p class="title is-6">
-                Une vision détaillée de vos portefeuilles
-            </p>
-            <p>
-                Les données de valorisation sont automatiquement mises à jour pour une appréciation fine de
-                leur évolution.
-            </p>
-            <p>
-                Il n’est plus nécessaire ainsi d’attendre les relevés ou de consulter chacun des sites bancaires
-                pour avoir une vision à jour de votre situation.
-            </p>
-            <p class="title is-6">
-                Vos arbitrages simplifiés
-            </p>
-            <p>
-                Vous pouvez préparer les demandes d’arbitrages en ligne et les envoyer simplement à votre
-                intermédiaire par mail. Il vous suffit de sélectionner les fonds concernés ou d’ajouter de
-                nouveaux fonds en accédant directement aux informations utiles en vous connectant aux
-                sites de Morningstar ou de Quantalys.
-            </p>
-            <p class="title is-6">
-                Des alertes utiles
-            </p>
-            <p>
-                Un mécanisme d’alertes vous permet d’être prévenu par mail lorsque des indicateurs de
-                performance dévient de manière significative, vous permettant de réagir en temps et en heure.
-            </p>
-            <p class="title is-6">
-                En toute sécurité...
-            </p>
-            <p>
-                fundlog est un service simple, performant et sécurisé.
-                Respectueux de la RGPD, vos données personnelles sont réduites au strict minimum et ne sont
-                jamais utilisées à d’autres fins que le bon fonctionnement du service.
-            </p>
-            <p class="title is-6">
-                Parce que votre patrimoine ne regarde que vous.
-            </p>
-
-            <div class="buttons is-centered">
-                <a class="button is-block is-primary" href="{{ path('app_registration') }}">
-                    <i class="fa fa-user-plus"></i>
-                    Créer un compte
-                </a>
-                <a class="button is-block is-primary" href="{{ path('app_login') }}">
-                    <i class="fa fa-sign-in"></i> &nbsp;
-                    Se connecter
-                </a>
+        <section class="container is-fluid">
+            <div class="columns has-background-info">
+                <section class="column is-3 has-text-centered">
+                    <p><img src="{{ asset('build/images/logo.png') }}" alt="Le logo fundlog"></p>
+                </section>
+                <section class="column is-8">
+                    {% include 'security/intro.html.twig' %}
+                </section>
             </div>
-
-        </div>
+        </section>
+    </section>
+    <section class="section">
+        <section class="container is-fluid">
+            <div class="tile is-ancestor">
+                <div class="tile is-parent is-4">
+                    <article class="tile is-child">
+                        <p><img src="{{ asset('build/images/william-moreland-1457862-unsplash.jpg') }}" alt="Illustration"></p>
+                    </article>
+                </div>
+                <div class="tile is-parent is-8 is-vertical">
+                    <article class="tile is-child">
+                        <p class="title is-6">
+                            De manière indépendante
+                        </p>
+                        <p>
+                            Avec fundlog.fr vous avez un même outil de suivi, quelque soit l’intermédiaire financier,
+                            pour toutes vos banques et toutes les compagnies d’assurance.
+                        </p>
+                    </article>
+                    <article class="tile is-child">
+                        <p class="title is-6">
+                            Une vision synthétique de votre situation
+                        </p>
+                        <p>
+                            Avec des tableaux de bord synthétiques, soit d’un portefeuille, soit de la globalité de ceux-ci,
+                            vous pouvez visualiser en un coup d’œil votre situation et les performances de chacun de vos
+                            portefeuilles.
+                        </p>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child">
+                        <p class="title is-6">
+                            Une vision détaillée de vos portefeuilles
+                        </p>
+                        <p>
+                            Les données de valorisation sont automatiquement mises à jour pour une appréciation fine de
+                            leur évolution.
+                        </p>
+                        <p>
+                            Il n’est plus nécessaire ainsi d’attendre les relevés ou de consulter chacun des sites bancaires
+                            pour avoir une vision à jour de votre situation.
+                        </p>
+                    </article>
+                    <article class="tile is-child">
+                        <p class="title is-6">
+                            Vos arbitrages simplifiés
+                        </p>
+                        <p>
+                            Vous pouvez préparer les demandes d’arbitrages en ligne et les envoyer simplement à votre
+                            intermédiaire par mail. Il vous suffit de sélectionner les fonds concernés ou d’ajouter de
+                            nouveaux fonds en accédant directement aux informations utiles en vous connectant aux
+                            sites de Morningstar ou de Quantalys.
+                        </p>
+                    </article>
+                </div>
+                    <article class="tile is-child">
+                        <p class="title is-6">
+                            Des alertes utiles
+                        </p>
+                        <p>
+                            Un mécanisme d’alertes vous permet d’être prévenu par mail lorsque des indicateurs de
+                            performance dévient de manière significative, vous permettant de réagir en temps et en heure.
+                        </p>
+                    </article>
+                    <article class="tile is-child">
+                        <p class="title is-6">
+                            En toute sécurité...
+                        </p>
+                        <p>
+                            fundlog est un service simple, performant et sécurisé.
+                            Respectueux de la RGPD, vos données personnelles sont réduites au strict minimum et ne sont
+                            jamais utilisées à d’autres fins que le bon fonctionnement du service.
+                        </p>
+                    </article>
+                    <article class="tile is-child">
+                        <p class="title is-6">
+                            Parce que votre patrimoine ne regarde que vous.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <section class="buttons is-centered">
+            <a class="button is-block is-primary" href="{{ path('app_registration') }}">
+                <i class="fa fa-user-plus"></i>
+                Créer un compte
+            </a>
+            <a class="button is-block is-primary" href="{{ path('app_login') }}">
+                <i class="fa fa-sign-in"></i> &nbsp;
+                Se connecter
+            </a>
+        </section>
     </section>
 
     <footer class="container">
