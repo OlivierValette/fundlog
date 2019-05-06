@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
 use App\Form\PortfolioLineConfirmType;
 use App\Form\PortfolioLineType;
@@ -91,9 +92,23 @@ class PortfolioLineController extends AbstractController
     {
         $form = $this->createForm(PortfolioLineType::class, $portfolioLine);
         $form->handleRequest($request);
-        
+    
+        // Retrieving an active transaction on this portfolio
+        $transaction = $this->getDoctrine()
+            ->getRepository(PortfolioIo::class)
+            ->findOneBy([
+                'portfolio' => $portfolioLine->getPortfolio(),
+                'confirmDate' => NULL
+            ]);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+    
+            // reset dates in case of new line
+            $transaction->setValidDate(null);
+            $transaction->setSendDate(null);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($transaction);
+            $entityManager->flush();
             
             return $this->redirectToRoute('portfolio_edit', [
                 'id' => $portfolioLine->getPortfolio()->getId()
