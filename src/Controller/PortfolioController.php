@@ -40,25 +40,40 @@ class PortfolioController extends BaseController
         // Get total amount and historical values of portfolios
         $totalAmount = 0.;
         // Dates boundaries
-        $min = strtotime('today');
-        $max = strtotime();
-        
-        foreach ($portfolios as $portfolio) {
-            $totalAmount += $portfolio->getLastTotalAmount();
-            $portfolios_hist += [
-                $portfolio->getId() => $this->getDoctrine()
-                    ->getRepository(PortfolioHist::class)
-                    ->findBy([ 'portfolio' => $portfolio->getId() ])
-            ];
-        }
-        
-        // Get user's  portfolios historical values
+        $min = new DateTime('now');
+        $max = new DateTime('2000-01-01');
+        // Get portfolios historical values
         $portfolios_hist = [];
-
+        foreach ($portfolios as $portfolio) {
+            $pf_id = $portfolio->getId();
+            $totalAmount += $portfolio->getLastTotalAmount();
+            $portfolio_hist = $this->getDoctrine()
+                    ->getRepository(PortfolioHist::class)
+                    ->findBy([ 'portfolio' => $pf_id ]);
+            foreach ($portfolio_hist as $hist) {
+                $current = $hist->getLvdate();
+                $max = $current > $max ? $current : $max;
+                $min = $current < $min ? $current : $min;
+            }
+            $portfolios_hist += [ $pf_id => $portfolio_hist ];
+        }
+        // Historical data in matrix for Google Charts
+        $hist_values = [];
+        foreach ($portfolios as $portfolio) {
+            $pf_id = $portfolio->getId();
+            $date = $max;
+            for ($i = 0; $i < 25; $i--) {
+                foreach ($portfolios_hist[$pf_id] as $item) {
+                    if ($item->getLvdate())
+                }
+                $hist_values = array_push($hist_values, $date, ...$hist);
+                $date = $date->modify("last day of previous month");
+            }
+        }
 
         return $this->render('portfolio/index.html.twig', [
             'portfolios' => $portfolios,
-            'portfolios_hist' => $portfolios_hist,
+            'hist_values' => $hist_values,
             'totalAmount' => $totalAmount,
             'title' => 'fundlog: Portfolios',
         ]);

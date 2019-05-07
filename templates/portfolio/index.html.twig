@@ -13,17 +13,31 @@
 
         function drawLineChart() {
             let data = new google.visualization.DataTable();
-            data.addColumn('string', 'Période');
-            data.addColumn('number', 'Valorisation');
-            data.addRows([
-                ['Nitrogen', 0.78],
-                ['Oxygen', 0.21],
-                ['Other', 0.01]
-            ]);
+            // Add portfolios as series
+            data.addColumn('string', 'Date');
+            {% for portfolio in portfolios %}
+                data.addColumn('number', '{{ portfolios.name }}');
+            {% endfor %}
+            // Add data
+            // Dates boundaries
+            $min = Date.now();
+            $max = new Date(2000, 1, 1);
+            {% for portfolio in portfolios %}
+                {% for hist in portfolios_hist[portfolio.id] %}
+                [ '{{ hist.lvdate }}', {{ hist.lvalue }}],
+                        {% endfor %}
+                {% endfor %}
+            {% for portfolio in portfolios %}
+                data.addRows([
+                    {% for hist in portfolios_hist[portfolio.id] %}
+                        [ '{{ hist.lvdate }}', {{ hist.lvalue }}],
+                    {% endfor %}
+                ]);
+            {% endfor %}
 
             let options = {
                 legend: 'none',
-                lineWidth: 3,
+                lineWidth: 4,
                 series: {
                     0: { color: '#037365' },
                     1: { color: '#BEA42E' },
