@@ -16,15 +16,15 @@
         </section>
     </section>
     <section class="section">
-        <section class="container is-fluid">
-            <div class="tile is-ancestor">
-                <div class="tile is-parent is-4">
-                    <article class="tile is-child">
-                        <p><img src="{{ asset('build/images/william-moreland-1457862-unsplash.jpg') }}" alt="Illustration"></p>
-                    </article>
-                </div>
-                <div class="tile is-parent is-8">
-                    <article class="tile is-child box">
+        <section class="columns container is-fluid">
+            <div class="column is-4">
+                <article class="img-fluid">
+                    <p><img src="{{ asset('build/images/william-moreland-1457862-unsplash.jpg') }}" alt="Illustration"></p>
+                </article>
+            </div>
+            <div class="column is-8">
+                <div class="columns is-multiline is-mobile">
+                    <article class="column is-4">
                         <p class="title is-5">
                             De manière indépendante
                         </p>
@@ -33,7 +33,7 @@
                             pour toutes vos banques et toutes les compagnies d’assurance.
                         </p>
                     </article>
-                    <article class="tile is-child box">
+                    <article class="column is-4">
                         <p class="title is-5">
                             Une vision synthétique de votre situation
                         </p>
@@ -43,9 +43,7 @@
                             portefeuilles.
                         </p>
                     </article>
-                </div>
-                <div class="tile is-parent">
-                    <article class="tile is-child box">
+                    <article class="column is-4">
                         <p class="title is-5">
                             Une vision détaillée de vos portefeuilles
                         </p>
@@ -58,7 +56,7 @@
                             pour avoir une vision à jour de votre situation.
                         </p>
                     </article>
-                    <article class="tile is-child box">
+                    <article class="column is-4">
                         <p class="title is-5">
                             Vos arbitrages simplifiés
                         </p>
@@ -69,9 +67,7 @@
                             sites de Morningstar ou de Quantalys.
                         </p>
                     </article>
-                </div>
-                <div class="tile is-parent is-8">
-                    <article class="tile is-child">
+                    <article class="column is-4">
                         <p class="title is-5">
                             Des alertes utiles
                         </p>
@@ -80,7 +76,7 @@
                             performance dévient de manière significative, vous permettant de réagir en temps et en heure.
                         </p>
                     </article>
-                    <article class="tile is-child">
+                        <article class="column is-4">
                         <p class="title is-5">
                             En toute sécurité...
                         </p>
@@ -90,9 +86,7 @@
                             jamais utilisées à d’autres fins que le bon fonctionnement du service.
                         </p>
                     </article>
-                </div>
-                <div class="tile is-parent is-8">
-                    <article class="tile is-child">
+                    <article class="column is-12">
                         <p class="title is-4">
                             Parce que votre patrimoine ne regarde que vous.
                         </p>
@@ -100,6 +94,9 @@
                 </div>
             </div>
         </section>
+    </section>
+
+    <footer class="container is-fluid">
         <section class="buttons is-centered">
             <a class="button is-block is-primary" href="{{ path('app_registration') }}">
                 <i class="fa fa-user-plus"></i>
@@ -110,9 +107,6 @@
                 Se connecter
             </a>
         </section>
-    </section>
-
-    <footer class="container">
         <div class="tabs is-centered">
             <ul>
                 <li><a href="{{ path('information') }}#legal">Informations légales</a></li>
