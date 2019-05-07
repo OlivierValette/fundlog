@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PfLineHist
+ * PortfolioLineHist
  *
- * @ORM\Table(name="pf_line_hist", indexes={@ORM\Index(name="fk_pf_line_histo_portfolio_line1_idx", columns={"portfolio_line_id"})})
+ * @ORM\Table(name="portfolio_line_hist", indexes={@ORM\Index(name="fk_portfolio_line_hist_portfolio_line1_idx", columns={"portfolio_line_id"})})
  * @ORM\Entity
  */
-class PfLineHist
+class PortfolioLineHist
 {
     /**
      * @var int
@@ -22,18 +23,18 @@ class PfLineHist
     private $id;
 
     /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="io_date", type="datetime", nullable=true)
-     */
-    private $ioDate;
-
-    /**
      * @var float|null
      *
      * @ORM\Column(name="qty", type="float", precision=10, scale=0, nullable=true)
      */
     private $qty;
+    
+    /**
+     * @var DateTime|null
+     *
+     * @ORM\Column(name="lvdate", type="datetime", nullable=true)
+     */
+    private $lvdate;
 
     /**
      * @var float|null
@@ -57,18 +58,6 @@ class PfLineHist
         return $this->id;
     }
 
-    public function getIoDate(): ?\DateTimeInterface
-    {
-        return $this->ioDate;
-    }
-
-    public function setIoDate(?\DateTimeInterface $ioDate): self
-    {
-        $this->ioDate = $ioDate;
-
-        return $this;
-    }
-
     public function getQty(): ?float
     {
         return $this->qty;
@@ -80,6 +69,23 @@ class PfLineHist
 
         return $this;
     }
+    
+    /**
+     * @return DateTime|null
+     */
+    public function getLvdate(): ?DateTime
+    {
+        return $this->lvdate;
+    }
+    
+    /**
+     * @param DateTime|null $lvdate
+     */
+    public function setLvdate(?DateTime $lvdate): void
+    {
+        $this->lvdate = $lvdate;
+    }
+    
 
     public function getLvalue(): ?float
     {
@@ -104,6 +110,5 @@ class PfLineHist
 
         return $this;
     }
-
 
 }

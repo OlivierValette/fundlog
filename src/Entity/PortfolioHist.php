@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,27 +21,20 @@ class PortfolioHist
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
+    
     /**
-     * @var int
+     * @var DateTime|null
      *
-     * @ORM\Column(name="pfh_year", type="bigint", nullable=false)
+     * @ORM\Column(name="lvdate", type="datetime", nullable=true)
      */
-    private $pfhYear;
-
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="pfh_lvalue", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $pfhLvalue;
-
+    private $lvdate;
+    
     /**
      * @var float|null
      *
-     * @ORM\Column(name="pfh_perf", type="float", precision=10, scale=0, nullable=true)
+     * @ORM\Column(name="lvalue", type="float", precision=10, scale=0, nullable=true)
      */
-    private $pfhPerf;
+    private $lvalue;
 
     /**
      * @var \Portfolio
@@ -56,41 +50,37 @@ class PortfolioHist
     {
         return $this->id;
     }
-
-    public function getPfhYear(): ?int
+    
+    /**
+     * @return DateTime|null
+     */
+    public function getLvdate(): ?DateTime
     {
-        return $this->pfhYear;
+        return $this->lvdate;
     }
-
-    public function setPfhYear(int $pfhYear): self
+    
+    /**
+     * @param DateTime|null $lvdate
+     */
+    public function setLvdate(?DateTime $lvdate): void
     {
-        $this->pfhYear = $pfhYear;
-
-        return $this;
+        $this->lvdate = $lvdate;
     }
-
-    public function getPfhLvalue(): ?float
+    
+    /**
+     * @return float|null
+     */
+    public function getLvalue(): ?float
     {
-        return $this->pfhLvalue;
+        return $this->lvalue;
     }
-
-    public function setPfhLvalue(?float $pfhLvalue): self
+    
+    /**
+     * @param float|null $lvalue
+     */
+    public function setLvalue(?float $lvalue): void
     {
-        $this->pfhLvalue = $pfhLvalue;
-
-        return $this;
-    }
-
-    public function getPfhPerf(): ?float
-    {
-        return $this->pfhPerf;
-    }
-
-    public function setPfhPerf(?float $pfhPerf): self
-    {
-        $this->pfhPerf = $pfhPerf;
-
-        return $this;
+        $this->lvalue = $lvalue;
     }
 
     public function getPortfolio(): ?Portfolio
