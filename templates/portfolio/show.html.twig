@@ -12,12 +12,12 @@
 
         function drawLineChart() {
             let data = new google.visualization.DataTable();
-            data.addColumn('string', 'Période');
+            data.addColumn('date', 'Date');
             data.addColumn('number', 'Valorisation');
             data.addRows([
-                ['Nitrogen', 0.78],
-                ['Oxygen', 0.21],
-                ['Other', 0.01]
+                {% for hist_value in hist_values %}
+                    [ new Date({{ hist_value.lvdate|date('Y') }}, {{ hist_value.lvdate|date('n') }}-1, {{ hist_value.lvdate|date('d') }}), {{ hist_value.lvalue }} ],
+                {% endfor %}
             ]);
 
             let options = {

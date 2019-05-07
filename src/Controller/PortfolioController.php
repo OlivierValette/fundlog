@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\FinInfo;
 use App\Entity\Portfolio;
+use App\Entity\PortfolioHist;
 use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
 use App\Form\PortfolioIoType;
@@ -36,13 +37,28 @@ class PortfolioController extends BaseController
                 'archived' => false,
             ]);
         
+        // Get total amount and historical values of portfolios
         $totalAmount = 0.;
+        // Dates boundaries
+        $min = strtotime('today');
+        $max = strtotime();
+        
         foreach ($portfolios as $portfolio) {
             $totalAmount += $portfolio->getLastTotalAmount();
+            $portfolios_hist += [
+                $portfolio->getId() => $this->getDoctrine()
+                    ->getRepository(PortfolioHist::class)
+                    ->findBy([ 'portfolio' => $portfolio->getId() ])
+            ];
         }
+        
+        // Get user's  portfolios historical values
+        $portfolios_hist = [];
+
 
         return $this->render('portfolio/index.html.twig', [
             'portfolios' => $portfolios,
+            'portfolios_hist' => $portfolios_hist,
             'totalAmount' => $totalAmount,
             'title' => 'fundlog: Portfolios',
         ]);
@@ -137,10 +153,16 @@ class PortfolioController extends BaseController
             }
         }
         
+        // Historical data
+        $portfolio_hist = $this->getDoctrine()
+                    ->getRepository(PortfolioHist::class)
+                    ->findBy([ 'portfolio' => $portfolio->getId() ]);
+        
         return $this->render('portfolio/show.html.twig', [
             'portfolio' => $portfolio,
             'portfolio_lines' => $portfolio_lines,
             'portfolio_io' => $transaction,
+            'hist_values' => $portfolio_hist,
             'links' => $links,
             'title' => 'fundlog: ' . $portfolio->getName(),
         ]);
