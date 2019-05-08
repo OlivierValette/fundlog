@@ -14,26 +14,21 @@
         function drawLineChart() {
             let data = new google.visualization.DataTable();
             // Add portfolios as series
-            data.addColumn('string', 'Date');
+            data.addColumn('date', 'Date');
             {% for portfolio in portfolios %}
-                data.addColumn('number', '{{ portfolios.name }}');
+                data.addColumn('number', '{{ portfolio.name }}');
             {% endfor %}
-            // Add data
-            // Dates boundaries
-            $min = Date.now();
-            $max = new Date(2000, 1, 1);
-            {% for portfolio in portfolios %}
-                {% for hist in portfolios_hist[portfolio.id] %}
-                [ '{{ hist.lvdate }}', {{ hist.lvalue }}],
+            data.addRows([
+                {% for hist_value in hist_values %}
+                    {% set lvdate = hist_value[0]|split('-') %}
+                    [
+                        new Date( {{ lvdate[0] }}, {{ lvdate[1] }}-1, {{ lvdate[2] }} )
+                        {% for i in 1..(hist_value|length-1) %}
+                            , {{ hist_value[i] }}
                         {% endfor %}
+                    ],
                 {% endfor %}
-            {% for portfolio in portfolios %}
-                data.addRows([
-                    {% for hist in portfolios_hist[portfolio.id] %}
-                        [ '{{ hist.lvdate }}', {{ hist.lvalue }}],
-                    {% endfor %}
-                ]);
-            {% endfor %}
+            ]);
 
             let options = {
                 legend: 'none',
@@ -102,12 +97,12 @@
                 </div>
                 <div class="tile is-parent is-6">
                     <div class="tile is-child box">
-                        <div id="chartLine" style="width: 700px; height: 200px;"></div>
+                        <div id="chartLine" class="container-fluid"></div>
                     </div>
                 </div>
                 <div class="tile is-parent">
                     <div class="tile is-child box">
-                        <div id="chartPie" style="width: 300px; height: 200px;"></div>
+                        <div id="chartPie" class="container-fluid"></div>
                     </div>
                 </div>
             </div>
