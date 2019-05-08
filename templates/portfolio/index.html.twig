@@ -8,7 +8,6 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load("current", {packages: ["corechart", "timeline"], 'language': 'fr'});
-
         google.charts.setOnLoadCallback(drawLineChart);
 
         function drawLineChart() {
@@ -38,7 +37,8 @@
                     1: { color: '#BEA42E' },
                     2: { color: '#7B895B' },
                     3: { color: '#7BD4CC' },
-                }
+                },
+                height: 200,
             };
 
             let chart = new google.visualization.LineChart(document.getElementById('chartLine'));
@@ -61,12 +61,18 @@
             let options = {
                 legend: 'none',
                 colors: ['#037365', '#BEA42E', '#7BD4CC', '#7B895B', '#F59F6A'],
+                height: 200,
             };
 
             let chart = new google.visualization.PieChart(document.getElementById('chartPie'));
-
             chart.draw(data, options);
         }
+
+        // for responsiveness, redraw the charts when window is resized
+        window.addEventListener('resize', () => {
+            drawLineChart();
+            drawPieChart();
+        });
 
     </script>
 {%  endblock %}
@@ -75,34 +81,44 @@
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <section class="dashboard section">
-            <div class="tile is-ancestor">
-                <div class="tile is-parent is-3">
-                    <div class="tile is-child box">
-                        <p class="title is-3  is-marginless is-spaced">Vue globale</p>
+            <div class="columns">
+                <div class="column is-3">
+                    <div class="box">
+                        <p class="title is-3  is-marginless is-spaced">Situation globale</p>
                         <p class="subtitle is-5 is-marginless">{{ app.user.fullname }}</p>
-                        <table class="table is-bordered is-fullwidth">
-                            <tbody>
-                                <tr>
-                                    <td class="has-text-right">
-                                        <i class="fa fa-arrow-up fa-2x"></i> &nbsp;
-                                        %
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="is-size-4 is-bold has-text-right">{{ totalAmount|number_format(2, ',', ' ') }} €</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <br><br>
+                        <div class="level">
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">TENDANCE</p>
+                                    <p class="is-size-4 is-bold has-text-centered">
+                                        <i class="fa fa-arrow-up"></i> &nbsp;
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">PERFORMANCE</p>
+                                    <p class="is-size-4 is-bold has-text-right">%</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">VALORISATION</p>
+                                    <p class="is-size-4 is-bold has-text-right">{{ totalAmount|number_format(2, ',', ' ') }} €</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="tile is-parent is-6">
-                    <div class="tile is-child box">
-                        <div id="chartLine" class="container-fluid"></div>
+                <div class="column is-6">
+                    <div class="box">
+                        <div id="chartLine" class="chart"></div>
                     </div>
                 </div>
-                <div class="tile is-parent">
-                    <div class="tile is-child box">
-                        <div id="chartPie" class="container-fluid"></div>
+                <div class="column">
+                    <div class="box">
+                        <div id="chartPie" class="chart"></div>
                     </div>
                 </div>
             </div>

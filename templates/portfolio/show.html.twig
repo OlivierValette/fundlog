@@ -7,7 +7,6 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load("current", {packages: ["corechart", "timeline"], 'language': 'fr'});
-
         google.charts.setOnLoadCallback(drawLineChart);
 
         function drawLineChart() {
@@ -28,11 +27,12 @@
                     1: { color: '#BEA42E' },
                     2: { color: '#7B895B' },
                     3: { color: '#7BD4CC' },
-                }
+                },
+                height: 200,
+                width: "100%",
             };
 
             let chart = new google.visualization.LineChart(document.getElementById('chart1'));
-
             chart.draw(data, options);
         }
 
@@ -54,12 +54,19 @@
             let options = {
                 legend: 'none',
                 colors: ['#037365', '#BEA42E', '#7BD4CC', '#7B895B', '#F59F6A'],
+                chartArea: {
+                    width: "100%"
+                }
             };
 
             let chart = new google.visualization.PieChart(document.getElementById('chart2'));
-
             chart.draw(data, options);
         }
+        // for responsiveness, redraw the charts when window is resized
+        window.addEventListener('resize', () => {
+            drawLineChart();
+            drawPieChart();
+        });
 
     </script>
 {%  endblock %}
@@ -67,41 +74,50 @@
 {% block body %}
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <section class="dashboard section">
-            <div class="tile is-ancestor">
-                <div class="tile is-parent is-3">
-                    <div class="tile is-child box">
+            <div class="columns">
+                <div class="column is-3">
+                    <div class="box">
                         <p class="title is-3 is-marginless is-spaced">{{ portfolio.name }}</p>
                         <p class="subtitle is-5 is-marginless">{{ portfolio.account }}</p>
-                        <table class="table is-bordered is-fullwidth">
-                            <tbody>
-                            <tr>
-                                <td class="is-size-5 is-bold has-text-centered">
-                                    {% if portfolio.lastPerf > 0 %}
-                                        <i class="fa fa-arrow-up fa-2x"></i>
-                                    {% elseif portfolio.lastPerf < 0 %}
-                                        <i class="fa fa-arrow-down fa-2x"></i>
-                                    {% else %}
-                                        <i class="fa fa-arrow-right fa-2x"></i>
-                                    {% endif %}
-                                    &nbsp;
-                                    {{ portfolio.lastPerf }}%
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="is-size-4 is-bold has-text-right">{{ portfolio.lastTotalAmount|number_format(2, ',', ' ') }} €</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <br><br>
+                        <div class="level">
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">TENDANCE</p>
+                                    <p class="is-size-4 is-bold has-text-centered">
+                                        {% if portfolio.lastPerf > 0 %}
+                                            <i class="fa fa-arrow-up"></i>
+                                        {% elseif portfolio.lastPerf < 0 %}
+                                            <i class="fa fa-arrow-down"></i>
+                                        {% else %}
+                                            <i class="fa fa-arrow-right"></i>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">PERFORMANCE</p>
+                                    <p class="is-size-4 is-bold has-text-right">{{ portfolio.lastPerf }} %</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">VALORISATION</p>
+                                    <p class="is-size-4 is-bold has-text-right">{{ portfolio.lastTotalAmount|number_format(2, ',', ' ') }} €</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="tile is-parent is-6">
-                    <div class="tile is-child box">
-                        <div id="chart1" style="width: 700px; height: 200px;"></div>
+                <div class="column is-6">
+                    <div class="box">
+                        <div id="chart1" class="chart"></div>
                     </div>
                 </div>
-                <div class="tile is-parent">
-                    <div class="tile is-child box">
-                        <div id="chart2" style="width: 300px; height: 200px;"></div>
+                <div class="column">
+                    <div class="box">
+                        <div id="chart2" class="chart"></div>
                     </div>
                 </div>
             </div>

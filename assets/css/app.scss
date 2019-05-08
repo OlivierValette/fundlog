@@ -172,3 +172,13 @@ $fa-font-path: "~font-awesome/fonts";
 .notification {
   margin: 1rem 0;
 }
+
+// dashboard boxes and charts
+.dashboard .box {
+  min-height: 240px;
+}
+
+.chart {
+  width: 100%;
+  min-height: 200px;
+}
