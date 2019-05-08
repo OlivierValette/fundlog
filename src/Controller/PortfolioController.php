@@ -50,26 +50,41 @@ class PortfolioController extends BaseController
             $portfolio_hist = $this->getDoctrine()
                     ->getRepository(PortfolioHist::class)
                     ->findBy([ 'portfolio' => $pf_id ]);
-            foreach ($portfolio_hist as $hist) {
-                $current = $hist->getLvdate();
-                $max = $current > $max ? $current : $max;
-                $min = $current < $min ? $current : $min;
+            foreach ($portfolio_hist as $key => $hist) {
+                $cur_date = $hist->getLvdate();
+                $cur_value = $hist->getLvalue();
+                $max = $cur_date > $max ? $cur_date : $max;
+                $min = $cur_date < $min ? $cur_date : $min;
+                // $portfolios_hist[$pf_id][$key] = ['lvdate' => $cur_date->format('Y-n-d'), 'lvalue' => $cur_value ]
+                
             }
             $portfolios_hist += [ $pf_id => $portfolio_hist ];
         }
-        // Historical data in matrix for Google Charts
+        // Historical data in convenient matrix for Google Charts
         $hist_values = [];
-        foreach ($portfolios as $portfolio) {
-            $pf_id = $portfolio->getId();
-            $date = $max;
-            for ($i = 0; $i < 25; $i--) {
-                foreach ($portfolios_hist[$pf_id] as $item) {
-                    if ($item->getLvdate())
-                }
-                $hist_values = array_push($hist_values, $date, ...$hist);
-                $date = $date->modify("last day of previous month");
-            }
+        $lvdate = $max;
+        for ($line = 25; $line >= 0; $line--) {
+            $hist_values[$line][0] = $lvdate->format('Y-n-d');
+            $lvdate = $lvdate->modify("last day of previous month");
         }
+        echo '<h1>Final value</h1>';
+        echo '<pre>' , var_dump($hist_values) , '</pre>';
+        echo '<pre>' , var_dump($portfolios_hist[2]) , '</pre>';
+        $col = 1;
+        foreach ($portfolios_hist as $portfolio_hist) {
+            for ($line = 25; $line >= 0; $line--) {
+                $hist_values[$line][$col] = 0.;
+                foreach ($portfolio_hist as $hist) {
+                    echo '<pre>Col:'.$col.' Line:'.$line.' - Test: #'.$hist->getId().' '.$hist->getLvdate()->format('Y-n-d').' = '.$hist_values[$line][0].'</pre>';
+                    if ($hist->getLvdate()->format('Y-n-d') == $hist_values[$line][0]) {
+                        $hist_values[$line][$col] = $hist->getlvalue();
+                        break;
+                    }
+                }
+            }
+            $col += 1;
+        }
+        echo '<pre>' , var_dump($hist_values) , '</pre>';
 
         return $this->render('portfolio/index.html.twig', [
             'portfolios' => $portfolios,
