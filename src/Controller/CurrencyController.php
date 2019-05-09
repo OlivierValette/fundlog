@@ -41,7 +41,7 @@ class CurrencyController extends BaseController
                 }
             }
             if (!$isfound) {
-                // creat new currencies
+                // create new currencies
                 $new_currency = new Currency();
                 $new_currency->setCode($cur);
                 $new_currency->setValue($rate);
