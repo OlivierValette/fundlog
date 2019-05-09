@@ -13,7 +13,10 @@ easy_admin:
             - { label: "Gestion des données d'activité"}
             - { label: 'Portefeuilles', entity: Portfolio, icon: 'th-list' }
             - { label: 'Lignes de portefeuilles', entity: PortfolioLine, icon: 'list' }
+            - { label: 'Fonds actifs', entity: Fund, icon: 'bank' }
             - { label: "Gestion des informations financières"}
+            - { label: 'Devises', entity: Currency, icon: 'money' }
+            - { label: 'Liste de fonds', entity: FundBase, icon: 'bank' }
             - { label: 'Sources', entity: Source, icon: 'search' }
             - { label: 'Mapping', entity: Scraping, icon: 'hand-rock-o' }
             - { label: "Gestion des utilisateurs"}
@@ -63,6 +66,16 @@ easy_admin:
             new:
             edit:
                 title: 'Modifier une catégorie'
+        Currency:
+            class: App\Entity\Currency
+            label: 'Devises'
+            help: "Taux de conversion des devises en EUR"
+        Fund:
+            class: App\Entity\Fund
+            label: 'Fonds'
+        FundBase:
+            class: App\Entity\FundBase
+            label: 'Fonds'
         Lifeinsurance:
             class: App\Entity\Lifeinsurance
             label: 'Compagnie'
@@ -82,7 +95,11 @@ easy_admin:
         Scraping:
             class: App\Entity\Scraping
             label: 'Mapping'
+            icon: 'money'
             help: "Gestion du mapping de recherche des informations sur les sites (web scraping)"
+            list:
+                fields:
+                    ['id', 'source.id', 'item', 'tag0', 'tag1', 'tag2', 'class0', 'class1', 'class2', 'index0', 'index1', 'index2', 'attr0', 'attr1', 'attr2', 'stringify', 'moreover']
         Source:
             class: App\Entity\Source
             label: 'Source'
