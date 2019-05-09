@@ -85,26 +85,21 @@
         <section class="dashboard section">
             <div class="columns">
                 <div class="column is-3">
-                    <div class="box is-mobile">
+                    <div class="box">
                         <p class="title is-3  is-marginless is-spaced">Situation globale</p>
                         <p class="subtitle is-5 is-marginless">{{ app.user.fullname }}</p>
                         <br><br>
-                        <div class="level is-mobile">
-                            <div class="level-item has-text-centered">
+                        <div class="level">
+                            <div class="level-left has-text-centered">
                                 <div>
-                                    <p class="heading">TENDANCE</p>
-                                    <p class="is-size-4 is-bold has-text-centered">
-                                        <i class="fa fa-arrow-up"></i> &nbsp;
+                                    <p class="heading">PERFORMANCE</p>
+                                    <p class="is-size-4 is-bold has-text-right">
+                                        <i class="fa fa-arrow-down"></i>&nbsp;
+                                        -0,3%
                                     </p>
                                 </div>
                             </div>
-                            <div class="level-item has-text-centered">
-                                <div>
-                                    <p class="heading">PERFORMANCE</p>
-                                    <p class="is-size-4 is-bold has-text-right">%</p>
-                                </div>
-                            </div>
-                            <div class="level-item has-text-centered">
+                            <div class="level-right has-text-centered">
                                 <div>
                                     <p class="heading">VALORISATION</p>
                                     <p class="is-size-4 is-bold has-text-right">{{ totalAmount|number_format(2, ',', ' ') }} €</p>
@@ -118,7 +113,7 @@
                         <div id="chartLine" class="chart"></div>
                     </div>
                 </div>
-                <div class="column">
+                <div class="column is-3">
                     <div class="box">
                         <div id="chartPie" class="chart"></div>
                     </div>

@@ -79,28 +79,22 @@
                         <p class="title is-3 is-marginless is-spaced">{{ portfolio.name }}</p>
                         <p class="subtitle is-5 is-marginless">{{ portfolio.account }}</p>
                         <br><br>
-                        <div class="level is-mobile">
-                            <div class="level-item has-text-centered">
-                                <div>
-                                    <p class="heading">TENDANCE</p>
-                                    <p class="is-size-4 is-bold has-text-centered">
-                                        {% if portfolio.lastPerf > 0 %}
-                                            <i class="fa fa-arrow-up"></i>
-                                        {% elseif portfolio.lastPerf < 0 %}
-                                            <i class="fa fa-arrow-down"></i>
-                                        {% else %}
-                                            <i class="fa fa-arrow-right"></i>
-                                        {% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="level-item has-text-centered">
+                        <div class="level">
+                            <div class="level-left has-text-centered">
                                 <div>
                                     <p class="heading">PERFORMANCE</p>
-                                    <p class="is-size-4 is-bold has-text-right">{{ portfolio.lastPerf }} %</p>
+                                    <p class="is-size-4 is-bold has-text-centered">
+                                        {% if portfolio.lastPerf > 0 %}
+                                            <i class="fa fa-arrow-up"></i>&nbsp;
+                                        {% elseif portfolio.lastPerf < 0 %}
+                                            <i class="fa fa-arrow-down"></i>&nbsp;
+                                        {% else %}
+                                            <i class="fa fa-arrow-right"></i>&nbsp;
+                                        {% endif %}
+                                    {{ (portfolio.lastPerf * 100)|number_format(1, ',', ' ') }} %</p>
                                 </div>
                             </div>
-                            <div class="level-item has-text-centered">
+                            <div class="level-right has-text-centered">
                                 <div>
                                     <p class="heading">VALORISATION</p>
                                     <p class="is-size-4 is-bold has-text-right">{{ portfolio.lastTotalAmount|number_format(2, ',', ' ') }} €</p>
@@ -114,7 +108,7 @@
                         <div id="chart1" class="chart"></div>
                     </div>
                 </div>
-                <div class="column">
+                <div class="column is-3">
                     <div class="box">
                         <div id="chart2" class="chart"></div>
                     </div>
