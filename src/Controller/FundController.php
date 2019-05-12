@@ -55,16 +55,20 @@ class FundController extends BaseController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            // TODO: Some controls before saving to DB
-            // check if ISIN is in list
-            // check name
+            // check if new fund is in FundBase
+            $base = $this->getDoctrine()
+                ->getRepository(FundBase::class)
+                ->findOneBy(['isin' => $fund->getIsin()]);
+            if ($base) {
+                // overwrite name
+                $fund->setName($base->getName());
+            }
             
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($fund);
             $entityManager->flush();
             
-            return $this->redirectToRoute('fund_index');
+            return $this->redirectToRoute('fund_new');
         }
         
         return $this->render('fund/new.html.twig', [
