@@ -21,8 +21,8 @@ class PortfolioLineAddIoType extends AbstractType
                 'label' => " ",
                 // looks for choices from this entity
                 'class' => Fund::class,
-                // uses the Fund.isin property as the visible option string
-                'choice_label' => 'ISIN',
+                // uses the Fund.label property as the visible option string
+                'choice_label' => 'label',
                 // used to render a select box, check boxes or radios
                 // 'multiple' => true,
                 // 'expanded' => true,

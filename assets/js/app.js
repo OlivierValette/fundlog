@@ -64,7 +64,6 @@ $(document).ready(function() {
         $('.modal-card-title').text('Arbitrer la ligne #' + line);
 
         // ajax call of symfony controller retrieving template
-        // TODO: separate actions
         $.get(url, (data) => {
             // html injection in modal followed by modal activation
             $.when( $('.modal-card-body').html(data) ).done( modale.classList.add('is-active'));

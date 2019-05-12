@@ -90,6 +90,11 @@ class Fund
 
         return $this;
     }
+    
+    public function getLabel(): ?string
+    {
+        return substr($this->isin . ' - ' . $this->name, 0, 50);
+    }
 
     public function getLastLvalue(): ?float
     {
