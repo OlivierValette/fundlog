@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Fund
  *
  * @ORM\Table(name="fund", uniqueConstraints={@ORM\UniqueConstraint(name="id_UNIQUE", columns={"id"}), @ORM\UniqueConstraint(name="isin_UNIQUE", columns={"isin"})}, indexes={@ORM\Index(name="fk_fund_asset_class1_idx", columns={"asset_class_id"}), @ORM\Index(name="fk_fund_category1_idx", columns={"category_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\FundRepository")
  */
 class Fund
 {
