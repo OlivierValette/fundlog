@@ -38,8 +38,10 @@
                 <tr>
                     <th>Id</th>
                     <th>ISIN</th>
-                    <th>Nom</th>
-                    <th>Val. Liq.</th>
+                    <th>Libellé</th>
+                    <th>Classe</th>
+                    <th>Catégorie</th>
+                    <th>Valeur Liquidative</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,7 +50,9 @@
                         <td>{{ fund.id }}</td>
                         <td>{{ fund.isin }}</td>
                         <td>{{ fund.name }}</td>
-                        <td>{{ fund.lastLvalue }}</td>
+                        <td>{{ fund.assetClass.label }}</td>
+                        <td>{{ fund.category.label }}</td>
+                        <td class="has-text-right">{{ fund.lastLvalue|number_format(2, ',', ' ') }} €</td>
                     </tr>
                 {% else %}
                     <tr>
