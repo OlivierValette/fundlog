@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AssetClass
  *
  * @ORM\Table(name="asset_class")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AssetClassRepository")
  */
 class AssetClass
 {

@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\AssetClass;
 use App\Entity\Category;
 use App\Entity\Fund;
+use App\Repository\AssetClassRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,6 +25,10 @@ class FundType extends AbstractType
                 // looks for choices from this entity
                 'class' => AssetClass::class,
                 // used property as the visible option string
+                'query_builder' => function (AssetClassRepository $repository) {
+                    return $repository->createQueryBuilder('a')
+                        ->orderBy('a.label', 'ASC');
+                },
                 'choice_label' => 'label',
                 // used to render a select box, check boxes or radios
                 // 'multiple' => true,
@@ -33,6 +39,10 @@ class FundType extends AbstractType
                 // looks for choices from this entity
                 'class' => Category::class,
                 // used property as the visible option string
+                'query_builder' => function (CategoryRepository $repository) {
+                    return $repository->createQueryBuilder('c')
+                        ->orderBy('c.label', 'ASC');
+                },
                 'choice_label' => 'label',
                 // used to render a select box, check boxes or radios
                 // 'multiple' => true,

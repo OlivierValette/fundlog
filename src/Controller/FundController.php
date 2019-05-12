@@ -48,7 +48,7 @@ class FundController extends BaseController
         // Get fund list (array of objects)
         $fund_base = $this->getDoctrine()
             ->getRepository(FundBase::class)
-            ->findAll();
+            ->findBy([], ['name' => 'ASC']);
         
         // Create form
         $form = $this->createForm(FundType::class, $fund);
