@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Alert;
 use App\Entity\FinInfo;
 use App\Entity\Portfolio;
 use App\Entity\PortfolioHist;
@@ -562,6 +563,11 @@ class PortfolioController extends BaseController
         $portfolio->setArchived(true);
         // database update
         $this->getDoctrine()->getManager()->flush();
+    
+        $this->addFlash(
+            'warning',
+            "La portefeuille " . $portfolio->getName() . " est archivé."
+        );
         
         return $this->redirectToRoute('portfolio_index');
     }
@@ -575,9 +581,58 @@ class PortfolioController extends BaseController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         
         if ($this->isCsrfTokenValid('delete'.$portfolio->getId(), $request->request->get('_token'))) {
+            // check for existing lines in this portfolio
+            $portfolio_lines = $this->getDoctrine()
+                ->getRepository(PortfolioLine::class)
+                ->findBy([ 'portfolio' => $portfolio ]);
+            if ($portfolio_lines) {
+                $this->addFlash(
+                    'danger',
+                    "La portefeuille " . $portfolio->getName() . " ne peut pas être supprimé, seulement archivé."
+                );
+                return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
+            }
+            // check if existing history for this portfolio
+            $portfolio_hist = $this->getDoctrine()
+                ->getRepository(PortfolioHist::class)
+                ->findBy([ 'portfolio' => $portfolio ]);
+            if ($portfolio_hist) {
+                $this->addFlash(
+                    'danger',
+                    "La portefeuille " . $portfolio->getName() . " ne peut pas être supprimé, seulement archivé."
+                );
+                return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
+            }
+            // check if existing transactions for this portfolio
+            $portfolio_io = $this->getDoctrine()
+                ->getRepository(PortfolioIo::class)
+                ->findBy([ 'portfolio' => $portfolio ]);
+            if ($portfolio_io) {
+                $this->addFlash(
+                    'danger',
+                    "La portefeuille " . $portfolio->getName() . " ne peut pas être supprimé, seulement archivé."
+                );
+                return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
+            }
+            // check if existing transactions for this portfolio
+            $alert = $this->getDoctrine()
+                ->getRepository(Alert::class)
+                ->findBy([ 'portfolio' => $portfolio ]);
+            if ($alert) {
+                $this->addFlash(
+                    'danger',
+                    "La portefeuille " . $portfolio->getName() . " ne peut pas être supprimé, seulement archivé."
+                );
+                return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($portfolio);
             $entityManager->flush();
+    
+            $this->addFlash(
+                'warning',
+                "La portefeuille " . $portfolio->getName() . " est supprimé."
+            );
         }
 
         return $this->redirectToRoute('portfolio_index');
