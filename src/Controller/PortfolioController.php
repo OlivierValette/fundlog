@@ -223,7 +223,7 @@ class PortfolioController extends BaseController
             // Initialize with current date-time
             $transaction->setCreationDate(new DateTime());
             // Set default values
-            $transaction->setNetAmount(null);
+            $transaction->setNetAmount(0.0);
             // Save to database
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($transaction);
@@ -312,6 +312,14 @@ class PortfolioController extends BaseController
             ->getRepository(PortfolioLine::class)
             ->findIoLines($portfolio);
         
+        // Calculate transaction total amount and set netAmount default value
+        $io_total_amount = $this->getDoctrine()
+            ->getRepository(PortfolioLine::class)
+            ->ioTotalAmount($portfolio);
+        if ($transaction->getNetAmount() == 0.) {
+            $transaction->setNetAmount($io_total_amount);
+        }
+        
         // Controls confirmation progression
         $status = false;
         $total_number_lines = sizeof($portfolio_lines);
@@ -322,7 +330,6 @@ class PortfolioController extends BaseController
             }
         }
         if ($confirmed_lines == $total_number_lines && $transaction->getNetAmount() != null) $status = true;
-        
     
         // Prepare form fo net_amount (PortfolioIo) input
         $form = $this->createForm(PortfolioIoType::class, $transaction);
@@ -476,7 +483,7 @@ class PortfolioController extends BaseController
             // reset io related properties
             $portfolio_line->setIoQty(null);
             $portfolio_line->setIoValue(null);
-            $portfolio_line->setIoHide(null);
+            $portfolio_line->setIoHide(false);
             $portfolio_line->setIoConfirm(false);
             // save to db
             $entityManager->flush();
