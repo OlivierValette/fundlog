@@ -222,7 +222,7 @@ class PortfolioController extends BaseController
             // Initialize with current date-time
             $transaction->setCreationDate(new DateTime());
             // Set default values
-            $transaction->setNetAmount(0.0);
+            $transaction->setNetAmount(null);
             // Save to database
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($transaction);
@@ -371,16 +371,34 @@ class PortfolioController extends BaseController
         if (!$transaction) {
             return $this->redirectToRoute('portfolio_index');
         }
+    
+        // Update inputs/outputs in portfolio with net total amount of transaction
+        $netAmount = $transaction->getNetAmount();
+        if ($netAmount > 0) {
+            $inputs = $portfolio->getInputs();
+            $portfolio->setInputs($inputs + $netAmount);
+        } elseif ($netAmount < 0) {
+            $outputs = $portfolio->getOutputs();
+            $portfolio->setOutputs($outputs - $netAmount);
+        }
+        // save to db
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($portfolio);
+        $entityManager->flush();
+        
         // Set confirmDate and save to db
         $transaction->setConfirmDate(new DateTime());
-        $this->getDoctrine()->getManager()->flush();
-    
+        // save to db
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($transaction);
+        $entityManager->flush();
+        
         // Retrieve portfolio lines to be confirmed
         $portfolio_lines = $this->getDoctrine()
             ->getRepository(PortfolioLine::class)
             ->findIoLines($portfolio);
-        
         // reset io related columns
+        $entityManager = $this->getDoctrine()->getManager();
         foreach ($portfolio_lines as $portfolio_line) {
             $portfolio_line->setIoQty(null);
             $portfolio_line->setIoValue(null);
@@ -388,18 +406,17 @@ class PortfolioController extends BaseController
             $portfolio_line->setIoHide(false);
             // reset ioConfirm to false because transaction is fully confirmed
             $portfolio_line->setIoConfirm(false);
+            $entityManager->persist($portfolio_line);
         }
         // save to db
-        $this->getDoctrine()->getManager()->flush();
+        $entityManager->flush();
     
-        
         // Compute and update new total amount of portfolio
         $totalAmount = $this->getDoctrine()
             ->getRepository(PortfolioLine::class)
             ->totalAmount($portfolio);
         $portfolio->setLastTotalAmount($totalAmount);
         $this->getDoctrine()->getManager()->flush();
-        
         
         // Then go back to portfolios page
         return $this->redirectToRoute('portfolio_index');
@@ -427,7 +444,7 @@ class PortfolioController extends BaseController
                 'confirmDate' => NULL
             ]);
         
-        // If no transaction, no need to confirm!
+        // If no transaction, no need to reset!
         if (!$transaction) {
             return $this->redirectToRoute('portfolio_index');
         }
@@ -442,25 +459,40 @@ class PortfolioController extends BaseController
             ->getRepository(PortfolioLine::class)
             ->findBy([ 'portfolio' => $portfolio ]);
         
-        // suppress new portfolio lines with qty = 0.0
+        $warning = false;
         foreach ($portfolio_lines as $portfolio_line) {
             $entityManager = $this->getDoctrine()->getManager();
-            if ($portfolio_line->getQty === 0.0) {
+            // suppress new portfolio lines with qty = 0.0
+            if ($portfolio_line->getQty() === 0.0) {
                 // remove line from database
                 $entityManager->remove($portfolio_line);
             }
-            else {
-                // reset io related columns in others
-                $portfolio_line->setIoQty(null);
-                $portfolio_line->setIoValue(null);
-                $portfolio_line->setIoHide(null);
-                // reset ioConfirm to false because transaction is fully confirmed
-                $portfolio_line->setIoConfirm(false);
-                // save to db
+            elseif ($portfolio_line->getIoConfirm()) {
+            // TODO: get back to previous values if line is already confirmed
+                $warning = true;
             }
+            
+            // reset io related properties
+            $portfolio_line->setIoQty(null);
+            $portfolio_line->setIoValue(null);
+            $portfolio_line->setIoHide(null);
+            $portfolio_line->setIoConfirm(false);
+            // save to db
             $entityManager->flush();
         }
         
+        if ($warning) {
+            $this->addFlash(
+                'danger',
+                 "Des lignes étaient déjà confirmées, leurs quantités seront à reprendre. La demande d'arbitrage est supprimée."
+            );
+        } else {
+            $this->addFlash(
+                'warning',
+                "La demande d'arbitrage est supprimée"
+            );
+        }
+    
         // Then go back the portfolio page
         return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
     }
