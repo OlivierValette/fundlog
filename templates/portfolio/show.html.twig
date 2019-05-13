@@ -78,7 +78,14 @@
                     <div class="box">
                         <p class="title is-3 is-marginless is-spaced">{{ portfolio.name }}</p>
                         <p class="subtitle is-5 is-marginless">{{ portfolio.account }}</p>
-                        <br><br>
+                        {% if portfolio.lastPerf < -0.05 %}
+                            <p class="is-size-4 is-bold is-marginless has-text-danger">
+                                <i class="ringbell fa fa-bell"></i>
+                            </p>
+                        {% else %}
+                            <br>
+                        {% endif %}
+                        <br>
                         <div class="level">
                             <div class="level-left has-text-centered">
                                 <div>

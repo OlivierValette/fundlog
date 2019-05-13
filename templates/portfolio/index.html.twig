@@ -167,11 +167,15 @@
                         <td>{{ portfolio.middleman }}</td>
                         <td>{{ portfolio.lifeinsurance }}</td>
                         <td class="has-text-right">{{ portfolio.lastTotalAmount|number_format(2, ',', ' ') }} €</td>
-                        <td>
-                            <a href="{{ path('portfolio_show', {'id': portfolio.id}) }}">
-                                <i class="fa fa-search"></i> &nbsp;
-                                Détail
-                            </a>
+                        <td class="has-text-right">
+                            <p class="is-size-5 is-bold is-marginless">
+                                <a href="{{ path('portfolio_show', {'id': portfolio.id}) }}">
+                                    {% if portfolio.lastPerf < -0.05 %}
+                                            <i class="ringbell fa fa-bell"></i>&nbsp;
+                                    {% endif %}
+                                    <i class="fa fa-search"></i> &nbsp;
+                                    </a>
+                            </p>
                         </td>
                     </tr>
                 {% else %}

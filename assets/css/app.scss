@@ -182,3 +182,18 @@ $fa-font-path: "~font-awesome/fonts";
   width: 100%;
   min-height: 200px;
 }
+
+.ringbell {
+  animation: scale-up-center 1s cubic-bezier(0.680, -0.550, 0.265, 1.550) infinite alternate backwards;
+}
+
+@keyframes scale-up-center {
+  0% {
+    transform: scale(0.5);
+    color: rgba(150, 0, 0, 0.85);
+  }
+  100% {
+    transform: scale(1);
+    color: $danger;
+  }
+}
