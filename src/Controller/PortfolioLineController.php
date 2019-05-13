@@ -129,7 +129,19 @@ class PortfolioLineController extends AbstractController
     {
         $form = $this->createForm(PortfolioLineConfirmType::class, $portfolioLine);
         $form->handleRequest($request);
-        
+    
+        // Form is submitted with errors
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash(
+                'warning',
+                "Erreur de saisie, veuillez recommencer."
+            );
+            // Then go back to confirmation page
+            return $this->redirectToRoute('portfolio_confirm', [
+                'id' => $portfolioLine->getPortfolio()->getId()
+            ]);
+        }
+        // Form is submitted without errors
         if ($form->isSubmitted() && $form->isValid()) {
             // Set ioConfirm to true once real values updated until transaction fully confirmed
             $portfolioLine->setIoConfirm(true);
