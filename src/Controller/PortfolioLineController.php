@@ -103,7 +103,8 @@ class PortfolioLineController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
     
-            // reset dates in case of new line
+            // reset dates in case of line update to force new validation
+            // and notification to middleman
             $transaction->setValidDate(null);
             $transaction->setSendDate(null);
             $entityManager = $this->getDoctrine()->getManager();
