@@ -49,6 +49,7 @@ class CurrencyController extends BaseController
             }
         }
         $entityManager->flush();
+        $this->addFlash('warning', 'Les devises ont été mises à jour.');
     
         return $this->redirectToRoute('portfolio_index');
     }
