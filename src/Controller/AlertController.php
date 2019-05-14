@@ -15,22 +15,22 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AlertController extends AbstractController
 {
-    /**
-     * @Route("/", name="alert_index", methods={"GET"})
-     */
-    public function index(AlertRepository $alertRepository): Response
-    {
-        return $this->render('alert/index.html.twig', [
-            'alerts' => $alertRepository->findAll(),
-        ]);
-    }
 
     /**
      * @Route("/new", name="alert_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
+    
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $alert = new Alert();
+        // Set default values
+        $alert->setPeriodicity('M');
+        $alert->setObject('Performance');
+        $alert->setThreshold(8);
+        
         $form = $this->createForm(AlertType::class, $alert);
         $form->handleRequest($request);
 
@@ -53,6 +53,11 @@ class AlertController extends AbstractController
      */
     public function show(Alert $alert): Response
     {
+    
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
+        
         return $this->render('alert/show.html.twig', [
             'alert' => $alert,
         ]);
@@ -63,6 +68,10 @@ class AlertController extends AbstractController
      */
     public function edit(Request $request, Alert $alert): Response
     {
+    
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $form = $this->createForm(AlertType::class, $alert);
         $form->handleRequest($request);
 
@@ -85,6 +94,9 @@ class AlertController extends AbstractController
      */
     public function delete(Request $request, Alert $alert): Response
     {
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         if ($this->isCsrfTokenValid('delete'.$alert->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($alert);
