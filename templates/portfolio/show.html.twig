@@ -151,9 +151,11 @@
                             Archiver
                         </a>
                     </p>
-                    <p class="level-item">
-                        {{ include('portfolio/_delete_form.html.twig') }}
-                    </p>
+                    {% if portfolio_lines is empty %}
+                        <p class="level-item">
+                            {{ include('portfolio/_delete_form.html.twig') }}
+                        </p>
+                    {% endif %}
                 </div>
 
                 <!-- Right side -->
