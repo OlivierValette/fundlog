@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Alert
  *
  * @ORM\Table(name="alert", indexes={@ORM\Index(name="fk_alert_portfolio1_idx", columns={"portfolio_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AlertRepository")
  */
 class Alert
 {
