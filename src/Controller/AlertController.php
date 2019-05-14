@@ -49,21 +49,6 @@ class AlertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="alert_show", methods={"GET"})
-     */
-    public function show(Alert $alert): Response
-    {
-    
-        // Checking to see if the user is logged in
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        
-        
-        return $this->render('alert/show.html.twig', [
-            'alert' => $alert,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="alert_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Alert $alert): Response
@@ -77,10 +62,7 @@ class AlertController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('alert_index', [
-                'id' => $alert->getId(),
-            ]);
+            return $this->redirectToRoute('app_profile');
         }
 
         return $this->render('alert/edit.html.twig', [
@@ -103,6 +85,6 @@ class AlertController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('alert_index');
+        return $this->redirectToRoute('app_profile');
     }
 }

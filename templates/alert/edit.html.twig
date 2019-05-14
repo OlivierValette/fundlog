@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
+{% form_theme form 'form/bulma_layout.html.twig' %}
 
-{% block title %}Edit Alert{% endblock %}
+{% block title %}Modifier l'alerte{% endblock %}
 
 {% block body %}
-    <h1>Edit Alert</h1>
+    <div class="box has-background-grey-lighter">
 
-    {{ include('alert/_form.html.twig', {'button_label': 'Update'}) }}
+        <h1 class="title is-3">Modifier une alerte</h1>
 
-    <a href="{{ path('alert_index') }}">back to list</a>
+        {{ include('alert/_form.html.twig') }}
 
-    {{ include('alert/_delete_form.html.twig') }}
+    </div>
 {% endblock %}
