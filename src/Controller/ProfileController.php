@@ -20,6 +20,10 @@ class ProfileController extends AbstractController
      */
     public function profil(Request $request, UserPasswordEncoderInterface $passwordEncoder, Swift_Mailer $mailer): Response
     {
+    
+    
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // Get user
         $user = $this->getUser();
         
