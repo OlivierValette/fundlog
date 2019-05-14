@@ -164,7 +164,8 @@ class PortfolioController extends BaseController
                 'confirmDate' => NULL
             ]);
     
-        // links to financial infos
+        // data and links to financial infos
+        $perfs = [];
         $links = [];
         foreach ($portfolio_lines as $portfolio_line) {
             $fin_infos = $this->getDoctrine()
@@ -176,6 +177,9 @@ class PortfolioController extends BaseController
                     'source' => $fin_info->getSource()->getName(),
                     'url' => $fin_info->getSource()->getFundUrl() . $fin_info->getCode(),
                     ]);
+                if ($fin_info->getSource()->getName() == 'morningstar') {
+                    $perfs[$portfolio_line->getId()] = $fin_info->getPerfA();
+                }
             }
         }
         
@@ -190,6 +194,7 @@ class PortfolioController extends BaseController
             'portfolio_io' => $transaction,
             'hist_values' => $portfolio_hist,
             'links' => $links,
+            'perfs' => $perfs,
             'title' => 'fundlog: ' . $portfolio->getName(),
         ]);
     }

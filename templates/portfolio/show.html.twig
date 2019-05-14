@@ -193,6 +193,7 @@
                         <th>Ligne</th>
                         <th>Fond</th>
                         <th>ISIN</th>
+                        <th>Perf. YTD</th>
                         <th>Qté</th>
                         <th>Valeur liq.</th>
                         <th>Valeur totale</th>
@@ -218,6 +219,10 @@
                             </td>
                             <td>{{ portfolio_line.fund.isin }}</td>
                             <td class="has-text-right">
+                                {{ perfs[portfolio_line.id]|number_format(1, ',', ' ') }} %
+                            </td>
+
+                            <td class="has-text-right">
                                 {{ portfolio_line.qty|number_format(4, ',', ' ') }}
                             </td>
                             <td class="has-text-right">
@@ -236,6 +241,7 @@
                     <tr class="is-selected">
                         <td></td>
                         <td>TOTAL</td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
