@@ -44,74 +44,79 @@
         </section>
         <section class="section columns">
             <section class="column is-4">
-                <div class="tile is-ancestor">
-                    <section class="tile is-vertical is-parent">
-                        <article class="tile is-child box has-background-grey-lighter is-centered">
-                            <h3 class="title is-3">Modifier le mot de passe</h3>
-                            {{ form_start(form) }}
-                                {{ form_row(form.plainPassword.first, {
-                                    'attr': {
-                                        'help_text': 'Minimum 8 caractères, majuscules, minuscules, chiffres et caractères spéciaux',
-                                    },
-                                    'label': 'Saisir le nouveau mot de passe',
-                                    'bulma_icon': {
-                                        'icon': 'lock',
-                                        'position': 'left'
-                                    }
-                                    })
-                                }}
-                                {{ form_row(form.plainPassword.second) }}
-                                <button class="button is-block is-primary is-fullwidth" type="submit">
-                                    <i class="fa fa-refresh"></i> &nbsp;
-                                    Confirmer le changement de mot de passe
-                                </button>
-                            {{ form_end(form) }}
-                        </article>
-                        <div class="tile is-child">
-                            <figure class="image">
-                                <img src="{{ asset('build/images/kyle-hanson-1351122-unsplash small.jpg') }}"
-                                     alt="Chien regardant un ordinateur">
-                            </figure>
-                        </div>
-                    </section>
-                </div>
+                <article class="box has-background-grey-lighter is-centered">
+                    <h3 class="title is-3">Mon mot de passe</h3>
+                    <p class="subtitle is-5 is-marginless">Pour changer mon mot de passe...</p>
+                    {{ form_start(form) }}
+                        {{ form_row(form.plainPassword.first, {
+                            'attr': {
+                                'help_text': 'Minimum 8 caractères, majuscules, minuscules, chiffres et caractères spéciaux',
+                            },
+                            'label': 'Saisir le nouveau mot de passe',
+                            'bulma_icon': {
+                                'icon': 'lock',
+                                'position': 'left'
+                            }
+                            })
+                        }}
+                        {{ form_row(form.plainPassword.second) }}
+                        <button class="button is-block is-primary is-fullwidth" type="submit">
+                            <i class="fa fa-refresh"></i> &nbsp;
+                            Confirmer le changement de mot de passe
+                        </button>
+                    {{ form_end(form) }}
+                </article>
+                <figure class="image">
+                    <img src="{{ asset('build/images/kyle-hanson-1351122-unsplash small.jpg') }}"
+                         alt="Chien regardant un ordinateur">
+                </figure>
             </section>
-            <section class="data section column is-8">
-                <h3 class="title is-3">Alertes</h3>
-                <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Portefeuille</th>
-                        <th>Périodicité</th>
-                        <th>Objet</th>
-                        <th>Seuil</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for alert in alerts %}
+            <section class="column is-8">
+                <article class="box has-background-grey-lighter is-centered">
+                    <h3 class="title is-3">Mes alertes</h3>
+                    <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                        <thead>
                         <tr>
-                            <td><i class="fa fa-bell"></i>&nbsp;{{ alert.id }}</td>
-                            <td>{{ alert.portfolio.name }}</td>
-                            <td>{{ alert.periodicity }}</td>
-                            <td>{{ alert.objetc }}</td>
-                            <td>{{ alert.threshold }}</td>
-                            <td class="has-text-right">
-                                <p class="is-size-5 is-bold is-marginless">
-                                    <a href="{{ path('alert_edit', {'id': alert.id}) }}">
-                                        <i class="fa fa-pencil-square"></i> &nbsp;
-                                    </a>
-                                </p>
-                            </td>
+                            <th>#</th>
+                            <th>Portefeuille</th>
+                            <th>Périodicité</th>
+                            <th>Objet</th>
+                            <th>Seuil</th>
+                            <th>Actions</th>
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="9">Aucune alerte enregistrée</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {% for alert in alerts %}
+                            <tr>
+                                <td><i class="fa fa-bell"></i>&nbsp;{{ alert.id }}</td>
+                                <td>{{ alert.portfolio.name }}</td>
+                                <td>{{ alert.periodicity }}</td>
+                                <td>{{ alert.object }}</td>
+                                <td class="has-text-right">{{ alert.threshold|number_format(1, ',', ' ') }} %</td>
+                                <td class="has-text-right">
+                                    <p class="is-size-5 is-marginless">
+                                        <a href="{{ path('alert_edit', {'id': alert.id}) }}">
+                                            <i class="fa fa-pencil-square has-text-primary"></i> &nbsp;
+                                        </a>
+                                        <a href="{{ path('alert_delete', {'id': alert.id}) }}">
+                                            <i class="fa fa-trash has-text-danger"></i> &nbsp;
+                                        </a>
+                                    </p>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">Aucune alerte enregistrée</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <p class="has-text-right">
+                        <a href="{{ path('alert_new') }}" class="button is-info">
+                            <i class="fa fa-plus-square"></i>&nbsp;
+                            Ajouter une alerte
+                        </a>
+                    </p>
+                </article>
             </section>
         </section>
 
