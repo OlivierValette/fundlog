@@ -108,4 +108,11 @@ $(document).ready(function() {
         });
     });
 
+
+    // Printer call
+
+    (document.querySelectorAll('.printer') || []).forEach(($printer) => {
+        $printer.addEventListener('click', () => window.print());
+    });
+
 });
