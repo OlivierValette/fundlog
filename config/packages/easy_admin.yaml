@@ -1,12 +1,12 @@
 easy_admin:
     # general parameters
-    site_name: 'Administation fundlog'
+    site_name: 'Administation du site fundlog'
     design:
         brand_color: '#037365'
         menu:
             - { label: "Gestion des données de base"}
             - { label: 'Alertes', entity: Alert, icon: 'bell-o' }
-            - { label: 'Assets', entity: AssetClass, icon: 'map-marker' }
+            - { label: "Classes d'actifs", entity: AssetClass, icon: 'map-marker' }
             - { label: 'Catégories', entity: Category, icon: 'tags' }
             - { label: 'Compagnies', entity: Lifeinsurance, icon: 'building' }
             - { label: 'Intermédiaires', entity: Middleman, icon: 'male' }
@@ -43,15 +43,56 @@ easy_admin:
             class: App\Entity\Alert
             label: 'Alertes'
             help: "Gestion des alertes mail"
+            list:
+                title: "Liste des alertes"
+                actions:
+                    - { name: 'new', icon: 'plus', label: 'Nouveau', title: 'Créer' }
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                fields:
+                    - { property: 'portfolio.name', label: 'Portefeuille' }
+                    - { property: 'periodicity', label: 'Périodicité (Q/S/M)' }
+                    - { property: 'object', label: 'Valeur/performance' }
+                    - { property: 'threshold', label: 'Seuil (en € ou en %)', format: '%.3f', css_class: 'text-right' }
+                sort: ['portfolio.id', 'ASC']
+            form:
+                fields:
+                    - { property: 'portfolio', label: 'Portefeuille' }
+                    - { property: 'periodicity', label: 'Périodicité (Q/S/M)' }
+                    - { property: 'object', label: 'Valeur/performance' }
+                    - { property: 'threshold', label: 'Seuil (en € ou en %)', format: '%.3f', css_class: 'text-right' }
+            new:
+                title: 'Ajouter une alerte'
+            edit:
+                title: 'Modifier une alerte'
+
         AssetClass:
             class: App\Entity\AssetClass
-            label: 'Types de support'
-            help: "Gestion des catégories d'actifs"
+            label: "Classes d'actifs"
+            help: "Gestion des classes d'actifs"
+            list:
+                sort: ['label', 'ASC']
+                title: "Liste des classes d'actifs"
+                actions:
+                    - { name: 'new', icon: 'plus', label: 'Nouveau', title: 'Créer' }
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                fields:
+                    - { property: 'label', label: 'Libellé' }
+            form:
+                fields:
+                    - { property: 'label', label: 'Libellé' }
+            new:
+                title: "Ajouter une classes d'actifs"
+            edit:
+                title: "Modifier une classes d'actifs"
+
         Category:
             class: App\Entity\Category
             label: 'Catégories'
             help: "Gestion des catégories d'OPCVM"
             list:
+                sort: ['label', 'ASC']
                 title: 'Liste des catégories'
                 actions:
                     - { name: 'new', icon: 'plus', label: 'Nouveau', title: 'Créer' }
@@ -60,59 +101,254 @@ easy_admin:
                 fields:
                     - { property: 'label', label: 'Libellé' }
             form:
-                title: 'Ajouter une catégorie'
                 fields:
                     - { property: 'label', label: 'Libellé' }
             new:
+                title: 'Ajouter une catégorie'
             edit:
                 title: 'Modifier une catégorie'
+
         Currency:
             class: App\Entity\Currency
             label: 'Devises'
             help: "Taux de conversion des devises en EUR"
+            disabled_actions: ['new', 'edit', 'delete']
+            list:
+                sort: ['code', 'ASC']
+                title: "Liste des devises"
+                fields:
+                    - { property: 'code', label: 'Code monnaie' }
+                    - { property: 'value', label: 'Valeur (en €)', format: '%.3f', css_class: 'text-right' }
+
         Fund:
             class: App\Entity\Fund
-            label: 'Fonds'
+            label: 'Fonds actifs'
+            help: "Liste des fonds actifs"
+            list:
+                sort: ['isin', 'ASC']
+                title: "Liste des fonds courants"
+                actions:
+                    - { name: 'new', icon: 'plus', label: 'Nouveau', title: 'Créer' }
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                fields:
+                    - { property: 'isin', label: 'ISIN' }
+                    - { property: 'name', label: 'Nom' }
+                    - { property: 'lastLvalue', label: 'Dern. valeur', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'assetClass', label: 'Classe' }
+                    - { property: 'category', label: 'Catégorie' }
+            form:
+                fields:
+                    - { property: 'isin', label: 'ISIN' }
+                    - { property: 'name', label: 'Nom' }
+                    - { property: 'lastLvalue', label: 'Dern. valeur', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'assetClass', label: 'Classe' }
+                    - { property: 'category', label: 'Catégorie' }
+            new:
+                title: 'Ajouter un fonds'
+            edit:
+                title: 'Modifier un fonds'
+
         FundBase:
             class: App\Entity\FundBase
-            label: 'Fonds'
+            label: 'Fonds courants'
+            help: "Liste des fonds courants servant d'aide à l'ajout de nouveaux fonds"
+            list:
+                sort: ['isin', 'ASC']
+                title: "Liste des fonds courants"
+                actions:
+                    - { name: 'new', icon: 'plus', label: 'Nouveau', title: 'Créer' }
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                fields:
+                    - { property: 'isin', label: 'ISIN' }
+                    - { property: 'name', label: 'Nom' }
+            form:
+                fields:
+                    - { property: 'isin', label: 'ISIN' }
+                    - { property: 'name', label: 'Nom' }
+            new:
+                title: 'Ajouter un fonds'
+            edit:
+                title: 'Modifier un fonds'
+
         Lifeinsurance:
             class: App\Entity\Lifeinsurance
             label: 'Compagnie'
             help: "Gestion des compagnies d'assurance."
+            list:
+                sort: ['companyName', 'ASC']
+                title: "Liste des compagnies d'assurance"
+                actions:
+                    - { name: 'new', icon: 'plus', label: 'Nouveau', title: 'Créer' }
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                fields:
+                    - { property: 'companyName', label: 'Libellé' }
+            form:
+                fields:
+                    - { property: 'companyName', label: 'Libellé' }
+            new:
+                title: "Ajouter une compagnie d'assurance"
+            edit:
+                title: "Modifier une compagnie d'assurance"
+
         Middleman:
             class: App\Entity\Middleman
             label: 'Intermédiaire'
             help: "Gestion des intermédiaires. Etablissements gérant les portefeuilles."
+            list:
+                sort: ['company', 'ASC']
+                title: "Liste des intermédiaires"
+                actions:
+                    - { name: 'new', icon: 'plus', label: 'Nouveau', title: 'Créer' }
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                fields:
+                    - { property: 'company', label: 'Société' }
+                    - { property: 'title', label: 'Civilité' }
+                    - { property: 'firstname', label: 'Prénom' }
+                    - { property: 'lastname', label: 'Nom' }
+                    - { property: 'email', label: 'Email' }
+                    - { property: 'phone', label: 'Téléphone' }
+            form:
+                fields:
+                    - { property: 'company', label: 'Société' }
+                    - { property: 'title', label: 'Civilité' }
+                    - { property: 'firstname', label: 'Prénom' }
+                    - { property: 'lastname', label: 'Nom' }
+                    - { property: 'email', label: 'Email' }
+                    - { property: 'phone', label: 'Téléphone' }
+            new:
+                title: 'Ajouter un intermédiaire'
+            edit:
+                title: 'Modifier un intermédiaire'
+
         Portfolio:
             class: App\Entity\Portfolio
             label: 'Portefeuille'
             help: "Gestion des portefeuilles des utilisateurs"
+            disabled_actions: ['new']
+            list:
+                sort: ['name', 'ASC']
+                title: "Liste des portefeuilles des utilisateurs"
+                actions:
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                fields:
+                    - { property: 'id', label: 'id' }
+                    - { property: 'name', label: 'Nom' }
+                    - { property: 'lifeinsurance', label: 'Compagnie' }
+                    - { property: 'middleman', label: 'Intermédiaire' }
+                    - { property: 'user', label: 'Utilisateur' }
+                    - { property: 'account', label: 'N° de compte' }
+                    - { property: 'inputs', label: 'Entrées', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'outputs', label: 'Sorties', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'lastTotalAmount', label: 'Montant', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'archived', label: 'Archivé' }
+            form:
+                fields:
+                    - { property: 'name', label: 'Nom' }
+                    - { property: 'lifeinsurance', label: 'Compagnie' }
+                    - { property: 'middleman', label: 'Intermédiaire' }
+                    - { property: 'user', label: 'Utilisateur' }
+                    - { property: 'account', label: 'N° de compte' }
+                    - { property: 'createDate', label: 'Date création' }
+                    - { property: 'inputs', label: 'Entrées', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'outputs', label: 'Sorties', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'lastTotalAmount', label: 'Montant', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'lastPerf', label: 'Performance', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'archived', label: 'Archivé' }
+            edit:
+                title: 'Modifier un portefeuille'
+
         PortfolioLine:
             class: App\Entity\PortfolioLine
             label: 'Ligne de portefeuille'
             help: "Gestion des lignes des portefeuilles des utilisateurs"
+            disabled_actions: ['new']
+            list:
+                sort: ['id', 'ASC']
+                title: "Liste des lignes des portefeuilles"
+                actions:
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                fields:
+                    - { property: 'id', label: 'id' }
+                    - { property: 'portfolio', label: 'Portefeuille' }
+                    - { property: 'fund', label: 'Fonds' }
+                    - { property: 'qty', label: 'Qté', format: '%.4f', css_class: 'text-right' }
+                    - { property: 'lvalue', label: 'Valeur', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'ioQty', label: 'Qté arb.', format: '%.4f', css_class: 'text-right' }
+                    - { property: 'ioValue', label: 'Valeur arb.', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'ioHide', label: 'Caché' }
+                    - { property: 'ioConfirm', label: 'Confirmé' }
+            form:
+                fields:
+                    - { property: 'portfolio', label: 'Portefeuille' }
+                    - { property: 'fund', label: 'Fonds' }
+                    - { property: 'qty', label: 'Qté', format: '%.4f', css_class: 'text-right' }
+                    - { property: 'lvalue', label: 'Valeur', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'ioQty', label: 'Qté arb.', format: '%.4f', css_class: 'text-right' }
+                    - { property: 'ioValue', label: 'Valeur arb.', format: '%.2f', css_class: 'text-right' }
+                    - { property: 'ioHide', label: 'Caché' }
+                    - { property: 'ioConfirm', label: 'Confirmé' }
+            edit:
+                title: 'Modifier une ligne de portefeuille'
+
         Scraping:
             class: App\Entity\Scraping
-            label: 'Mapping'
+            label: 'Grilles de correspondance pour le scraping'
             icon: 'money'
-            help: "Gestion du mapping de recherche des informations sur les sites (web scraping)"
+            help: "Gestion des grilles de correspondance pour la recherche des informations sur les sites (web scraping)"
             list:
-                fields:
-                    ['id', 'source.id', 'item', 'tag0', 'tag1', 'tag2', 'class0', 'class1', 'class2', 'index0', 'index1', 'index2', 'attr0', 'attr1', 'attr2', 'stringify', 'moreover']
+                sort: ['item', 'ASC']
+                fields: ['source', 'item', 'tag0', 'tag1', 'tag2', 'class0', 'class1', 'class2', 'index0', 'index1', 'index2', 'attr0', 'attr1', 'attr2', 'stringify', 'moreover']
+                actions:
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+            form:
+                fields: ['source', 'item', 'tag0', 'tag1', 'tag2', 'class0', 'class1', 'class2', 'index0', 'index1', 'index2', 'attr0', 'attr1', 'attr2', 'stringify', 'moreover']
+            new:
+                title: 'Ajouter une grille de correspondance'
+            edit:
+                title: 'Modifier une grille de correspondance'
+
         Source:
             class: App\Entity\Source
             label: 'Source'
             help: "Gestion des sources d'information financières"
+            list:
+                sort: ['name', 'ASC']
+                title: "Liste des sites d'information financières"
+                actions:
+                    - { name: 'new', icon: 'plus', label: 'Nouveau', title: 'Créer' }
+                    - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                fields:
+                    - { property: 'name', label: 'Nom' }
+                    - { property: 'search_url', label: 'URL de recherche' }
+                    - { property: 'fund_url', label: 'URL du fonds' }
+            form:
+                fields:
+                    - { property: 'name', label: 'Nom' }
+                    - { property: 'search_url', label: 'URL de recherche' }
+                    - { property: 'fund_url', label: 'URL du fonds' }
+            new:
+                title: 'Ajouter un site'
+            edit:
+                title: 'Modifier un site'
+
         User:
             class: App\Entity\User
             label: 'Utilisateurs'
             icon: 'user'
             help: "Gestion des utilisateurs de fundlog"
+            disabled_actions: ['new']
             list:
+                sort: ['lastname', 'ASC']
                 title: 'Liste des utilisateurs'
                 actions:
-                    - { name: 'new', icon: 'plus', label: 'Nouveau', title: 'Créer' }
                     - { name: 'show', icon: 'eye', label: false, title: 'Voir' }
                     - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier' }
                     - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
@@ -135,6 +371,5 @@ easy_admin:
                     - { property: 'firstname', label: 'Prénom' }
                     - { property: 'email', label: 'Email' }
                     - { property: 'createdAt', label: 'Date création' }
-            new:
             edit:
                 title: 'Modifier un utilisateur'
