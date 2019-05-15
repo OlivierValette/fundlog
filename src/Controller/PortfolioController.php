@@ -409,7 +409,7 @@ class PortfolioController extends BaseController
         // Retrieve portfolio lines to be confirmed
         $portfolio_lines = $this->getDoctrine()
             ->getRepository(PortfolioLine::class)
-            ->findIoLines($portfolio);
+            ->findActiveLines($portfolio);
         // reset io related columns
         $entityManager = $this->getDoctrine()->getManager();
         foreach ($portfolio_lines as $portfolio_line) {
