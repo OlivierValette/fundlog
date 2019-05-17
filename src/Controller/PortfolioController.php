@@ -100,6 +100,7 @@ class PortfolioController extends BaseController
         
         // Create new portfolio
         $portfolio = new Portfolio();
+        $portfolio_hist = new PortfolioHist();
     
         // Get user to set portfolio owner
         $user = $this->getUser();
@@ -110,8 +111,14 @@ class PortfolioController extends BaseController
             return $this->redirectToRoute('app_login');
         }
         
-        // Initialize with current date-time
-        $portfolio->setCreateDate(new DateTime());
+        // Initialize Portfolio with current date-time
+        $now = new DateTime();
+        $portfolio->setCreateDate($now);
+        
+        // Create one line in PortfolioHist
+        $portfolio_hist->setPortfolio($portfolio);
+        $portfolio_hist->setLvalue(0);
+        $portfolio_hist->setLvdate($now->modify("last day of previous month"));
         
         // Set default values
         $portfolio->setInputs(0);
@@ -126,8 +133,9 @@ class PortfolioController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($portfolio);
+            $entityManager->persist($portfolio_hist);
             $entityManager->flush();
-
+            
             return $this->redirectToRoute('portfolio_index');
         }
 
@@ -172,13 +180,15 @@ class PortfolioController extends BaseController
                 ->getRepository(FinInfo::class)
                 ->findBy([ 'fund' => $portfolio_line->getFund() ]);
             $links [$portfolio_line->getId()] = [];
-            foreach ($fin_infos as $fin_info) {
-                array_push($links [$portfolio_line->getId()], [
-                    'source' => $fin_info->getSource()->getName(),
-                    'url' => $fin_info->getSource()->getFundUrl() . $fin_info->getCode(),
-                    ]);
-                if ($fin_info->getSource()->getName() == 'morningstar') {
-                    $perfs[$portfolio_line->getId()] = $fin_info->getPerfA();
+            if ($fin_infos) {
+                foreach ($fin_infos as $fin_info) {
+                    array_push($links [$portfolio_line->getId()], [
+                        'source' => $fin_info->getSource()->getName(),
+                        'url' => $fin_info->getSource()->getFundUrl() . $fin_info->getCode(),
+                        ]);
+                    if ($fin_info->getSource()->getName() == 'morningstar') {
+                        $perfs[$portfolio_line->getId()] = $fin_info->getPerfA();
+                    }
                 }
             }
         }
@@ -604,17 +614,7 @@ class PortfolioController extends BaseController
                 );
                 return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
             }
-            // check if existing history for this portfolio
-            $portfolio_hist = $this->getDoctrine()
-                ->getRepository(PortfolioHist::class)
-                ->findBy([ 'portfolio' => $portfolio ]);
-            if ($portfolio_hist) {
-                $this->addFlash(
-                    'danger',
-                    "La portefeuille " . $portfolio->getName() . " ne peut pas être supprimé, seulement archivé."
-                );
-                return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
-            }
+
             // check if existing transactions for this portfolio
             $portfolio_io = $this->getDoctrine()
                 ->getRepository(PortfolioIo::class)
@@ -637,8 +637,16 @@ class PortfolioController extends BaseController
                 );
                 return $this->redirectToRoute('portfolio_show', ['id' => $portfolio->getId()]);
             }
+            // retrieve existing history for this portfolio
+            $portfolio_hist = $this->getDoctrine()
+                ->getRepository(PortfolioHist::class)
+                ->findBy([ 'portfolio' => $portfolio ]);
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($portfolio);
+            foreach ($portfolio_hist as $pfh){
+                $entityManager->remove($pfh);
+            }
             $entityManager->flush();
     
             $this->addFlash(
