@@ -11,33 +11,20 @@
                 Informations légales
             </p>
             <p>
-                Statut du propriétaire : <strong>société</strong><br/>
-                Préfixe : <strong>SAS</strong><br/>
-                Nom de la Société :<strong> SPI10</strong><br/>
-                Adresse : <strong>10 rue Henri Sée 35700 Rennes</strong><br/>
-                Tél  : <strong>+33673273060</strong><br/>
-                Au Capital de :<strong> 11000000 €</strong><br/>
-                SIRET :  <strong>12345678   </strong>R.C.S. :<strong> RENNES</strong><br/>
-                Adresse de courrier électronique : <strong>fundlog@spi10.com</strong> <br/>
-                <br/>
                 Le Créateur du site est :
                 <strong>Olivier Valette</strong><br/>
                 Le Responsable de la  publication est :
                 <strong>Olivier Valette</strong><br/>
                 Contactez le responsable de la publication :
-                <a href="mailto:fundlog@spi10.com?subject=Contact des mentions légales via le site fundlog.fr">
-                    fundlog@spi10.com
+                <a href="mailto:fundlog.app@gmail.com?subject=Contact des mentions légales via le site fundlog.fr">
+                    fundlog.app@gmail.com
                 </a><br/>
-                Le responsable de la publication est une <strong>personne physique</strong><br/>
-                <br/>
                 Le Webmaster est :
                 <strong>Olivier Valette</strong><br/>
                 Contactez le Webmaster :
-                <strong>
-                <a href="mailto:fundlog@spi10.com?subject=Contact des mentions légales via le site fundlog.fr">
-                    fundlog@spi10.com
-                </a>
-                </strong><br/>
+                <a href="mailto:fundlog.app@gmail.com?subject=Contact des mentions légales via le site fundlog.fr">
+                    fundlog.app@gmail.com
+                </a><br/>
                 L’hébergeur du site est :
                 <strong>Digital Ocean - 101 Avenue of the Americas, 10th Floor - NY10013 New York</strong>
             </p>
@@ -56,8 +43,7 @@
                 ou des cookies sont susceptible de s’installer automatiquement sur son ordinateur. Un cookie est un
                 fichier de petite taille, qui ne permet pas l’identification de l’utilisateur, mais qui enregistre des
                 informations relatives à la navigation d’un ordinateur sur un site. Les données ainsi obtenues visent à
-                faciliter la navigation ultérieure sur le site, et ont également vocation à permettre diverses mesures
-                de fréquentation.<br/>
+                faciliter la navigation ultérieure sur le site.<br/>
                 <br/>
                 Le paramétrage du logiciel de navigation permet d’informer de la présence de cookie et éventuellement,
                 de refuser de la manière décrite à l’adresse suivante :
@@ -74,21 +60,19 @@
                 octobre 1995.
             </p>
             <p>
-                Sur le site {{ fundlog|raw }}, le propriétaire du site ne collecte des informations personnelles relatives à
-                l'utilisateur que pour le besoin de certains services proposés par le site {{ fundlog|raw }}.
+                Sur le site {{ fundlog|raw }}, le propriétaire du site ne collecte des informations personnelles
+                relatives à l'utilisateur que pour le besoin de certains services proposés par le site {{ fundlog|raw }}.
                 L'utilisateur fournit ces informations en toute connaissance de cause, notamment lorsqu'il procède par
-                lui-même à leur saisie. Il est alors précisé à l'utilisateur du site {{ fundlog|raw }} l’obligation ou non de
-                fournir ces informations.<br/>
+                lui-même à leur saisie. <br>
                 Conformément aux dispositions des articles 38 et suivants de la loi 78-17 du 6 janvier 1978 relative à
                 l’informatique, aux fichiers et aux libertés, tout utilisateur dispose d’un droit d’accès, de
                 rectification, de suppression et d’opposition aux données personnelles le concernant.
-                Pour l’exercer, adressez votre demande à {{ fundlog|raw }} par email au webmaster ou en effectuant sa demande
-                écrite et signée, accompagnée d’une copie du titre d’identité avec signature du titulaire de la pièce, en
-                précisant l’adresse à laquelle la réponse doit être envoyée.
+                Pour l’exercer, adressez votre demande à {{ fundlog|raw }} par email au webmaster.
             </p>
             <p>
                 Aucune information personnelle de l'utilisateur du site {{ fundlog|raw }} n'est publiée à l'insu de
                 l'utilisateur, échangée, transférée, cédée ou vendue sur un support quelconque à des tiers.
+
                 Seule l'hypothèse du rachat du site {{ fundlog|raw }} au propriétaire du site et de ses droits permettrait la
                 transmission des dites informations à l'éventuel acquéreur qui serait à son tour tenu de la même obligation de
                 conservation et de modification des données vis à vis de l'utilisateur du site {{ fundlog|raw }}.
@@ -103,12 +87,14 @@
                 directive 96/9 du 11 mars 1996 relative à la protection juridique des bases de données.
             </p>
 
-            <a class="button is-block is-primary" href="{{ app.request.headers.get('referer') }}">
-                <i class="fa fa-backward"></i> &nbsp;
-                Retour
-            </a>
-
         </div>
     </section>
+
+    <p class="has-text-centered">
+        <a class="button is-primary" href="{{ app.request.headers.get('referer') }}">
+            <i class="fa fa-backward"></i> &nbsp;
+            Retour
+        </a>
+    </p>
 
 {% endblock %}

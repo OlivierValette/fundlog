@@ -63,6 +63,7 @@ $grey-light: $beige-light;
 
 // Update some of Bulma's component variables
 $navbar-background-color: $beige-lighter;
+$navbar-item-img-max-height: 2.25rem;
 
 $body-background-color: $beige-lighter;
 
@@ -183,6 +184,7 @@ $fa-font-path: "~font-awesome/fonts";
   min-height: 200px;
 }
 
+// alerts
 .ringbell {
   animation: scale-up-center 1s cubic-bezier(0.680, -0.550, 0.265, 1.550) infinite alternate backwards;
 }
@@ -196,4 +198,21 @@ $fa-font-path: "~font-awesome/fonts";
     transform: scale(1);
     color: $danger;
   }
+}
+
+// presentation page
+.pres-card {
+  padding: 0 1rem 1rem 1rem;
+  transition: box-shadow .5s;
+  &:hover,
+  &:focus {
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.doted-list {
+  display: block;
+  list-style-type: disc;
+  margin: 0.5rem 0 0.5rem 0;
+  padding-left: 2rem;
 }
