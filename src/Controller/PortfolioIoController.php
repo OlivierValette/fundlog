@@ -51,6 +51,26 @@ class PortfolioIoController extends AbstractController
             'portfolio_ios' => $portfolioIos,
         ]);
     }
+    
+    /**
+     * @Route("/{id}", name="portfolio_io_show", methods={"GET","POST"})
+     */
+    public function show(Request $request, PortfolioIo $portfolioIo): Response
+    {
+        
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
+        // Get user to check it is the owner of portfolio
+        $user = $this->getUser();
+        if ($user != $portfolioIo->getPortfolio()->getUser()) {
+            return $this->redirectToRoute('portfolio_index');
+        }
+    
+        return $this->render('portfolio_io/show.html.twig', [
+            'portfolio_io' => $portfolioIo,
+        ]);
+    }
    
     /**
      * @Route("/{id}/validate", name="portfolio_io_validate", methods={"GET","POST"})
