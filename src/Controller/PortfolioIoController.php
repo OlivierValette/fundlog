@@ -7,6 +7,8 @@ use App\Entity\Portfolio;
 use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
 use DateTime;
+use Swift_Mailer;
+use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,11 +25,29 @@ class PortfolioIoController extends AbstractController
      */
     public function index(): Response
     {
+        // Checking to see if the user is logged in
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    
+        // Get user
+        $user = $this->getUser();
+    
+        // Get user's portfolios
+        // TODO: see if keeping archived portfolios excluded
+        $portfolios = $this->getDoctrine()
+            ->getRepository(Portfolio::class)
+            ->findBy([
+                'user' => $user,
+                'archived' => false,
+            ]);
+    
+        // Get user's PortfolioIo history
         $portfolioIos = $this->getDoctrine()
             ->getRepository(PortfolioIo::class)
-            ->findAll();
-
+            ->findPortfolioIoByUser($user->getId());
+    
+    
         return $this->render('portfolio_io/index.html.twig', [
+            'portfolios' => $portfolios,
             'portfolio_ios' => $portfolioIos,
         ]);
     }
@@ -63,7 +83,7 @@ class PortfolioIoController extends AbstractController
     /**
      * @Route("/{id}/send", name="portfolio_io_send", methods={"GET","POST"})
      */
-    public function send(Request $request, PortfolioIo $portfolioIo, \Swift_Mailer $mailer): Response
+    public function send(Request $request, PortfolioIo $portfolioIo, Swift_Mailer $mailer): Response
     {
         
         // Checking to see if the user is logged in
@@ -104,7 +124,7 @@ class PortfolioIoController extends AbstractController
         // If no transaction to validate, go back
         if ($transaction and $transaction->getValidDate()) {
             // Send mail to middleman
-            $message = (new \Swift_Message("Demande d'arbitrage"))
+            $message = (new Swift_Message("Demande d'arbitrage"))
                 ->setFrom($user->getEmail())
                 ->setTo($portfolioIo->getPortfolio()->getMiddleman()->getEmail())
                 ->setBody(

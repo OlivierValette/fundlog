@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PortfolioIo
  *
  * @ORM\Table(name="portfolio_io", indexes={@ORM\Index(name="fk_portfolio_io_portfolio1_idx", columns={"portfolio_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PortfolioIoRepository")
  */
 class PortfolioIo
 {

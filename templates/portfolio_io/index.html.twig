@@ -1,45 +1,85 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PortfolioIo index{% endblock %}
+{% block title %}Historique des arbitrages{% endblock %}
 
 {% block body %}
-    <h1>PortfolioIo index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>NetAmount</th>
-                <th>CreationDate</th>
-                <th>UpdateDate</th>
-                <th>ValidDate</th>
-                <th>SendDate</th>
-                <th>ConfirmDate</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for portfolio_io in portfolio_ios %}
-            <tr>
-                <td>{{ portfolio_io.id }}</td>
-                <td>{{ portfolio_io.netAmount }}</td>
-                <td>{{ portfolio_io.creationDate ? portfolio_io.creationDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ portfolio_io.updateDate ? portfolio_io.updateDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ portfolio_io.validDate ? portfolio_io.validDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ portfolio_io.sendDate ? portfolio_io.sendDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ portfolio_io.confirmDate ? portfolio_io.confirmDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('portfolio_io_show', {'id': portfolio_io.id}) }}">show</a>
-                    <a href="{{ path('portfolio_io_edit', {'id': portfolio_io.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-    <a href="{{ path('portfolio_io_new') }}">Create new</a>
+        {% set waiting = '<i class="fa fa-spinner fa-pulse fa-fw"></i>' %}
+
+        <section class="dashboard section">
+            <p class="title is-3  is-marginless is-spaced">Historique des arbitrages</p>
+        </section>
+
+        <section class="action section">
+            <nav class="level">
+                <!-- Left side -->
+                <div class="level-left">
+                    <p class="level-item">
+                        <a class="button is-primary" href="{{ path('portfolio_index') }}">
+                            <i class="fa fa-arrow-left"></i> &nbsp;
+                            Retour
+                        </a>
+                    </p>
+                    <p class="level-item">
+                        <a class="printer button is-link">
+                            <i class="fa fa-print"></i> &nbsp;
+                            Imprimer
+                        </a>
+                    </p>
+                </div>
+                <!-- Right side -->
+                <div class="level-right">
+                    <p class="level-item">
+                        <div class="field">
+                            <div class="control">
+                                <input type="text" class="input is-primary"
+                                       id="pfIoSearch" placeholder="Rechercher...">
+                            </div>
+                        </div>
+                    </p>
+                </div>
+            </nav>
+        </section>
+
+        <section class="data section">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="pfIoTable">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Portefeuille</th>
+                        <th>Création</th>
+                        <th>Validation</th>
+                        <th>Envoi</th>
+                        <th>Confirmation</th>
+                        <th>Montant net</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for portfolio_io in portfolio_ios %}
+                    <tr>
+                        <td>{{ portfolio_io.id }}</td>
+                        <td>{{ portfolio_io.portfolio.name }}</td>
+                        <td>{{ portfolio_io.creationDate ? portfolio_io.creationDate|date('d/m/Y (H:i)') : '' }}</td>
+                        <td>{{ (portfolio_io.validDate ? portfolio_io.validDate|date('d/m/Y (H:i)') : waiting)|raw }}</td>
+                        <td>{{ (portfolio_io.sendDate ? portfolio_io.sendDate|date('d/m/Y (H:i)') : waiting)|raw }}</td>
+                        <td>{{ (portfolio_io.confirmDate ? portfolio_io.confirmDate|date('d/m/Y (H:i)') : waiting)|raw }}</td>
+                        <td class="has-text-right">
+                            {{ portfolio_io.netAmount|number_format(2, ',', ' ') }} €
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Aucun enregistrement</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    {% else %}
+        <p>Accès interdit</p>
+    {% endif %}
+
 {% endblock %}
