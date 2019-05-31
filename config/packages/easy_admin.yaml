@@ -357,6 +357,7 @@ easy_admin:
                     - { property: 'firstname', label: 'Prénom' }
                     - { property: 'email', label: 'Email' }
                     - { property: 'createdAt', label: 'Date création' }
+                    - { property: 'roles', label: 'Rôles'}
             show:
                 title: 'Utilisateur (#%%entity_id%%)'
                 fields:
@@ -364,6 +365,7 @@ easy_admin:
                     - { property: 'firstname', label: 'Prénom' }
                     - { property: 'email', label: 'Email' }
                     - { property: 'createdAt', label: 'Date création' }
+                    - { property: 'roles', label: 'Rôles'}
             form:
                 title: 'Ajouter un utilisateur'
                 fields:
@@ -371,5 +373,6 @@ easy_admin:
                     - { property: 'firstname', label: 'Prénom' }
                     - { property: 'email', label: 'Email' }
                     - { property: 'createdAt', label: 'Date création' }
+                    - { property: 'roles', label: 'Rôles'}
             edit:
                 title: 'Modifier un utilisateur'

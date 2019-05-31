@@ -12,8 +12,11 @@ class DefaultController extends BaseController
     public function index()
     {
         $user = $this->getUser();
+        $isActive = $this->isGranted('ROLE_ACTIVE');
         // If user connected redirect to portfolio page
-        if ($user) return $this->redirectToRoute('currency_update');
+        if ($user) {
+            if ($isActive) return $this->redirectToRoute('currency_update');
+            $this->addFlash('warning', 'Accès restreint aux bêta-testeurs.');
         // Otherwise redirect to login page
         return $this->redirectToRoute('app_login');
     }
