@@ -16,7 +16,11 @@ composer install
 npm install
 ```
 create a `.env.local` (and perhaps a `.env.prod.local`) file
-with convenient parameters for database access and mailer. 
+with convenient parameters for database access and mailer.
+Still not sure if next step is mandatory :§
+```shell
+composer dump-env prod
+```
 
 ## Run
 Get last version
@@ -32,16 +36,16 @@ Then
 ```shell
 git pull
 ```
-Edit `webpack.config.js` to switch `setPublicPath` from dev to prod version 
+In case of conflicts (locally updated files), reset the code
+```js
+git reset --hard origin/master
+```
+Edit `webpack.config.js` to switch `.setPublicPath` from dev to prod version 
 ```js
 // dev
 .setPublicPath('/php/patinoire/fundlog/public/build')
 // prod
 //.setPublicPath('/build')
-```
-Still not sure if next step is mandatory :§
-```shell
-composer dump-env prod
 ```
 Build
 ```shell
