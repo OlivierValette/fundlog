@@ -4,7 +4,10 @@ Encore
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path
+    // dev
     .setPublicPath('/php/patinoire/fundlog/public/build')
+    // prod
+    //.setPublicPath('/build')
     // only needed for CDN's or sub-directory deploy
     .setManifestKeyPrefix('build/')
 

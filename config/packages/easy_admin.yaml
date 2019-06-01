@@ -365,7 +365,6 @@ easy_admin:
                     - { property: 'email', label: 'Email' }
                     - { property: 'createdAt', label: 'Date création' }
             form:
-                title: 'Ajouter un utilisateur'
                 fields:
                     - { property: 'lastname', label: 'Nom' }
                     - { property: 'firstname', label: 'Prénom' }
