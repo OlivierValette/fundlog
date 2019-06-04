@@ -175,12 +175,15 @@
                                 Modifier arbitrage
                             </a>
                         </p>
-                        <p class="level-item">
-                            <a class="button is-warning" href="{{ path('portfolio_confirm', {'id': portfolio.id}) }}">
-                                <i class="fa fa-calculator"></i> &nbsp;
-                                Confirmer arbitrage
-                            </a>
-                        </p>
+                        {% if portfolio_io.sendDate %}
+                            {# Confirmation link -- only if transaction sent #}
+                            <p class="level-item">
+                                <a class="button is-warning" href="{{ path('portfolio_confirm', {'id': portfolio.id}) }}">
+                                    <i class="fa fa-calculator"></i> &nbsp;
+                                    Confirmer arbitrage
+                                </a>
+                            </p>
+                        {% endif %}
                     {% endif %}
                 </div>
             </nav>
