@@ -8,6 +8,7 @@ use App\Entity\Portfolio;
 use App\Entity\PortfolioHist;
 use App\Entity\PortfolioIo;
 use App\Entity\PortfolioLine;
+use App\Entity\PortfolioLineHist;
 use App\Form\PortfolioIoType;
 use App\Form\PortfolioLineAddIoType;
 use App\Form\PortfolioType;
@@ -58,6 +59,9 @@ class PortfolioController extends BaseController
                 $min = $cur_date < $min ? $cur_date : $min;
                 $portfolios_hist[$pf_id][$key] = ['lvdate' => $cur_date->format('Y-n-d'), 'lvalue' => $cur_value ];
             }
+        }
+        if ($max->format('Y-n-d') < $max->format('Y-n-t')) {
+            $max->modify("last day of previous month");
         }
         // Get historical data in a matrix convenient for Google Charts
         $hist_values = [];
@@ -440,6 +444,25 @@ class PortfolioController extends BaseController
             ->totalAmount($portfolio);
         $portfolio->setLastTotalAmount($totalAmount);
         $this->getDoctrine()->getManager()->flush();
+    
+        // Creating new lines in portfolio_line_hist
+        foreach ($portfolio_lines as $portfolio_line) {
+            $pfl_hist_new = new PortfolioLineHist();
+            $pfl_hist_new->setPortfolioLine($portfolio_line);
+            $pfl_hist_new->setQty($portfolio_line->getQty());
+            $pfl_hist_new->setLvdate($transaction->getConfirmDate());
+            $pfl_hist_new->setLvalue($portfolio_line->getLvalue());
+            $entityManager->persist($pfl_hist_new);
+            $entityManager->flush();
+        }
+    
+        // Creating a new line in portfolio_hist
+        $pf_hist_new = new PortfolioHist();
+        $pf_hist_new->setPortfolio($portfolio);
+        $pf_hist_new->setLvdate($transaction->getConfirmDate());
+        $pf_hist_new->setLvalue($totalAmount);
+        $entityManager->persist($pf_hist_new);
+        $entityManager->flush();
         
         // Then go back to portfolios page
         return $this->redirectToRoute('portfolio_index');
