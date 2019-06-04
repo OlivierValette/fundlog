@@ -197,7 +197,7 @@ class PortfolioController extends BaseController
             }
         }
         
-        // Historical data
+        // Historical data (req: ordered by date asc)
         $portfolio_hist = $this->getDoctrine()
                     ->getRepository(PortfolioHist::class)
                     ->findBy(

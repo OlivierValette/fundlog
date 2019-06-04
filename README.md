@@ -47,7 +47,11 @@ Edit `webpack.config.js` to switch `.setPublicPath` from dev to prod version
 // prod
 //.setPublicPath('/build')
 ```
-Build
+### Build
 ```shell
 npm run build
 ```
+### Cache
+````bash
+APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
+````
