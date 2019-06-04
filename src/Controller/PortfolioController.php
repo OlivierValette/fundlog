@@ -200,8 +200,10 @@ class PortfolioController extends BaseController
         // Historical data
         $portfolio_hist = $this->getDoctrine()
                     ->getRepository(PortfolioHist::class)
-                    ->findBy([ 'portfolio' => $portfolio->getId() ]);
-        
+                    ->findBy(
+                        ['portfolio' => $portfolio->getId()],
+                        ['lvdate' => 'ASC']);
+    
         return $this->render('portfolio/show.html.twig', [
             'portfolio' => $portfolio,
             'portfolio_lines' => $portfolio_lines,
