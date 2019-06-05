@@ -350,7 +350,7 @@ class PortfolioController extends BaseController
                 ++$confirmed_lines;
             }
         }
-        if ($confirmed_lines == $total_number_lines && $transaction->getNetAmount() != null) $status = true;
+        if ($confirmed_lines == $total_number_lines) $status = true;
     
         // Prepare form fo net_amount (PortfolioIo) input
         $form = $this->createForm(PortfolioIoType::class, $transaction);
@@ -360,7 +360,6 @@ class PortfolioController extends BaseController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($portfolio);
             $entityManager->flush();
-        
             return $this->redirectToRoute('portfolio_confirm', ['id' => $portfolio->getId()]);
         }
     

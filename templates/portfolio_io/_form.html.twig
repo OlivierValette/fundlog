@@ -2,15 +2,19 @@
 
 {{ form_start(form) }}
 <div class="columns is-vcentered">
-    <div class="column is-4 is-offset-7">
+    <div class="column is-3 is-offset-9">
         <div class="field">
             <label class="label">Montant de l'investissement / désinvestissement</label>
             <div class="control">
                 {{ form_row(form.netAmount) }}
             </div>
         </div>
-    </div>
-    <div class="column">
+        <div class="field">
+            <label class="label">Date de prise en compte de l'arbitrage</label>
+            <div class="control">
+                {{ form_row(form.confirmDate) }}
+            </div>
+        </div>
         <button class="button is-primary">
             <i class="fa fa-check"></i> &nbsp;
             {{ button_label|default('Valider') }}
