@@ -22,7 +22,7 @@
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
         "file-loader": "^2.0.0",
         "font-awesome": "^4.7.0",
-        "node-sass": "^4.11.0",
+        "node-sass": "^7.0.0",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.1",
         "webpack-notifier": "^1.6.0"
